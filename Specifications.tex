@@ -1,0 +1,127 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage[style=ieee,backend=bibtex]{biblatex}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{spreadtab}
+\usepackage{amsmath}
+
+\newfloat{eqn}{thp}{lop}
+
+\hypersetup{
+    colorlinks = true,
+    urlcolor = blue,
+    linkcolor = black,
+    citecolor = black
+}
+
+\onehalfspacing
+
+\addbibresource{references.bib}
+
+
+
+\begin{document}
+
+Specifications for a few common commercial drones were compiled to get an overview of typical payload capacity and performance.
+Most are consumer drones often used for photography, a few higher end drones used for specialty applications like search and rescue.
+Three specifications were collected for each drone, if available:
+\begin{itemize}
+    \item Weight, listed in table \ref{tab:weights}.
+    \item Maximum payload, listed in table \ref{tab:payload}.
+    \item Maximum wind tolerance, listed in table \ref{tab:wind}.
+\end{itemize}
+
+The weights show that most low grad drones weight under 1 kg. The special purpose drones can approach 4 kg, such heavy designs will not be targeted for this
+thesis.
+
+The rated payload was calculated as the maximum total takeoff weight minus the drones weight. The DJI Mavic products had no maximum takeoff weight aside from 
+the products weight, so no maximum payload is listed for them. 
+
+The wind resistance values are typically around 10 m/s for low grad drones, increasing to 12 to 14 for the heavier models. The DJI Mavic Pro and Mavic 3 Pro
+has no wind resistance listed in their specifications, a product FAQ stated that they are both capable of operating in "Level 5" wind, which is 8 to 11 m/s.
+For the proposed device to be useful, it has to hold a drone in at least as much wind as the drone can fly in. Ideally it would support use in higher wind speeds, 
+so the drone could perch as a means to operate through harsh conditions. The target of this thesis will be to double the wind resistance of a small drone when perched,
+for a wind resistance of 20 m/s.
+
+The force that wind will exert on the device is highly dependent on the specific drones drag coefficient. This must be found for each design experimentally or in
+simulation, which is too time consuming of a process for this thesis. Experimental data for one drone design by Hattenberger et al.
+found drag coefficients between 0.14 and 0.24 \cite{hattenberger_evaluation_2023}. This was for a drone in flight rather than stationary, but for this 
+concept development 0.24 is assumed to be a useful estimate of a worst case drag coefficient for a typical drone. With a maximum wind speed of 20 m/s, 
+the force this device must hold (in addition to the drones weight) is 4.8 N, equivalent to an additional 490 g.
+
+The low end of payload capacity listed is 130 g. For this device to be used on such a drone, while leaving 70\% of the rated payload to be used for 
+sensors required by the application, the device must weigh less than 39 grams. With a 1 kg drone and additional sensor payload, the device must be capable of supporting
+at least 1620 g.
+
+
+\begin{table}[H]
+    \centering
+    \caption{Specified Weight}
+    \begin{tabular}{| c | c |}
+        \hline
+        {Make \& Model} & Weight (g) \\
+        \hline
+        DJI Mavic Pro & 734 \\
+        DJI Mavic 3 Pro & 958 \\
+        DJI Mavic 3 Enterprise & 920 \\
+        DJI Mavic Mini & 249 \\
+        Parrot ANAFI USA & 500 \\
+        FLIR SIRAS & 3100 \\
+        Autel EVO Max 4T & 1640 \\
+        DJI Matrice 30 & 3770 \\
+        \hline
+    \end{tabular}
+    \label{tab:weights}
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Rated Payload}
+    \begin{tabular}{| c | c |}
+        \hline
+        {Make \& Model} & Payload (g) \\
+        \hline
+        DJI Mavic Pro & - \\
+        DJI Mavic 3 Pro & - \\
+        DJI Mavic 3 Enterprise & 130 \\
+        DJI Mavic Mini & - \\
+        Parrot ANAFI USA & 144 \\
+        FLIR SIRAS & 3100 \\
+        Autel EVO Max 4T & 379 \\
+        DJI Matrice 30 & 299 \\
+        \hline
+    \end{tabular}
+    \label{tab:payload}
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Rated Wind Resistance}
+    \begin{tabular}{| c | c |}
+        \hline
+        {Make \& Model} & Max Wind Speed (m/s) \\
+        \hline
+        DJI Mavic Pro & 10 \\
+        DJI Mavic 3 Pro & 10 \\
+        DJI Mavic 3 Enterprise & 12 \\
+        DJI Mavic Mini & 8 \\
+        Parrot ANAFI USA & 14 \\
+        FLIR SIRAS & 10 \\
+        Autel EVO Max 4T & 12 \\
+        DJI Matrice 30 & 12 \\
+        \hline
+    \end{tabular}
+    \label{tab:wind}
+\end{table}
+
+
+
+\printbibliography[heading=none]
+
+
+\end{document}

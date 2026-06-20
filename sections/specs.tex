@@ -1,0 +1,133 @@
+\section{Specifications}
+
+In general, the device is intended to be simple to use and compatible with common off-the-shelf drones. 
+Table \ref{tab:spec} lists the general requirements for this design, with following subsections describing 
+these specifications in more detail.
+Details of how the device will be tested can be found in section \ref{sec:test}.
+
+\begin{table}[H]
+    \centering
+    \caption{Specified Weight}
+    \begin{tabular}{| c | c |}
+        \hline
+        {General Requirement} & {Test Type} \\
+        \hline
+        {Be powered without additional battery packs} & {Design Verification} \\
+        {Attach a drone to a perch with no more maneuvering than positioning the drone an appropriate distance away} & {Functional Test} \\
+        {Remain attached without continued power consumption} & {Functional Test} \\
+        {Detach under its own power once commanded} & {Functional Test} \\
+        {Automatically identify the location of a suitable perch} & {Functional Test} \\
+        {Be small enough to attach to a common lightweight drone} & {Measurement} \\
+        {Be light enough that a common lightweight drone can lift and maneuver with it} & {Measurement} \\
+        \hline
+    \end{tabular}
+\label{tab:spec}
+\end{table}
+
+\subsection{Power}
+
+To minimize added weight and bulk, the device will be designed so that it can be powered from the battery already present on 
+a drone. 2 to 4 cell LiPO batteries are commonly used, so the intended supply voltage for this device will be from 6 to 16.8 V.
+
+\subsection{Attaching}
+
+In order to attach to a perch, the drone is expected to simple be positioned a certain distance below the perch.
+It is difficult to determine an expected tolerance in the position of the drone, as available data refers to the accuracy 
+of GPS based position hold. GPS positioning would not be sufficiently accurate to attach a drone to a perch. For this 
+thesis the target tolerance will be 5cm, so that if the drone is less than 5cm away from the ideal location for perching,
+in any direction, it will successfully attach itself to the perch.
+
+\subsection{Remaining Attached}
+
+Once attached, the device must hold a drones weight on the perch, plus some tolerance to account for the effects of wind.
+Table \ref{tab:weights} shows the specified weight for a few drones. 
+
+\begin{table}[H]
+    \centering
+    \caption{Specified Weight}
+    \begin{tabular}{| c | c |}
+        \hline
+        {Make \& Model} & Weight (g) \\
+        \hline
+        DJI Mavic Pro & 734 \\
+        DJI Mavic 3 Pro & 958 \\
+        DJI Mavic 3 Enterprise & 920 \\
+        DJI Mavic Mini & 249 \\
+        Parrot ANAFI USA & 500 \\
+        FLIR SIRAS & 3100 \\
+        Autel EVO Max 4T & 1640 \\
+        DJI Matrice 30 & 3770 \\
+        \hline
+    \end{tabular}
+    \label{tab:weights}
+\end{table}
+
+There appear to be a few classes of drones represented:
+\begin{itemize}
+    \item Sub 500g lightweight drones
+    \item Sub 1kg medium drones
+    \item Heavy weight 1.5 kg + drones
+\end{itemize}
+
+This device will be able to hold a drone of up to 500g, plus 31.58 N
+of dynamic load. The dynamic load is based on a study of the frequency and magnitude of 
+trees swaying in varying wind speeds, where the highest acceleration is estimated at $63.17 m/s^2$ 
+(0.4 m max displacement with a frequency of 2 Hz) \cite{kamimura_energy_2024}. 
+This study did use only Japanese Cedar, which may not
+be representative of all trees. However similar data for other species could not be found.
+
+The first reason for targeting the lowest weight group is that the low weight is far more
+manageable for the device to hold. 
+The other reasons are cost and risk. The medium and heavy drones tend to be significantly 
+more expensive, and are used to carry higher quality cameras. Leaving a drone perched in a tree or other location leaves
+it exposed to risk of damage, which makes using a larger drone for this particularly unappealing to the drones owner.
+
+\subsection{Detaching}
+
+The device must be able to detach itself, as it is expected to be left in an inaccessible location. It will, under full
+load of the drones weight, be capable of releasing the drone from the perch and returning to a position where the grasper
+does not interfere with flight.
+
+\subsection{Perch Identification}
+
+The device will include a sensing mechanism that can detect if a suitable perch is present within Xmm
+% range spec? 
+of the grasping mechanism. Additionally this sensing method shall be able to report the location
+of a detected perch relative to the center of the grasping device.
+
+\subsection{Size}
+
+The main constraint on the devices size is to not interfere with flight. The device should, when not in use for perching,
+be positioned in a way that it does not encroach upon the propellers or their downwash, and does not extend the bounding box
+of the drone forward, backwards, left, right, or down. The drones bounding box may be extended by 2cm upward. 
+ 
+\subsection{Weight}
+
+Table \ref{tab:payload} shows rated payload for various drones. The rated payload was calculated as the maximum total takeoff weight minus the drones weight. The DJI Mavic products had no maximum takeoff weight aside from 
+the products weight, so no maximum payload is listed for them. 
+
+In the sub 500g category, only the Parrot ANAFI has a rated payload. This will be assumed as a reasonable estimate for the
+payload capacity of similarly sized drones. In order to leave some margin for safety, and possible additional task-specific
+modifications, this devices weight shall be no more than 33\% of that capacity, or 47.5g. This target weight will also 
+provide improvements over similar existing designs \cite{chi_optimized_2014,nguyen_passively_2019}.
+
+\begin{table}[H]
+    \centering
+    \caption{Rated Payload}
+    \begin{tabular}{| c | c |}
+        \hline
+        {Make \& Model} & Payload (g) \\
+        \hline
+        DJI Mavic Pro & - \\
+        DJI Mavic 3 Pro & - \\
+        DJI Mavic 3 Enterprise & 130 \\
+        DJI Mavic Mini & - \\
+        Parrot ANAFI USA & 144 \\
+        FLIR SIRAS & 3100 \\
+        Autel EVO Max 4T & 379 \\
+        DJI Matrice 30 & 299 \\
+        \hline
+    \end{tabular}
+    \label{tab:payload}
+\end{table}
+

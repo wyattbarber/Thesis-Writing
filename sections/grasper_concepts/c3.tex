@@ -1,0 +1,47 @@
+\subsubsection{Concept 3} 
+
+This concept attempts to alleviate the concerns with concept 2, regarding being unable to hold a
+stable orientation on a perch. This is done with the addition of microspine devices similar to those used by
+Nguyen et al. in their grapple device \cite{nguyen_passively_2019}. 
+
+This concept would use the same design as concept 2, however the loop portion that wraps around a perch would
+have the addition of microspines that help grip the perch and stabilize the position and orientation of the drone.
+
+
+\paragraph{Budget}
+
+\begin{table}[ht]
+    \centering
+    \caption{Estimated budget for the lock design with microspines.}
+    \label{tab:lock_spines}
+
+
+    \begin{spreadtab}{{tabular}{|c|c|c|c||c|}}
+        \hline
+        @Item                       & @Supplier                                                                                                         & @Unit Cost (USD) & @Quantity & @Total Cost (USD) \\
+        \hline
+        @SMA Wire                   & @\href{https://www.kelloggsresearchlabs.com/product/round-wire/}{Kelloggs Research Labs}                          & 15.99 & 1 & [-1,0] * [-2,0] tag(start) \\
+        @Kellogs Shipping           & @-                                                                                                                &  4.99 & 1 & [-1,0] * [-2,0] \\
+        @Servo                      & @\href{https://www.digikey.com/en/products/detail/actuonix-motion-devices-inc/L16-50-150-6-R/11689514}{Digikey}   & 90.00 & 1 & [-1,0] * [-2,0] \\
+        @Digikey Shipping           & @-                                                                                                                & 14.99 & 1 & [-1,0] * [-2,0] \\
+        @Amplifiers                 & @\href{https://www.adafruit.com/product/355}{Adafruit}                                                            &  2.25 & 3 & [-1,0] * [-2,0] \\
+        @Arduino                    & @\href{https://www.adafruit.com/product/2378}{Adafruit}                                                           & 11.95 & 1 & [-1,0] * [-2,0] \\
+        @FTDI Programmer            & @\href{https://www.adafruit.com/product/70}{Adafruit}                                                             & 19.95 & 1 & [-1,0] * [-2,0] \\
+        @Adafruit Shipping          & @-                                                                                                                &  5.08 & 1 & [-1,0] * [-2,0] \\
+        @PCB Material               & @\href{https://www.mcmaster.com/8521K873}{McMaster Carr}                                                          & 12.45 & 1 & [-1,0] * [-2,0] \\
+        @McMaster Carr Shipping     & @-                                                                                                                & 10.02 & 1 & [-1,0] * [-2,0] \\
+        @Mechanical Materials and Fabrication & @-                                                                                                      &     0 & 1 & [-1,0] * [-2,0] tag(pretax)\\
+        @Tax                        & @- & sum(cell(start):cell(pretax)) * 0.07 & 1 & [-1,0] * [-2,0] tag(posttax) \\
+        @Misc. Spares               & @- & sum(cell(start):cell(posttax)) * 0.2 & 1 & [-1,0] * [-2,0] tag(end) \\
+        \hline
+        \multicolumn{4}{|c||}{@Total} & sum(cell(start):cell(end)) \\
+        \hline
+    \end{spreadtab}
+\end{table}
+
+\paragraph{Evaluation}
+
+The downside of the microspine additions is that they would add weight and bulk to the SMA wire portion of the device.
+This would impact flight time and stability, and possibly destabilize the drone during perching when the wires are extended.
+They would also be designed to perch on certain materials, such as wood, better than others. On smooth surfaces they may
+provide no benefit. 

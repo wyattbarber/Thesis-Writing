@@ -1,0 +1,46 @@
+\documentclass{article}
+\input{setup}
+
+
+\makeatletter
+\renewcommand{\maketitle}{%
+    \begin{titlepage}  
+        \begin{center}
+            \@title\\
+            \@author\\
+            \@date\\
+            \vspace*{\fill}
+            Grand Valley State University\\
+            School of Engineering, \\
+        \end{center}
+    \end{titlepage}
+}
+\makeatother
+
+\begin{document}
+
+\title{{\huge MSE Thesis}\\Design of a UAV perching mechanism for low power, long term data collection}
+
+\author{Wyatt Barber}
+\date{\today}
+
+\maketitle
+
+\tableofcontents
+
+\vspace*{\fill}
+
+
+\input{sections/intro}
+
+\input{sections/specs}
+
+\input{sections/concepts}
+
+\input{sections/test}
+
+
+\section{References}
+\printbibliography[heading=none]
+
+\end{document}

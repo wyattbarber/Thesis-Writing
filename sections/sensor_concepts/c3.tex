@@ -1,0 +1,32 @@
+\subsubsection{Concept 3}
+
+This design would eliminate cameras entirely from the sensing design and use a simple time-of-flight
+distance sensor mounted on a rotating servo, allowing it to sweep across a line above the drone to detect a perch.
+
+\paragraph{Budget}
+
+\begin{table}[ht]
+    \centering
+    \caption{Estimated budget for the lidar sensing design.}
+    \label{tab:lidar}
+
+
+    \begin{spreadtab}{{tabular}{|c|c|c|c||c|}}
+        \hline
+        @Item                       & @Supplier                                                                                                         & @Unit Cost (USD) & @Quantity & @Total Cost (USD) \\
+        \hline
+        @SMA Wire                   & @\href{https://www.kelloggsresearchlabs.com/product/round-wire/}{Kelloggs Research Labs}                          & 15.99 & 1 & [-1,0] * [-2,0] tag(start) \\
+        @Mechanical Materials and Fabrication & @-                                                                                                      &     0 & 1 & [-1,0] * [-2,0] tag(pretax)\\
+        @Tax                        & @- & sum(cell(start):cell(pretax)) * 0.07 & 1 & [-1,0] * [-2,0] tag(posttax) \\
+        @Misc. Spares               & @- & sum(cell(start):cell(posttax)) * 0.2 & 1 & [-1,0] * [-2,0] tag(end) \\
+        \hline
+        \multicolumn{4}{|c||}{@Total} & sum(cell(start):cell(end)) \\
+        \hline
+    \end{spreadtab}
+\end{table}
+
+\paragraph{Evaluation}
+
+This method would be computationally simpler than the camera based systems, though more mechanically
+complex and possibly heavier. Additionally it would be unable to detect the orientation of a cylindrical 
+perch, due to only measuring a cross section of the object.

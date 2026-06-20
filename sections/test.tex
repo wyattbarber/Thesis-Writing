@@ -1,0 +1,104 @@
+\section{Design Validation}\label{sec:test}
+
+\subsection{Testing Materials}
+Most of the testing planned will be performed with the device and simple materials that can be found in the engineering facilities,
+for example scales or various weights.
+
+Part of the testing of this device is intended to be performed attached to a drone. There is a drone available in the engineering facilities and ideally it will be used for testing the device.
+One goal of this device is to be simple to use without special adaptations to a drones hardware or control software aside from attaching, powering, and commanding the device,
+so using an off the shelf drone is a good test case. However there are a few possible technical difficulties in using such a drone for this test:
+\begin{itemize}
+    \item The drone available is not made to carry additional weight, and may not be capable of lifting the device.
+    \item The device will require 12V power, which will be difficult to get from the off the shelf drone, 
+        and adding a secondary battery will add significant weight.
+\end{itemize}
+
+If using the off the shelf drone proves infeasible, then a simple drone may need to be built for the test. The author has most of the necessary components listed in table \ref{tab:drone},
+and a simple frame can be fabricated in the engineering facilities. This device need not be durable or particularly reliable for these tests.
+
+\begin{table}[ht]
+    \centering
+    \caption{Estimated budget for a test drone.}
+    \label{tab:drone}
+
+    \begin{spreadtab}{{tabular}{|c|c|c|c||c|}}
+        \hline
+        @Item                       & @Supplier                                                                                                         & @Unit Cost (USD) & @Quantity & @Total Cost (USD) \\
+        \hline
+        @Motors                     & @-                                                                                                                &     0 & 4 & [-1,0] * [-2,0] tag(start) \\
+        @Motor Controllers          & @-                                                                                                                &     0 & 4 & [-1,0] * [-2,0] \\
+        @3 Cell LiPo                & @-                                                                                                                &     0 & 1 & [-1,0] * [-2,0] \\
+        @PX4 Flight Controller      & @-                                                                                                                &     0 & 1 & [-1,0] * [-2,0] \\
+        @RC Radio and Remote        & @-                                                                                                                &     0 & 1 & [-1,0] * [-2,0] \\
+        @Telemetry Radio            & @-                                                                                                                &     0 & 1 & [-1,0] * [-2,0] \\
+        @Clockwise Propellers       & @\href{https://www.robotshop.com/products/8-x-45-orange-multi-rotor-cw-propeller-pair}{RobotShop}                 &  3.78 & 3 & [-1,0] * [-2,0] \\  
+        @Counterclockwise Propellers& @\href{https://www.robotshop.com/products/8-x-45-orange-multi-rotor-ccw-propeller-pair}{RobotShop}                &  3.78 & 3 & [-1,0] * [-2,0] \\    
+        @RobotShop Shipping         & @-                                                                                                                &  4.74 & 1 & [-1,0] * [-2,0] tag(pretax)\\
+        @Tax                        & @- & sum(cell(start):cell(pretax)) * 0.07 & 1 & [-1,0] * [-2,0] tag(end) \\
+        \hline
+        \multicolumn{4}{|c||}{@Total} & sum(cell(start):cell(end)) \\
+        \hline
+    \end{spreadtab}
+\end{table}
+
+\subsection{Attaching and Detaching}
+
+If a drone is available, it will be used here. Otherwise the device will be positioned beneath a perch using string, a pedestal,
+or similar means. The following procedure will be performed:
+\begin{enumerate}
+    \item The device will begin in its "home" position.
+    \item The device will be electronically triggered to extend and grasp the perch.
+    \item Within a period of 2 seconds, the device should have grasped the perch and engaged any locking mechanisms.
+    \item The supports used to position the device will be removed. If a drone is used, its throttle will be set to 0.
+    \item The device should support the weight of itself, and a drone if present, without disengaging.
+\end{enumerate}
+
+Once this is complete, the following procedure will be performed to test detaching:
+\begin{enumerate}
+    \item If a drone is being used, its throttle will be brought to slightly below the level that was previously used to attach.
+    \item The device will be electronically triggered to detach.
+    \item Within 2 seconds, the device should have released any locking mechanisms and freed from its perch.
+    \item The grasper should return to its home positions.
+    \item If a drone is used, it should be in stable flight free from the perch. This may be unattainable due to the skill of the pilot,
+            rather than the design.
+\end{enumerate}
+
+These two procedures will be repeated for positions 5cm away from ideal in all directions.
+
+
+\subsection{Remaining Attached}
+
+To verify the holding strength of the device, it will first be attached to a perch with a 500g mass attached to the device
+to simulate the drones mass.
+To simulate the dynamic effects of wind, an additional weight of 3.22 kg will be added. This supplies a force equivalent
+to the maximum dynamic forces estimated due to swaying of the perch.
+
+The device will pass this test if it remains perched for 10 minutes %?
+without detaching or visible damage to the device.
+
+If the design is determined to be unable of detaching unintentionally without critical failure of the device 
+itself (for example, the "lock" like concept), then testing will not be repeated for different surfaces or perch shapes.
+
+\subsection{Perch Identification}
+
+To test the perch identification method, the device will be placed a known distance away from a suitable
+perch. The measured distance to the perch will be collected from the device, and the error computed
+against the known distance. 
+
+The error must be within the limits of the grasping mechanisms tolerance; for example if the grasper
+is able to grasp a perch that is up to 10mm misaligned from its center then the allowed error of the
+detection method is 10mm.
+
+
+\subsection{Size}
+
+The device will be measured in its home position, and the measurements will be compared to those of a commercial drone 
+to confirm that, with the device mounted at a reasonable position, the drones bounding box is not extended past the specified
+limits.
+
+\subsection{Weight}
+
+The weight of the final device prototype will be verified with the tools available in the school of engineering facilities.
+
+
+\pagebreak

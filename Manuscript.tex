@@ -1,0 +1,104 @@
+\documentclass{report}
+\input{setup}
+\usepackage{titlesec}
+
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries}{}{0pt}{\Large}
+
+% Page: Title 
+\makeatletter
+\renewcommand{\maketitle}{%
+    \begin{titlepage}  
+        \begin{center}
+            \@title\\
+            \@author\\
+            \@date\\
+            \vspace*{\fill}
+            Grand Valley State University\\
+            School of Engineering \\
+        \end{center}
+    \end{titlepage}
+}
+\makeatother
+
+\begin{document}
+
+\title{{\huge MSE Thesis}\\Design of a UAV perching mechanism for low power, long term data collection}
+
+\author{Wyatt Barber}
+\date{\today}
+
+\maketitle
+
+% Page: Approval
+\chapter{Approval}
+
+% Page: Abstract (max 350 words)
+\chapter{Abstract}
+
+\include{sections/abstract}
+
+% Page: Table of Contents
+\chapter{Table of Contents}
+
+\tableofcontents
+
+% Pages: Lists of Figure, Tables, etc.
+\chapter{Figures and Tables}
+
+\listoffigures
+
+\listoftables
+
+
+% Pages: General Text
+\chapter{General Text}
+
+% Section: Background
+
+\include{sections/intro}
+
+% Section: Concepts
+
+\include{sections/concepts}
+
+% Section: Test Plan
+
+\include{sections/test}
+
+% Section: Results
+\section{Results}
+
+\begin{itemize}
+    \item Results from the planned tests to go here
+\end{itemize}
+
+% Section: Discussion
+\section{Discussion}
+
+\begin{itemize}
+    \item Are the results positive for the usability of the device, or are there red flags
+    \item Possible gaps in the testing or design that could be addressed in further revisions
+    \item Improvements or optimizations that could be made
+\end{itemize}
+
+% Pages: Appendices
+\chapter{Appendices}
+
+\begin{itemize}
+    \item Code to go here? Or Attached separately?
+\end{itemize}
+
+% Pages: Bibliography
+
+\chapter{References}
+\printbibliography[heading=none]
+
+
+% % Page: Submission Agreement
+\chapter{Submission Agreement}
+
+
+
+
+\end{document}
