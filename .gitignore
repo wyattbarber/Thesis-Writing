@@ -1,3 +1,7 @@
 **/build/**
 references.html
 sketch/**
+Manuscript.*
+Manuscript-blx.bib
+!Manuscript.tex
+**.aux
