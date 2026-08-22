@@ -8,6 +8,7 @@
 \usepackage{amsmath}
 \usepackage[pdf]{graphviz}
 \usepackage{minted}
+\usepackage{appendix}
 
 
 \newfloat{eqn}{thp}{lop}
@@ -21,6 +22,21 @@
 
 
 \onehalfspacing
+
+
+% Ensure sections start on new page
+\AddToHook{cmd/section/before}{\clearpage}
+
+
+% Remove latex generated header from lists of tables and figures
+\makeatletter
+\renewcommand\listoffigures{%
+  \@starttoc{lof}%
+}
+\renewcommand\listoftables{%
+  \@starttoc{lot}%
+}
+\makeatother
 
 
 \addbibresource{references.bib}

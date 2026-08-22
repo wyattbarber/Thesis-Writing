@@ -36,12 +36,13 @@
 
 \section{Abstract} % (max 350 words)
 
-\include{sections/abstract}
+\input{sections/abstract}
 
 
 \section{Table of Contents}
-
-\tableofcontents
+\makeatletter
+\@starttoc{toc}
+\makeatother
 
 
 \section{Figures and Tables}
@@ -72,7 +73,7 @@
     % Figures
 
 \section{Chapter 1: Introduction}
-\include{sections/intro}
+\input{sections/intro}
 
 
 \section{Chapter 2: Literature Review}
@@ -81,7 +82,7 @@ TODO: This is currently combined with the intro, need to separate and expand
 
 \section{Chapter 3: Methods}
 
-\include{sections/methods/software}
+\input{sections/methods/software}
 
 
 \section{Chapter 4: Results}
@@ -100,18 +101,41 @@ TODO: This is currently combined with the intro, need to separate and expand
 \end{itemize}
 
 
-**\appendix
-\section{Appendix A: Stereo Calibration Code}
-\label{app:cal-code}
+\begin{appendices}
+    \section{Main Program Code}
+    \label{app:main-code}
 
-Primary calibration script, exported from a Jupyter notebook.
+    The main program that runs on the Raspberry Pi for image processing and grasper 
+    control is too large to insert in an appendix page. For the time being the GitHub link
+    below is included until a better means to distribute the program source with the thesis 
+    is determined.
 
-\inputminted[linenos, frame=lines, breaklines]{python}{"C:/Users/wyatt/Documents/GVSU/Thesis/calibration and tuning/calibration/calibration export.py"}
+    \url{https://github.com/wyattbarber/PerchDetector}    
 
-Contents of \texttt{calibration.py}, containing the source for the calibration helper classes.
+    \section{Stereo Calibration Script}
+    \label{app:cal-code}
 
-\inputminted[linenos, frame=lines, breaklines]{python}{"C:/Users/wyatt/Documents/GVSU/Thesis/calibration and tuning/calibration/calibration.py"}
+    Primary calibration script, exported from a Jupyter notebook.
 
+    \inputminted[linenos, frame=lines, breaklines]{python}{"C:/Users/wyatt/Documents/GVSU/Thesis/calibration and tuning/calibration/calibration export.py"}
+
+    Contents of \texttt{calibration.py}, containing the source for the calibration helper classes.
+
+    \inputminted[linenos, frame=lines, breaklines]{python}{"C:/Users/wyatt/Documents/GVSU/Thesis/calibration and tuning/calibration/calibration.py"}
+
+
+    \section{Detection Data Collection Script}
+    \label{app:data-coll-code}
+
+    \inputminted[linenos, frame=lines, breaklines]{python}{"C:/Users/wyatt/Documents/GVSU/Thesis/PerchDetector/datacollector.py"}
+
+    
+    \section{Detection Results Labelling Script}
+    \label{app:label-code}
+
+    \inputminted[linenos, frame=lines, breaklines]{python}{"C:/Users/wyatt/Documents/GVSU/Thesis/august_test_data/passfail.py"}
+
+\end{appendices}
 
 \section{References}
 \printbibliography[heading=none]

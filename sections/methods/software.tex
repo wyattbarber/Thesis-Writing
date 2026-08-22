@@ -71,6 +71,44 @@ After following this process for each individual camera, and then for the stereo
 
 \subsection{Perch Detection Validation Data Collection}
 
+To first test the detection methods performance under the most optimal, controlled conditions, the device was placed facing a flat white wall, indoors,
+with only one object (a gray, 15mm diameter PVC pipe) in the frame. The object was placed at a distance $d = 1000mm$ from the camera, at an azimuth angle (angle between
+object and cameras y axis) $\theta = 0^\circ$ and elevation angle (angle between the cameras x-y plane and the object) $\phi = 0^\circ$.
+
+The image processing program was started by the script found in appendix \ref{app:data-coll-code}. Once the output of the program indicated that at least one
+candidate line had been detected, the program was run for 2 minutes. The script monitored the detection results via serial terminal and saved the position, 
+orientation, and dimensions of the detected object each time a new update was produced by the detection program. At each new update the script also triggered the
+program to save a binary file containing both left and right images, the calculated disparity and confidence map, the filtered point cloud, and information about the 
+identified line candidates with labels for all points in the point cloud that belong to a line canditate.
+
+This test was performed for the following combinations of object poses. All angles were measured to be within $5^\circ$ of the target value using the "Clinometer" Android app,
+and the distances measured within $5mm$ via tape measure.
+
+\begin{itemize}
+    \item $d = 100mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
+    \item $d = 5000mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
+    \item $d = 1000mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
+    \item $d = 2000mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
+    \item $d = 1000mm$, $\theta = 33^\circ$, $\phi = 0^\circ$
+    \item $d = 1000mm$, $\theta = 45^\circ$, $\phi = 0^\circ$
+    \item $d = 1000mm$, $\theta = 0^\circ$, $\phi = 33^\circ$
+    \item $d = 1000mm$, $\theta = 0^\circ$, $\phi = 45^\circ$
+\end{itemize}
 
 
 \subsection{Perch Detection Validation Data Analysis}
+
+The first analysis performed on the detection data was determining how often the device correctly detected the object. This 
+was done using the binary files saved in the data collection process alongside the script in appendix \ref{app:label-code}.
+This script displays the left camera image from each file and overlays the selected line candidate, alongside colored dots 
+indicating all points that are part of a candidate line. This allows the user to accept an image as a valid detection, or
+reject it if something appears to have gone wrong in the processing. The script then saves a JSON file containing the 
+overall sucess rate as a percentage of the files that were accepted by the user, as well as a boolean flag for each file
+indicating if the user accepted or rejected it.
+
+Once the files were each labelled, the measurements corresponding to each accepted file were used to determine the error
+in the detected position and orientation of the object. The data files saved by the script in appendix \ref{app:data-coll-code}
+contained the measurements as well as the true values of $d$, $\theta$, and $\phi$ that were set for that trial. To asses the 
+accuracy of the detection method the absolute and relative errors of each position parameter, as well as the error in the lateral
+offset of the detected perch in the frame (which should be $0mm$ in each trial here) and the error in the detected perch diameter
+were calculated and recorded.
