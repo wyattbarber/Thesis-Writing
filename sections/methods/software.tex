@@ -1,0 +1,76 @@
+\subsection{Perch Detection Software Design}
+
+The image processing software used to validate the perch detection concept was implemented in C++ and executed on a Raspberry Pi Compute Module 4. The graph in figure 
+\ref{fig:sw-flow} provides a high-level illustration of the steps in the image processing pipeline and how data flows between them.
+
+\begin{figure}[H]
+    \centering
+    \digraph[width=\textwidth]{swflow}{
+        rankdir=TB;
+        lc [label="Left Camera Frame Acqusision" shape=box];
+        rc [label="Right Camera Frame Acqusision" shape=box];
+        ls [label="Left Stereo Block Matching" shape=box];
+        rs [label="Right Stereo Block Matching" shape=box];
+        f [label="Weighted Least Squares Filtering" shape=box];
+        pc [label="Point Cloud Projection and Downsampling" shape=box];
+        ht [label="3D Hough Transform" shape=box];
+        s [label="Best Candidate Selection" shape=box];
+
+        lc -> ls [label="Left Side Image"];
+        lc -> rs [label="Left Side Image"];
+        lc -> f [label="Guide For Inpainting"];
+        rc -> ls [label="Right Side Image"];
+        rc -> rs [label="Right Side Image"];
+        ls -> f [label="Left-To-Right Disparity"];
+        rs -> f [label="Right-To-Left Disparity"];
+        f -> pc [label="Filtered Disparity and Confidence Map"];
+        pc -> ht [label="Down-Sampled Point Cloud"];
+        ht -> s [label="Position, Orientation, and Dimensions of Candidate Lines"];        
+    }
+    \caption{Diagram of the dataflow for the proposed image processing pipeline, starting from image aquisition on the top
+        to generation of coordinates for the detected perch on the bottom.}
+    \label{fig:sw-flow}
+\end{figure}
+
+
+
+\subsection{Stereo Camera Calibration}
+
+A camera calibration script was creates using the functions available in OpenCV \cite{bradski_opencv_2000}. The script can be read in appendix \ref{app:cal-code}.
+285 total calibration image pairs were captured. The calibration pattern used was an 8 marker by 11 marker ChArUco board with 20mm checkers and 15mm markers, and a 4x4 AruCo dictionary.
+
+To perform individual camera intrinsic and distortion parameter calibrations, each image was loaded and the pattern corners were detected and mached to the expected board layout.
+Any image in which fewer than 10 corner points were detected was discarded, as low point counts can result in bad calibration parameters. For accepted images, the identified calibration
+pattern corner locations in the image coordinates are saved, as well as the estimated position and orientation of the calibration board. The accepted points were then used to calculate 
+an initial estimate of the cameras intrinsic matrix and distotion coefficients. The calibration at this point is still low quality, so an iterative refinement is now applied. For each image
+that was not rejected, the calibration pattern points are projected into image coordinates using the saved position and orientation estimates of the calibration board. Then the error between these 
+projected points and the positions of the previously detected points in that image were calculated. Once these errors were calculated for all images, any point in an image that had a reprojection error 
+greater than 3 standard deviations of the reprojection error for all points in all images was discarded, under the assumption that this high error was due to a bad detection of that corner. If any image 
+contained less then 10 valid points after removing points with high error, the entire image was discarded. This process was repeated until either one of the following termination criteria was met:
+
+\begin{itemize}
+    \item The change in standard deviation of the reprojection errors for all points in all images was less than $1e-9$.
+    \item The iteration limit of $5$ was reached.
+\end{itemize}
+
+
+The stereo translation and rotation parameter calibration process followed a similar design, however in the initial filtering and later iterative remove, only points 
+that were valid in both images were retained (ChArUco patterns use QR-like codes that allow points to be identified uniquely across different images or in partial occlusions).
+So if calibration point A was detected in the left image but not in the right image, or if it was detected in both but then was removed from the left point set due to too high 
+reprojection error, then it was not used in either. Image pairs that had less than 10 valid points in either left or right image were rejected from both sets. 
+
+After following this process for each individual camera, and then for the stereo combination, 26 images were retained as valid for the left camera, 17 for the right camera, and 
+10 images retained for the stereo combination. A visual inspection of the reprojection errors and detected corner locations was performed to confirm that:
+
+\begin{itemize}
+    \item The errors were approximately zero-mean.
+    \item The errors had approximately the same distribution in the x and y directions.
+    \item The detected marker locations covered most of the camera frame, to avoid overfitting to non-symetrical lens defects on one portion of the image. 
+\end{itemize}
+
+
+\subsection{Perch Detection Validation Data Collection}
+
+
+
+\subsection{Perch Detection Validation Data Analysis}

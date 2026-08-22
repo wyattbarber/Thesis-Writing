@@ -1,9 +1,9 @@
-\documentclass{report}
+\documentclass{article}
 \input{setup}
 \usepackage{titlesec}
 
-\titleformat{\chapter}[display]
-  {\normalfont\bfseries}{}{0pt}{\Large}
+% \titleformat{\chapter}[display]
+%   {\normalfont\bfseries}{}{0pt}{\Large}
 
 % Page: Title 
 \makeatletter
@@ -30,29 +30,25 @@
 
 \maketitle
 
-% Page: Approval
-\chapter{Approval}
 
-% Page: Abstract (max 350 words)
-\chapter{Abstract}
+\section{Approval}
+
+
+\section{Abstract} % (max 350 words)
 
 \include{sections/abstract}
 
-% Page: Table of Contents
-\chapter{Table of Contents}
+
+\section{Table of Contents}
 
 \tableofcontents
 
-% Pages: Lists of Figure, Tables, etc.
-\chapter{Figures and Tables}
+
+\section{Figures and Tables}
 
 \listoffigures
 
-\listoftables
-
-
-% Pages: General Text
-\chapter{General Text}
+% \listoftables
 
 % Chapter 1 Introduction
     % Introduction
@@ -74,31 +70,28 @@
     % Figure Captions
     % Tables
     % Figures
-% Chapter 3 Extended Review of Literature and Extended Methodology
-    % Extended Review of Literature
-    % Extended Methodology (Optional)
 
-% Section: Background
+\section{Chapter 1: Introduction}
 \include{sections/intro}
 
-% Section: Concepts
-\include{sections/concepts}
 
-% Section: Selected concept and design method
-\include{sections/method}
+\section{Chapter 2: Literature Review}
 
-% Section: Test Plan
-\include{sections/test}
+TODO: This is currently combined with the intro, need to separate and expand
 
-% Section: Results
-\section{Results}
+\section{Chapter 3: Methods}
+
+\include{sections/methods/software}
+
+
+\section{Chapter 4: Results}
 
 \begin{itemize}
     \item Results from the planned tests to go here
 \end{itemize}
 
-% Section: Discussion
-\section{Discussion}
+
+\section{Chapter 5: Discussion}
 
 \begin{itemize}
     \item Are the results positive for the usability of the device, or are there red flags
@@ -106,21 +99,25 @@
     \item Improvements or optimizations that could be made
 \end{itemize}
 
-% Pages: Appendices
-\chapter{Appendices}
 
-\begin{itemize}
-    \item Code to go here? Or Attached separately?
-\end{itemize}
+**\appendix
+\section{Appendix A: Stereo Calibration Code}
+\label{app:cal-code}
 
-% Pages: Bibliography
+Primary calibration script, exported from a Jupyter notebook.
 
-\chapter{References}
+\inputminted[linenos, frame=lines, breaklines]{python}{"C:/Users/wyatt/Documents/GVSU/Thesis/calibration and tuning/calibration/calibration export.py"}
+
+Contents of \texttt{calibration.py}, containing the source for the calibration helper classes.
+
+\inputminted[linenos, frame=lines, breaklines]{python}{"C:/Users/wyatt/Documents/GVSU/Thesis/calibration and tuning/calibration/calibration.py"}
+
+
+\section{References}
 \printbibliography[heading=none]
 
 
-% % Page: Submission Agreement
-\chapter{Submission Agreement}
+\section{Submission Agreement}
 
 
 
