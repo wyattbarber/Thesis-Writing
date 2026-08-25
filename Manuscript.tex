@@ -46,10 +46,10 @@
 
 
 \section{Figures and Tables}
-
+\subsection{List of Figures}
 \listoffigures
-
-% \listoftables
+\subsection{List of Tables}
+\listoftables
 
 % Chapter 1 Introduction
     % Introduction
@@ -87,18 +87,12 @@ TODO: This is currently combined with the intro, need to separate and expand
 
 \section{Chapter 4: Results}
 
-\begin{itemize}
-    \item Results from the planned tests to go here
-\end{itemize}
+\input{sections/results/software}
 
 
 \section{Chapter 5: Discussion}
 
-\begin{itemize}
-    \item Are the results positive for the usability of the device, or are there red flags
-    \item Possible gaps in the testing or design that could be addressed in further revisions
-    \item Improvements or optimizations that could be made
-\end{itemize}
+\input{sections/discussion/software}
 
 
 \begin{appendices}
@@ -134,6 +128,11 @@ TODO: This is currently combined with the intro, need to separate and expand
     \label{app:label-code}
 
     \inputminted[linenos, frame=lines, breaklines]{python}{"C:/Users/wyatt/Documents/GVSU/Thesis/august_test_data/passfail.py"}
+
+    \section{Simulation Retest Script}
+    \label{app:retest-code}
+
+    \inputminted[linenos, frame=lines, breaklines]{python}{"C:/Users/wyatt/Documents/GVSU/Thesis/PerchDetector/sim-retest.py"}
 
 \end{appendices}
 

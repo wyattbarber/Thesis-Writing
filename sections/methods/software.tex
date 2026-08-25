@@ -68,10 +68,68 @@ After following this process for each individual camera, and then for the stereo
     \item The detected marker locations covered most of the camera frame, to avoid overfitting to non-symetrical lens defects on one portion of the image. 
 \end{itemize}
 
+Figures \ref{fig:cal-left}, \ref{fig:cal-right}, and \ref{fig:cal-stereo} show the visualizations used to perform this inspection of calibration results.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{sections/methods/left-cal-pre.png}
+        \caption{Before removing outliers.}
+        \label{fig:cal-left-1}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{sections/methods/left-cal-post.png}
+        \caption{After removing outliers.}
+        \label{fig:cal-left-2}
+    \end{subfigure}
+    \caption{Calibration visualizations for the left camera, before (\ref{fig:cal-left-1}) and after (\ref{fig:cal-left-2}) iterative outlier removal.}
+    \label{fig:cal-left}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{sections/methods/right-cal-pre.png}
+        \caption{Before removing outliers.}
+        \label{fig:cal-right-1}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{sections/methods/right-cal-post.png}
+        \caption{After removing outliers.}
+        \label{fig:cal-right-2}
+    \end{subfigure}
+    \caption{Calibration visualizations for the right camera, before (\ref{fig:cal-right-1}) and after (\ref{fig:cal-right-2}) iterative outlier removal.}
+    \label{fig:cal-right}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{sections/methods/stereo-cal-pre.png}
+        \caption{Before removing outliers.}
+        \label{fig:cal-stereo-1}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{sections/methods/stereo-cal-post.png}
+        \caption{After removing outliers.}
+        \label{fig:cal-stereo-2}
+    \end{subfigure}
+    \caption{Calibration visualizations for the stereo pair, before (\ref{fig:cal-stereo-1}) and after (\ref{fig:cal-stereo-2}) iterative outlier removal.}
+    \label{fig:cal-stereo}
+\end{figure}
 
 \subsection{Perch Detection Validation Data Collection}
 
-To first test the detection methods performance under the most optimal, controlled conditions, the device was placed facing a flat white wall, indoors,
+To first test the detection methods performance under the most controlled conditions, the device was placed facing a flat white wall, indoors,
 with only one object (a gray, 15mm diameter PVC pipe) in the frame. The object was placed at a distance $d = 1000mm$ from the camera, at an azimuth angle (angle between
 object and cameras y axis) $\theta = 0^\circ$ and elevation angle (angle between the cameras x-y plane and the object) $\phi = 0^\circ$.
 
@@ -85,16 +143,43 @@ This test was performed for the following combinations of object poses. All angl
 and the distances measured within $5mm$ via tape measure.
 
 \begin{itemize}
-    \item $d = 100mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
     \item $d = 5000mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
     \item $d = 1000mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
     \item $d = 2000mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
-    \item $d = 1000mm$, $\theta = 33^\circ$, $\phi = 0^\circ$
-    \item $d = 1000mm$, $\theta = 45^\circ$, $\phi = 0^\circ$
-    \item $d = 1000mm$, $\theta = 0^\circ$, $\phi = 33^\circ$
-    \item $d = 1000mm$, $\theta = 0^\circ$, $\phi = 45^\circ$
 \end{itemize}
 
+These three trials were then repeated with the object in front of a zig-zag background pattern. The motivation for this test is to compare the success rate in best and worst case conditions; the 
+flat white wall tends to be the most difficult case for the detection process due to the lack of features for stereo matching to use. The zig-zag background serves as a more optimistic performance test.
+
+A review of initial results showed that the performance against the white wall background was poor. A possible method to improve this is to threshold the left image into light and dark regions, and
+only include points whose color falls in the dark region in the point cloud. This assumes that the target object will always be darker than the background. For a perching device facing upward towards
+open sky or tree canopies, this assumption may hold true. To implement this the "Weighted Least Squares Filtering" in figure \ref{fig:sw-flow} was modified to include the following algorithm:
+
+\begin{enumerate}
+    \item A Gaussian blur with a 5x5 kernel is applied to the left camera image.
+    \item A threshold value is determined for the blurred image via Otsu's method.
+    \item For each pixel with an intensity greater than the threshold value, the corresponding disparity value is set to -1. 
+        Negative disparity values result in invalid points whcih get filtered out in the "Point Cloud Projection and Downsampling" step of figure \ref{fig:sw-flow}
+\end{enumerate}
+
+This was tested again with both white and zig-zag backgrounds. The tests with added threshold filtering were performed by processing saved data from the first test trials through the
+image processing pipeline rather than collecting new data. The script in appendix \ref{app:retest-code} was used to process this new test data.
+
+Table \ref{tab:vision-test-cases} shows all test cases that were perform.
+
+\begin{table}[H]
+    \centering
+    \caption{List of test scenarios for which data was collected.}
+    \label{tab:vision-test-cases}
+    \begin{tabular}{c|cc}
+        Case Number & Background Type & Threshold Based Filter \\
+        \hline
+        1 & White & Off  \\
+        2 & Zig-Zag & Off \\
+        3 & White & On \\
+        4 & Zig-Zag & On
+    \end{tabular}
+\end{table}
 
 \subsection{Perch Detection Validation Data Analysis}
 
@@ -106,9 +191,8 @@ reject it if something appears to have gone wrong in the processing. The script 
 overall sucess rate as a percentage of the files that were accepted by the user, as well as a boolean flag for each file
 indicating if the user accepted or rejected it.
 
-Once the files were each labelled, the measurements corresponding to each accepted file were used to determine the error
-in the detected position and orientation of the object. The data files saved by the script in appendix \ref{app:data-coll-code}
-contained the measurements as well as the true values of $d$, $\theta$, and $\phi$ that were set for that trial. To asses the 
-accuracy of the detection method the absolute and relative errors of each position parameter, as well as the error in the lateral
-offset of the detected perch in the frame (which should be $0mm$ in each trial here) and the error in the detected perch diameter
-were calculated and recorded.
+When labelling samples as valid or in valid, the follwing two criteria were used for determining if a detection was valid:
+\begin{itemize}
+    \item The line drawn to show the detected object must intersect somewhere with the real object.
+    \item The line drawn to show the detected object must be approximately $10^\circ$ or less away from parallel to the real object.
+\end{itemize}
