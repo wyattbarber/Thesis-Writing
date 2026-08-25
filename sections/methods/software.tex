@@ -33,6 +33,172 @@ The image processing software used to validate the perch detection concept was i
 \end{figure}
 
 
+\subsection{Image Acquisition}
+
+The left and right camera images are captured on a Raspberry Pi Compute Module 4, with 2 Raspberry Pi Camera V2 modules. 
+The libcamera library is used for interfacing with the cameras and reading in images. The images are captured in greyscale, 
+with height of 600px and width of 800px.
+
+\subsubsection{Stereo Block Matching}
+
+The "Left Stereo Block Matching" and "Right Stereo Block Matching" items in figure \ref{fig:sw-flow} are performed with 
+the \texttt{StereoSGBM} class from OpenCV \cite{bradski_opencv_2000}. The left matcher is constructed with the arguments 
+shown in table \ref{tab:stereo-args} and OpenCVs \texttt{createRightMatcher} function is used to create a right matcher 
+with corresponding parameters. The "minDisparity" and "numDisparities" parameters in table \ref{tab:stereo-args} were calculated
+based on the calibration data to give a detection distance range of approximately 0.2m to 3.0m.
+
+The left and right matchers are used, instead of only one matcher, to support the next WLS filtering step. The left and right
+matcher compute disparity values from left to right and right to left, respectively. These two disparity maps can then be cross 
+checked to remove inalid disparity values, for example incorrect disparity values resulting from occlusions. 
+
+\begin{table}[H]
+    \centering
+    \caption{StereoSGBM arguments used in this thesis.}
+    \label{tab:stereo-args}
+    \begin{tabular}{|c|c|}
+        \hline
+        Argument Name & Value \\
+        \hline
+        minDisparity & 6 \\
+        numDisparities & 80 \\
+        blockSize & 3 \\
+        preFilterCap & 10 \\
+        speckleRange & 5 \\
+        speckleWindowSize & 150 \\
+        disp12MaxDiff & 1 \\
+        uniquenessRatio & 15 \\
+        P1 & 72 \\
+        P2 & 288 
+    \end{tabular}
+\end{table}
+
+
+\subsubsection{WLS Filtering}
+
+The "Weighted Least Squares Filtering" step uses OpenCVs \texttt{DisparityWLSFilter} class \cite{bradski_opencv_2000} to improve the quality of the dispartity data.
+This filter uses the left and right disparity to remove low quality point. It also uses the left grayscale image as a guide to fill in missing disparity values, under 
+the assumption that edges in the grayscale image should correspond to the edges in the disparity map. The filter produces two outputs: a filtered disparity map, and a
+confidence map reflecting the approximate confidence that each disparity is correct.
+
+The \texttt{DisparityWLSFilter} class has 4 arguments that influence how much smoothing it applies and how much the produced disparity follows edges
+in the guide image. The names of those arguments and the values used here are listed in table \ref{tab:wls-filter-args}.
+
+\begin{table}[H]
+    \centering
+    \caption{DisparityWLSFilter arguments used in this thesis.}
+    \label{tab:wls-filter-args}
+    \begin{tabular}{|c|c|}
+        \hline
+        Argument Name & Value \\
+        \hline
+        Lambda & 15000 \\
+        SigmaColor & 0.2 \\
+        DepthDiscontinuityRadius & 2 \\
+        LRCthresh & 24 \\
+    \end{tabular}
+\end{table}
+
+
+\subsubsection{Point Cloud Generation}
+
+In the "Point Cloud Projection and Downsampling" step in figure \ref{fig:sw-flow}, the disparity map is converted 
+to a point cloud with OpenCVs \texttt{reprojectImageTo3D} function \cite{bradski_opencv_2000}.
+
+Next the point cloud is downsampled using the following process:
+\begin{enumerate}
+    \item The confidence map is split into 4x4px, non-overlapping neighborhoods.
+    \item For each neighborhood the pixel with highest confidence is identified.
+    \item The point in the point cloud corresponding to that pixel of highest confidence is identified.
+    \item That point with highest confidence in its neighborhood is kept if its Z-coordinate is between 0.2m and 3m. This
+        correponds to the min and max distances used when calculating disparity ranges for the stereo matchers and values outside
+        that range indicate invalid disparities. If the Z-coordinate of a point is outside that range, it is discarded.
+\end{enumerate}
+
+This process aims to both remove low quality points from the data, as well as reduce the total number of points in the point cloud 
+as the Hough transform becomes very computationally expensive as the number of points grows.
+
+
+\subsubsection{3D Hough Transform}
+
+The "3D Hough Transform" step of \ref{fig:sw-flow} applies the algorithm proposed by Dalitz et al. \cite{dalitz_iterative_2017} to the downsampled point cloud.
+In the Hough transform each point "votes" on possible lines in the cloud. Each point represents 1 vote for all possible lines it could exist on. After 
+the entire point cloud has "voted" the iterative process summarized below is followed to produce candidates:
+\begin{enumerate}
+    \item The line parameters with the highest vote count is selected.
+    \item The line is refined by performing PCA on all points that are close to it.
+    \item All points that are still close to the line after PCA refinement are removed from the point cloud and
+        their votes are removed from the Hough accumulator.
+    \item The next highest voted line is identified starting from step 1 until there are no line parameters left that
+        meet the minimum vote threshold, or the maximum number of lines to count has been reached.
+\end{enumerate}
+
+This process has two main shortcomings when applied in this thesis:
+\begin{itemize}
+    \item It fails to distinguish true lines from other large collections of points, such as planes or other shapes.
+    \item The WLS filter will introduce artifacts near object edges. These artifacts tend to look like lines radiating outward from the
+        cameras focal point, and the Hough transform cannot identify that they are not real objects.
+\end{itemize}
+
+This thesis makes the following modifications to the Hough transform used in order to mitigate these issues:
+
+\begin{itemize}
+    \item Detected lines must have a minimum ratio of length to width in order to be accepted. This helps to remove shapes
+        that are not actually lines.
+    \item Detected lines must not be more than a maximum angle away from parallel to the cameras x-y plane. This helps to remove
+        the filtering artifacts that tend to be at steep angles to the cameras x-y plane.
+\end{itemize}
+
+The iterative process, with these modifications, is summarized as follows:
+\begin{enumerate}
+    \item The line parameters with the highest vote count is selected.
+    \item The line is refined by performing PCA on all points that are close to it.
+    \item The length and width of the line are calculated by projecting all point close to the line onto 
+        the first and second principle component vectors and finding the largest magnitude of these projections.
+    \item The direction of the line (first principle component) is used to estimate the angle of the line to 
+        the cameras x-y plane.
+    \item All points that are still close to the line after PCA refinement are removed from the point cloud and
+        their votes are removed from the Hough accumulator.
+    \item This line is returned as a candidate only if the ratio of length to width is greater than a threshold, and 
+        the angle it makes with the x-y plane is less than a limit. If thes criteria are not met, then the line is discarded
+        but all points belonging to it are still removed from the point cloud and their votes undone.
+    \item The next highest voted line is identified starting from step 1 until there are no line parameters left that
+        meet the minimum vote threshold, or the maximum number of lines to count has been reached.
+\end{enumerate}
+
+This Hough transform, with the proposed modifications, has a number of parameters. The parameters and the values set for them 
+in this thesis are listed in table \ref{tab:hough-args}.
+
+\begin{table}[H]
+    \centering
+    \caption{Hough transform parameters used in this thesis.}
+    \label{tab:hough-args}
+    \begin{tabular}{|c|c|}
+        \hline
+        Argument Name & Value \\
+        \hline
+        minimum vote threshold & 300 \\
+        maximum number of lines & 10 \\
+        number line direction quantization subdivisions & 4 \\
+        number of x-y line position divisions & 128 \\
+        minimum length to width ratio & 2 \\
+        maximum angle to x-y plane & $30^\circ$
+    \end{tabular}
+\end{table}
+
+Lines produced by the Hough transform are defined by 3 vectors:
+\begin{itemize}
+    \item Anchor point: A point that lies on the line, the centroid of the point cloud points close to the line.
+    \item Direction: A vector parallel to the line, whose magnitude is half the estimated length of the line.
+    \item Normal: A vector perpendicular to the line, whose magnitude is half the estimated width of the line.
+\end{itemize}
+
+
+\subsubsection{Candidate Selection}
+
+The final step in figure \ref{fig:sw-flow}, "Best Candidate Selection", checks each candidate line identified
+by the Hough transform and determines which line is the closest to the camera (which lines anchor point has 
+the smallest Z-coordinate). This closes line is the final output of the detection process.
+
 
 \subsection{Stereo Camera Calibration}
 
@@ -171,7 +337,7 @@ Table \ref{tab:vision-test-cases} shows all test cases that were perform.
     \centering
     \caption{List of test scenarios for which data was collected.}
     \label{tab:vision-test-cases}
-    \begin{tabular}{c|cc}
+    \begin{tabular}{|c||c|c|}
         Case Number & Background Type & Threshold Based Filter \\
         \hline
         1 & White & Off  \\
