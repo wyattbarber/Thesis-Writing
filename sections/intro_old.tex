@@ -1,0 +1,96 @@
+\subsection{Application of Perching Drones}
+
+Much recent research has been dedicated to developing multi-modal drones that can transition between flight
+and a stationary mode attached to a structure. Often referred to as "perching", this behavior is intended
+to enable the use of drones over longer mission times, where perching can reduce power use, or in scenarios
+where the noise of a drones running motors is undesirable. Often the targeted use case for this is ecology research,
+where drones could place a sensor payload in an inaccessible forest canopy, or monitor wildlife without the disruptive
+noise of its motors. 
+
+Forest canopies support highly varied microclimates, which support diverse ecosystems and may provide additional resilience to climate change.
+These systems are poorly understood, primarily due to the difficulty of observation and data collection. Often canopy cranes are used for
+forest observation, however these are costly and difficult to use for geographically dense or replicated data. They are also very large,
+and can themselves cause disruption to the system being studied.
+The variance in habitat of the forest canopy is particularly pronounced in tropical forests, with a study in the Philippines
+showing higher variability in temperature and moisture between the forest floor and canopy compared to a change in elevation
+10 times greater \cite{nakamura_forests_2017}.
+
+Tropical forests are a primary target for global restoration and carbon sequestration efforts,
+so increasing knowledge of these forests is critical for understanding how to protect them and the global climate \cite{mrema_ten_2020}.
+Drones have potential as methods of collecting better data about forests. Being mobile, they can collect data over larger areas without the
+need to construct replicated observation stations. The density of obstacles in a forest canopy can be a challenge for drones, but methods
+to navigate similar environments have been proven \cite{mulgaonkar_robust_2018,tan_design_2017,liu_mini-drone_2023}. Two major problems
+remain for using drones in ecological data collection: they are very loud and disruptive to wildlife being studied
+\cite{jenni-eiermann_unmanned_2017,bennitt_terrestrial_2019},
+and they have a short flight time due to their high power consumption.
+
+%% Should be expanded on with more [sources? example use cases?]
+Another use case for perching drones is power line inspection. Drones used here can accelerate the inspection process
+while reducing the risk that inspectors are exposed to, both from high voltage and high heights.
+A drone used in this case could even charge inductively from the power lines it is inspecting \cite{hoang_autonomous_2024}.
+
+%% Read paper in-depth and update
+Liu et al. have also determined that a swarm of perching drones could be effective at rapidly creating a distributed communication
+network \cite{liu_perching_2022}.
+
+
+\subsection{Modes of Perching}
+
+
+Perching drones can provide a workaround to these issues. Perching drones are capable of attaching themselves to objects in the environment in
+order to maintain a fixed position without consuming power. Perching mechanisms are typically adapted to a structure
+that is expected to be found in the environment where the drone operates \cite{hang_perching_2019}.
+A review by Meng et al. \cite{meng_aerial_2022} describes three categories of perching mechanism:
+\begin{itemize}
+    \item Grasping: often inspired by bird claws, this type of mechanism grips a branch and holds a drone
+            stationary on top of it. An example is shown in figure \ref{fig:claw}
+    \item Embedding: more similar to how insects grasp a surface, these mechanisms use small spikes to grip rough surfaces.
+    \item Attaching: grasping and embedding tend to fail on  smooth surfaces. Attaching uses adhesive forces such as electrostatics or vacuums to
+            hold a drone to a smooth surface.
+\end{itemize}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{screenshots/claw.jpg}
+    \caption{An example of a claw-like perching mechanism, where the drone lands on a perch and remains fixed by closing the claw. Adapted from \cite{chi_optimized_2014}.}
+    \label{fig:claw}
+\end{figure}
+
+
+Passive methods of perching are desirable as they reduce power consumption, reduce computational power needed,
+and can be more robust if well designed \cite{nguyen_passively_2019}. However they can introduce their own
+complications, often requiring complex behaviors in the drone to form a strong attachment. The design by Nguyen et al.
+\cite{nguyen_passively_2019}, shown in figure \ref{fig:tether} requires the flight controller to be adapted to loop a tether around a branch.
+This example also requires space to maneuver around the branch the drone is perching on. The mechanism
+proposed by Kirchgeorg and Mintchev \cite{kirchgeorg_hedgehog_2022} requires less space to move,
+however it still requires adaptations to the flight controls to maintain a smooth lowering of the drone onto its perch.
+This design is illustrated in figure \ref{fig:hedgehog}.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{screenshots/grapple.jpg}
+    \caption{Example of a passive perching process with a tether, showing the drone approaching a perch,
+        the tether making contact, and the drone transferring its weight to the tether. Adapted from \cite{nguyen_passively_2019}.}
+    \label{fig:tether}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{screenshots/hedgehog.jpg}
+    \caption{An untethered passive drone perching process, showing the drone approaching a perch and transferring its weight to the perch. Adapted from \cite{kirchgeorg_hedgehog_2022}.}
+    \label{fig:hedgehog}
+\end{figure}
+
+%% A bit awkward at the end with the tendril concept not being explored further
+Perching mechanisms found in nature are often used as inspiration for designs of perching drones, such as a birds grasping
+claws or an insects embedding spikes. Another possible inspiration is the grasping tendrils produced by many
+climbing vines. Plant tendrils are able to grasp nearby objects of unknown shape and size to support the
+main stem they grow from. They do this by growing out straight and then curling progressively tighter
+around objects they make contact with \cite{klimm_force_2023}.
+% Maybe just get rid of this?
+Such a grasping mechanism could be useful to perching drones, as it would allow them to latch onto branches or other objects in the
+vicinity without complex flight controls. The actuator designed by Must et al. \cite{must_variable-stiffness_2019} mimics the grasping behavior
+and mechanism of plant tendrils, however it appears to be too slow and delicate for use as a drone grasping mechanism.
