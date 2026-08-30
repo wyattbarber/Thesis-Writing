@@ -1,7 +1,86 @@
 \subsection{Application of Perching Drones}
 
+\subsubsection{Environmental Monitoring}
+
+\subsection{Infrastructure Inspection}
+
+\subsubsection{Networking}
+
 
 \subsection{Modes of Perching}
+
+Meng et al. identify 3 primary modes of drone perching in their review \cite{meng_aerial_2022}. The modes identified are:
+\begin{itemize}
+    \item Grasping based perching mechanisms.
+    \item Embedding based perching mechanisms.
+    \item Attaching based perching mechanism.
+\end{itemize}
+
+\subsubsection{Grasping}
+
+Grasping based mechanisms use attachments that can grip a perch with enough force to hold a drone stationary.
+Often they are inspired by birds claws and are designed to allow a drone to sit on top of its perch. One benefit
+of such a method is that the grasper can, if correctly designed, serve dual use as a perching device as well as
+a grasper for carrying or manipulating objects \cite{meng_aerial_2022}.
+
+One example of a grasping based mechanism is proposed by Chi et al, and shown in figure \ref{fig:claw}. It aims 
+to imitate the biomechanics of bird legs. The design proves capable of holding a 2kg mass stationary on a perch, 
+both in static testing and when dropped onto a perch \cite{chi_optimized_2014}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{screenshots/claw.jpg}
+    \caption{An example of a claw-like perching mechanism, where the drone lands on a perch and remains fixed by closing the claw. Adapted from \cite{chi_optimized_2014}.}
+    \label{fig:claw}
+\end{figure}
+
+Though many grasping based perching mechanisms are inspired by avian biomechanics, some take a different approach and attach a drone to a perch from the bottom via a mechanical clasping mechanism.
+One such device is that proposed by Hoang et al., shown in figure \ref{fig:clasp}, which is intended for use in powerline inspection. It uses ribbons to passively close an electromagnetic clasp once the drone has approached 
+the appropriate position below a poweline. Once closed, current harvested from the powerline can be used to keep clasp closed as well as recharge the drone \cite{hoang_autonomous_2024}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{screenshots/clasp.png}
+    \caption{Alternative grasping based perching mechanism, intended to attach a drone beneath a powerline. Adapted from \cite{hoang_autonomous_2024}.}
+    \label{fig:clasp}
+\end{figure}
+
+
+\subsubsection{Embedding}
+
+Embedding based perching mechanisms take advantage of the texture of a surface and spikes on the drone to attach the drone to the surface. 
+This works similarly to how many insects climb surfaces, by using tiny spikes that grasp onto microscopic cracks or bumps on a surface. 
+This method can allow drones to perch on vertical surfaces, though it is not universal to all surface types and 
+can provide less stablity than grasping based methods \cite{meng_aerial_2022}. 
+
+Distinguishing between grasping and embedding mechanisms can be simply a matter of scale, as embedding mechanisms often operate like very small graspers.
+Figure \ref{fig:gripper} illustrates a device proposed by Roderick et al. which is designed to grip the bark of a tree \cite{roderick_bioinspired_2017}.
+While it does not attach by grasping an actuator around the circumference of a tree like a typical grasping based device would, figure \ref{fig:gripper}
+shows that it is still operating by grasping onto smaller scale features.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{screenshots/bark gripper.png}
+    \caption{Perching device designed to attach to the vertical side of a tree trunk. Adapted from \cite{roderick_bioinspired_2017}.}
+    \label{fig:gripper}
+\end{figure}
+
+
+\subsubsection{Attaching}
+
+Attaching based perching devices use adhesives, electromagnetics, electrostatics, or vaccuum cups to attach a drone to a surface. Such methods
+can work with both smooth and rough surfaces, unlike grasping or embedding methods, and can attach drones above, below, or to the side of a perch
+object \cite{meng_aerial_2022}.
+
+One example of such a device is shown in figure \ref{fig:electroadhesive}, designed by Gaule et al. It uses electrostatic adhesion to 
+attach an insect inspired micro UAV to the underside of an object \cite{graule_perching_2016}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{screenshots/electroadhesive.png}
+    \caption{Example of an attaching based perching device that uses electrostatic adhesion. Adapted from \cite{graule_perching_2016}.}
+    \label{fig:electroadhesive}
+\end{figure}
 
 
 \subsection{Perch Detection Methods}
