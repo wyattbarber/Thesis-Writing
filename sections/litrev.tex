@@ -23,7 +23,7 @@ Often they are inspired by birds claws and are designed to allow a drone to sit 
 of such a method is that the grasper can, if correctly designed, serve dual use as a perching device as well as
 a grasper for carrying or manipulating objects \cite{meng_aerial_2022}.
 
-One example of a grasping based mechanism is proposed by Chi et al, and shown in figure \ref{fig:claw}. It aims 
+One example of a grasping based mechanism is proposed by Chi et al., and shown in figure \ref{fig:claw}. It aims 
 to imitate the biomechanics of bird legs. The design proves capable of holding a 2kg mass stationary on a perch, 
 both in static testing and when dropped onto a perch \cite{chi_optimized_2014}.
 
@@ -35,8 +35,8 @@ both in static testing and when dropped onto a perch \cite{chi_optimized_2014}.
 \end{figure}
 
 Though many grasping based perching mechanisms are inspired by avian biomechanics, some take a different approach and attach a drone to a perch from the bottom via a mechanical clasping mechanism.
-One such device is that proposed by Hoang et al., shown in figure \ref{fig:clasp}, which is intended for use in powerline inspection. It uses ribbons to passively close an electromagnetic clasp once the drone has approached 
-the appropriate position below a poweline. Once closed, current harvested from the powerline can be used to keep clasp closed as well as recharge the drone \cite{hoang_autonomous_2024}.
+One such device is that proposed by Hoang et al., shown in figure \ref{fig:clasp}, which is intended for use in power line inspection. It uses ribbons to passively close an electromagnetic clasp once the drone has approached 
+the appropriate position below a power line. Once closed, current harvested from the power line can be used to keep clasp closed as well as recharge the drone \cite{hoang_autonomous_2024}.
 
 \begin{figure}[H]
     \centering
@@ -45,13 +45,24 @@ the appropriate position below a poweline. Once closed, current harvested from t
     \label{fig:clasp}
 \end{figure}
 
+The device designed by Kominami et al., shown in figure \ref{fig:passive}, is another grasping type device that grasps a perch beneath the drone. 
+A distinguishing feature of this design is that it is passively driven; the grasping force is provided by the weight of the drone on top of the grasper \cite{kominami_detection_2023}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{screenshots/passive.png}
+    \caption{A passively actuated perching mechanism that uses the drones weight to provide the grasping force. Adapted from \cite{kominami_detection_2023}.}
+    \label{fig:passive}
+\end{figure}
+
+
 
 \subsubsection{Embedding}
 
 Embedding based perching mechanisms take advantage of the texture of a surface and spikes on the drone to attach the drone to the surface. 
 This works similarly to how many insects climb surfaces, by using tiny spikes that grasp onto microscopic cracks or bumps on a surface. 
 This method can allow drones to perch on vertical surfaces, though it is not universal to all surface types and 
-can provide less stablity than grasping based methods \cite{meng_aerial_2022}. 
+can provide less stability than grasping based methods \cite{meng_aerial_2022}. 
 
 Distinguishing between grasping and embedding mechanisms can be simply a matter of scale, as embedding mechanisms often operate like very small graspers.
 Figure \ref{fig:gripper} illustrates a device proposed by Roderick et al. which is designed to grip the bark of a tree \cite{roderick_bioinspired_2017}.
@@ -68,7 +79,7 @@ shows that it is still operating by grasping onto smaller scale features.
 
 \subsubsection{Attaching}
 
-Attaching based perching devices use adhesives, electromagnetics, electrostatics, or vaccuum cups to attach a drone to a surface. Such methods
+Attaching based perching devices use adhesives, electromagnetics, electrostatics, or vacuum cups to attach a drone to a surface. Such methods
 can work with both smooth and rough surfaces, unlike grasping or embedding methods, and can attach drones above, below, or to the side of a perch
 object \cite{meng_aerial_2022}.
 
@@ -85,3 +96,33 @@ attach an insect inspired micro UAV to the underside of an object \cite{graule_p
 
 \subsection{Perch Detection Methods}
 
+Kominami et al. designed a perch detection method in conjunction with their passive grasping device shown in figure \ref{fig:passive}.
+Their detection method is designed to detect long thin features that the grasper is designed to land on, such as signs and fences. 
+Using a RealSense D405 RGB-D camera they implement the following image processing pipeline:
+
+\begin{enumerate}
+    \item RGB data is processed with a Hough transform to identify the top and bottom edge of a long thin board.
+    \item The depth data is used to measure a depth profile of the board along a line perpendicular to the two edges.
+    \item The shape of the depth profile is used to confirm the type of object detected.
+    \item If a suitable object is confirmed, then the location of its top is returned.
+\end{enumerate}
+
+This method proved capable of identifying the board to perch on, though it suffers from being unable to identify a thin board when the drone is directly
+above it \cite{kominami_detection_2023}.
+
+
+An alternative detection method proposed by von Frankenberg and Nokleby uses a RANSAC method to detect cylindrical perches in a point cloud. They used a Microsoft
+Kinect to acquire 3D point clouds and processed them using the following sequence:
+\begin{enumerate}
+    \item Downsample and crop point cloud.
+    \item Identify possible lines with a RANSAC approach.
+    \item Remove any lines that make an angle with the x-y plane steeper than $30^\circ$.
+    \item Scan the length of each detected line and remove lines that have gaps where no points are detected.
+    \item Scan the length of each detected line and remove lines that have points too close to the line, which indicates obstructions.
+\end{enumerate}
+
+The authors note that their algorithm was successfull in detecting a suitable test target, however it suffered from high computation time.
+Using an Intel i7-4770 3.40 GHz 4 core processor their method was able to collect measurements at 10Hz with point clouds containing up to 5000
+points, however processing time quickly increases as the number of point grows or if the point cloud becomes dominated by planar objects (their test 
+scene shows only 2 ladders and a pair of pipes, all of which produce only thin line-like shapes in the point cloud). Additionally, the randomness
+of the RANSAC method they use leads to the target object not being detected in every frame because its points were not selected in every frame \cite{von_frankenberg_detection_2020}.
