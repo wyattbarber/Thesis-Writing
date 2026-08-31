@@ -2,7 +2,9 @@
 \subsection{Perch Detection Success Rate}
 
 For each test trial in table \ref{tab:vision-test-cases}, table \ref{tab:success-rates} shows
-the percentage of samples in which the object was correctly detected.
+the percentage of samples in which the object was correctly detected. Table \ref{tab:success-rates-dist}
+shows the same data, but with success rates reported for each distance between camera and object that 
+was tested.
 
 \begin{table}[H]
     \centering
@@ -14,5 +16,23 @@ the percentage of samples in which the object was correctly detected.
         \hline
         1 & 100.0  \\
         2 & 63.6 \\
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Detection success rate for each test scenario in table \ref{tab:vision-test-cases}, 
+    separated by distance to the object.}
+    \label{tab:success-rates-dist}
+    \begin{tabular}{|c||c|c|c|}
+        \hline
+        Case Number & Distance to Object [mm] & Success Rate [\%] \\
+        \hline
+        1 & 500 & 100.0  \\
+        1 & 1000 & 100.0  \\
+        1 & 2000 & 100.0  \\
+        2 & 500 & 100.0 \\
+        2 & 1000 & 100.0 \\
+        2 & 2000 & 0.0 \\
     \end{tabular}
 \end{table}

@@ -2,13 +2,52 @@
 
 The results show that the proposed image processing method has potential, though performance is dependent on the background.
 Only about 2/3 of cases are correctly detected with the zigzag background, compared to every case against a white background.
-This difference appears to be the result of two primary causes:
+Interestingly the white background performed better than the pattern, despite the white background typically being more
+difficult for the \texttt{StereoSGBM} algorithm to process. It seems that, in the white background case, 
+the background removal is effective enough to compensate for poor performance of the block matching. 
+This is illustrated in figure \ref{fig:fitler-compare}, which shows point clouds generated with and without
+background removal enabled.
+
+\begin{figure}[H]
+    \centering
+    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_cart_res_0\\wall_w_filter\\pvc_2000_0_0_0_0_bin_4"
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{sections/discussion/sample-left.png}
+        \caption{Left camera grayscale image.}
+        \label{fig:filter-compare:img}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/nothresh-ptcloud.png}
+            \caption{Point cloud generated without background removal.}
+            \label{fig:filter-compare:ptcld-nothresh}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/thresh-ptcloud.png}
+            \caption{Point cloud generated with background removal.}
+            \label{fig:filter-compare:ptcld-thresh}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{Sample image acquired from the left camera (\ref{fig:filter-compare:img}) and the point clouds generated from it,
+        showing the difference between point clouds without background removal (\ref{fig:filter-compare:ptcld-nothresh}) where
+        the perch is barely distinguishable against the incorrectly matched background, and with background removal 
+        (\ref{fig:filter-compare:ptcld-thresh}) where nearly all the incorrect points have been removed.}
+    \label{fig:fitler-compare}
+\end{figure}
+
+
+The lower performance of the patterned background appears to be the result of two primary causes:
 \begin{enumerate}
     \item The thresholding based background filter is less effective when the background contains dark regions.
     \item The Hough vote threshold is low, causing small background noise artifacts to be detected as valid lines.
 \end{enumerate}
 
-Issue number 1 requires better foreground isolation to resolve, or better quality discrepancy maps. Improving the stereo discrepancy
+Issue 1 requires better foreground isolation to resolve, or better quality discrepancy maps. Improving the stereo discrepancy
 significantly may prove difficult while using off-the-shelf, free and open sourced software, especially while attempting to keep processing 
 speed high and suitable for real-time controls. Foreground isolation could perhaps be improved by incorporating time series data, such as optical
 flow, to isolate foreground by checking how object move relative to the drone. This would depend on the drone being in motion. Machine learning
@@ -19,165 +58,44 @@ between performance in the flat white background vs the zigzag background; raisi
 detected in the simple white background case because it doesn't have enough points remaining to reach the threshold. Further experimentation may
 be needed to determine optimal parameters for different background types. 
 
-
-\subsubsection{Failure Analysis with White Background}
-
-
-Figures \ref{fig:disparity-nothresh} and \ref{fig:ptcloud-nothresh} show disparity and point cloud data for a typical failure case when the object is in front of a flat white background
-and threshold filtering is disabled. Figure \ref{fig:sample-photos} shows the left and right images that were used to produce figures \ref{fig:disparity-nothresh} and \ref{fig:ptcloud-nothresh}.
-
-\begin{figure}[H]
-    \centering
-    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_cart_res_0\\wall_w_filter\\pvc_2000_0_0_0_0_bin_4"
-    \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{sections/discussion/sample-left.png}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{sections/discussion/sample-right.png}
-    \end{subfigure}
-    \caption{Sample left and right camera images with the object at 2m distance in front of a flat white backdrop.}
-    \label{fig:sample-photos}
-\end{figure}
+Figure \ref{fig:issues-background} illustrates these issues. The correct object is detected, indicating that the processing pipeline
+is not completely failing, however another region of points is also getting detected as a line and is selected as the best
+candidate because it is closer. Figure \ref{fig:issues-background:disp} shows that this object is an erroneous high disparity 
+region. This suggests that the issues present here may simply be a result of suboptimal calibration. Table \ref{tab:success-rates-dist}
+shows that all failures were isolated to the 2000mm test case, which supports that the issue is due to how that specific scene
+layout interacts with the stereo calibration and matching.
 
 \begin{figure}[H]
     \centering
-    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_cart_res_0\\wall_w_filter\\pvc_2000_0_0_0_0_bin_4" 
-    \includegraphics[width=\textwidth]{sections/discussion/nothresh-disp.png}
-    \caption{Disparity map produced from the images in figure \ref{fig:sample-photos} when threshold filtering is disabled.
-        Note the lack of distinct features or edges, as well as the erroneous region of high disparity near the bottom right.}
-    \label{fig:disparity-nothresh}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_cart_res_0\\wall_w_filter\\pvc_2000_0_0_0_0_bin_4"      
-    \includegraphics[width=\textwidth]{sections/discussion/nothresh-ptcloud.png}
-    \caption{Point cloud and line candidates generated from the disparity in figure \ref{fig:disparity-thresh}. Note how the background and the object 
-        blend together, making the object indistinguishable.}
-    \label{fig:ptcloud-nothresh}
-\end{figure}
-
-Figures \ref{fig:disparity-thresh} and \ref{fig:ptcloud-thresh} show disparity and point cloud data for the same images in figure \ref{fig:sample-photos}, this time with 
-threshold filtering enabled.
-
-
-\begin{figure}[H]
-    \centering
-    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_thresh\\wall_w_filter\\pvc_2000_0_0_0_0_bin_4" 
-    \includegraphics[width=\textwidth]{sections/discussion/thresh-disp.png}
-    \caption{Disparity map produced from the images in figure \ref{fig:sample-photos} when threshold filtering is enabled. Note the well defined dest object 
-    in the middle of the frame, as well as the high disparity errors near the lower right.}
-    \label{fig:disparity-thresh}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_thresh\\wall_w_filter\\pvc_2000_0_0_0_0_bin_4"      
-    \includegraphics[width=\textwidth]{sections/discussion/thresh-ptcloud.png}
-    \caption{Point cloud and line candidates generated from the disparity in figure \ref{fig:disparity-thresh}. Note how the object is isolated and well 
-        defined in this point cloud, yet neither it nor any artifacts were selected as candidates.}
-    \label{fig:ptcloud-thresh}
-\end{figure}
-
-The differences between figures \ref{fig:ptcloud-nothresh} and \ref{fig:ptcloud-thresh} illustrate the effectiveness of the threshold filtering 
-against a white background, though it is odd that the object is still not detected in figure \ref{fig:ptcloud-thresh}. One possible reason for this 
-is that after removing so many low quality points the remaining points aren't enough to reach the Hough transforms minimum vote parameter.
-
-Figure \ref{fig:ptcloud-thresh-2} shows one additional failure case when thresholding is enabled. In this case the object is detected as a candidate, but 
-a region of high disparity errors is also detected as a candidate and detected slightly closer than the real object, so it wins the selection. This 
-case could be a result of calibration error.
-
-\begin{figure}[H]
-    \centering
-    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_thresh\\wall_w_filter\\pvc_500_0_0_0_0_bin_8"     
-    \includegraphics[width=\textwidth]{sections/discussion/thresh-ptcloud-2.png}
-    \caption{Point cloud showing an error artifact cluster (yellow) that was selected as the correct line instead of the real object (purple).}
-    \label{fig:ptcloud-thresh-2}
-\end{figure}
-
-\subsubsection{Failure Analysis with Zig-Zag Background}
-
-In the test cases where detection fails against the patterned backdrop, most of the cases that were not correctly detected are the cases 
-with the object 2m away from the camera. At this distance a significant amount of white wall is visible around the patterned backdrop,
-as shown in figure \ref{fig:sample-photos-ptrn}.
-
-\begin{figure}[H]
-    \centering
-    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_thresh\\blanket_w_filter\\pvc_2000_0_0_0_0_bin_3"
-    \begin{subfigure}[b]{0.45\textwidth}
-        \centering
+    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_margin_75_hough_100\\blanket_w_filter\\pvc_2000_0_0_0_0_bin_7"
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
         \includegraphics[width=\textwidth]{sections/discussion/sample-ptrn-left.png}
+        \caption{Left camera grayscale image.}
+        \label{fig:issues-background:img}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/ptrn-thresh-disp.png}
+            \caption{Disparity map.}
+            \label{fig:issues-background:disp}
+        \end{subfigure}
     \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.45\textwidth}
+    \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{sections/discussion/sample-ptrn-right.png}
+        \includegraphics[width=\textwidth]{sections/discussion/ptrn-thresh-ptcloud.png}
+        \caption{Point cloud data.}
+        \label{fig:issues-background:ptcld}
     \end{subfigure}
-    \caption{Sample left and right camera images with the object at 2m distance in front of a patterned backdrop.}
-    \label{fig:sample-photos-ptrn}
+    \vfill
+    \caption{Sample image acquired from the left camera (\ref{fig:issues-background:img}), the corresponding disparity map
+    (\ref{fig:issues-background:disp}), and the resulting point cloud (\ref{fig:issues-background:ptcld}). Note the region
+    of high disparity in the lower right corner of \ref{fig:issues-background:disp}, which is shown as the selected
+    line candidate in \ref{fig:issues-background:ptcld}. Also note the dark regions of the backdrop in \ref{fig:issues-background:img}
+    that are included in the foreground points in \ref{fig:issues-background:ptcld}, showing the limitations of using 
+    intensity based thresholding for background removal.}
+    \label{fig:issues-background}
 \end{figure}
-
-
-Figures \ref{fig:disparity-ptrn-nothresh}, \ref{fig:ptcloud-ptrn-nothresh}, \ref{fig:disparity-ptrn-thresh}, and \ref{fig:ptcloud-ptrn-thresh} examine output from two test cases; both with the same distance
-and background, but one case used the threshold based filtering and one case did not. Both cases were produced with the left and right
-images in figure \ref{fig:sample-photos-ptrn}.
-
-Figure \ref{fig:disparity-ptrn-thresh} shows the disparity produced when threshold filtering is enabled, and figure \ref{fig:ptcloud-ptrn-thresh}
-shows the resulting point cloud. Figures \ref{fig:disparity-ptrn-nothresh} and \ref{fig:ptcloud-ptrn-nothresh} show the same with threshold filtering 
-disabled.
-
-\begin{figure}[H]
-    \centering
-    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_thresh\\blanket_w_filter\\pvc_2000_0_0_0_0_bin_3"       
-    \includegraphics[width=\textwidth]{sections/discussion/ptrn-thresh-disp.png}
-    \caption{Disparity map produced from the images in figure \ref{fig:sample-photos-ptrn} when threshold filtering is enabled. 
-        Note the erroneous high disparity values (white region) accross the bottom of the image.}
-    \label{fig:disparity-ptrn-thresh}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_thresh\\blanket_w_filter\\pvc_2000_0_0_0_0_bin_3"       
-    \includegraphics[width=\textwidth]{sections/discussion/ptrn-thresh-ptcloud.png}
-    \caption{Point cloud and line candidates generated from the disparity in figure \ref{fig:disparity-ptrn-thresh}. Note the three candidate lines
-        shown by groups of points with different colors. The purple line in front (image lower right) is the candidate that was selected as closest to the camera,
-        even though it is not a real object. The real object can be seen as the teal point cluster nearer to the center of the image.}
-    \label{fig:ptcloud-ptrn-thresh}
-\end{figure}
-
-
-\begin{figure}[H]
-    \centering
-    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_cart_res_0\\blanket_w_filter\\pvc_2000_0_0_0_0_bin_3"       
-    \includegraphics[width=\textwidth]{sections/discussion/ptrn-nothresh-disp.png}
-    \caption{Disparity map produced from the images in figure \ref{fig:sample-photos-ptrn} when threshold filtering is disabled.
-        Note the erroneous high disparity values (white region) accross the bottom of the image.}
-    \label{fig:disparity-ptrn-nothresh}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_cart_res_0\\blanket_w_filter\\pvc_2000_0_0_0_0_bin_3"       
-    \includegraphics[width=\textwidth]{sections/discussion/ptrn-nothresh-ptcloud.png}
-    \caption{Point cloud and line candidates generated from the disparity in figure \ref{fig:disparity-ptrn-nothresh}. Note the large number of "lines" detected 
-        accross the flat background. Also note the erroneous region detected as a line in figure \ref{fig:ptcloud-ptrn-thresh} is still visible in the loweer right 
-        corner, but is not detected as a candidate line here. The true object is visible in near the center of the image as a mint-green set of points.}
-    \label{fig:ptcloud-ptrn-nothresh}
-\end{figure}
-
-
-There is one notable difference between the point cloud in figure \ref{fig:ptcloud-ptrn-nothresh}, where the object was correctly detected, and in figure
-\ref{fig:ptcloud-ptrn-thresh}, where artifacts in the foreground were detected as the perch instead: when the thresholding is disabled, more background points
-are included in the point cloud and detected as possible lines. This appears to "distract" the detector from the line in the foreground. This does make sense based
-on how the Hough transform algorithm used is implemented. It iteratively returns the line with the most votes, up to a maximum of 10 lines. With so many highly voted lines 
-in the background, the smaller erroneous line in the foreground is low enough in votes that the 10 line limit is reached before it would be returned as a candidate. But when
-the background is not filtered out, then that small line is closer to the top of the vote count because there are not a large number of background points above it in the list.
-
-The reasoning for the small line being in the point cloud in the first place is hard to diagnose. One possibility is that it is the result of calibration error. 
-Similar regions of high disparity error can be seen in the lower right corner of figures \ref{fig:disparity-nothresh}, \ref{fig:disparity-thresh}, 
-\ref{fig:ptcloud-ptrn-nothresh}, and \ref{fig:disparity-ptrn-thresh}. Similar error across all 4 cases does support calibration errors, as the cameras and their calibration parameters
-are constant across all test trials.
 

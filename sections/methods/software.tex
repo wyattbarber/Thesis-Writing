@@ -348,7 +348,7 @@ program to save a binary file containing both left and right images, the calcula
 identified line candidates with labels for all points in the point cloud that belong to a line candidate.
 
 This test was performed for the following combinations of object poses. All angles were measured to be within $5^\circ$ of the target value using the "Clinometer" Android app,
-and the distances measured within $5mm$ via tape measure.
+and the distances measured within $5mm$ via tape measure. 
 
 \begin{itemize}
     \item $d = 5000mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
@@ -356,10 +356,14 @@ and the distances measured within $5mm$ via tape measure.
     \item $d = 2000mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
 \end{itemize}
 
-These three trials were then repeated with the object in front of a zigzag background pattern. The motivation for this test is to compare the success rate in best and worst case conditions; the 
-flat white wall tends to be the most difficult case for the detection process due to the lack of features for stereo matching to use. The zigzag background serves as a more optimistic performance test.
+These three trials were then repeated with the object in front of a zigzag background pattern. 
+The motivation for this test is to compare the success rate in best and worst case conditions; the 
+flat white wall tends to be the most difficult case for the \texttt{StereoSGBM} algorithm to process due to the lack of 
+features for stereo matching to use. The zigzag background serves as a more optimistic performance test.
 
-Table \ref{tab:vision-test-cases} shows all test cases that were performed.
+Table \ref{tab:vision-test-cases} shows all test cases that were performed. 
+In each test trial against the white wall background, the camera was 3830mm away from the wall. In each of
+the tests with a zigzag backdrop, the backdrop was placed 550mm behind the test object.
 
 \begin{table}[H]
     \centering
