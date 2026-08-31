@@ -7,23 +7,26 @@ The image processing software used to validate the perch detection concept was i
     \centering
     \digraph[width=\textwidth]{swflow}{
         rankdir=TB;
-        lc [label="Left Camera Frame Acqusision" shape=box];
-        rc [label="Right Camera Frame Acqusision" shape=box];
+        lc [label="Left Camera Frame Acquisition" shape=box];
+        rc [label="Right Camera Frame Acquisition" shape=box];
         ls [label="Left Stereo Block Matching" shape=box];
         rs [label="Right Stereo Block Matching" shape=box];
         f [label="Weighted Least Squares Filtering" shape=box];
+        bg [label="Background Separation" shape=box];
         pc [label="Point Cloud Projection and Downsampling" shape=box];
         ht [label="3D Hough Transform" shape=box];
         s [label="Best Candidate Selection" shape=box];
 
         lc -> ls [label="Left Side Image"];
         lc -> rs [label="Left Side Image"];
+        lc -> bg [label="Left Side Image"];
         lc -> f [label="Guide For Inpainting"];
         rc -> ls [label="Right Side Image"];
         rc -> rs [label="Right Side Image"];
         ls -> f [label="Left-To-Right Disparity"];
         rs -> f [label="Right-To-Left Disparity"];
         f -> pc [label="Filtered Disparity and Confidence Map"];
+        bg -> pc [label="Segmented Foreground"];
         pc -> ht [label="Down-Sampled Point Cloud"];
         ht -> s [label="Position, Orientation, and Dimensions of Candidate Lines"];        
     }
@@ -36,20 +39,20 @@ The image processing software used to validate the perch detection concept was i
 \subsubsection{Image Acquisition}
 
 The left and right camera images are captured on a Raspberry Pi Compute Module 4, with 2 Raspberry Pi Camera V2 modules. 
-The libcamera library is used for interfacing with the cameras and reading in images. The images are captured in greyscale, 
+The \texttt{libcamera} library is used for interfacing with the cameras and reading in images. The images are captured in grayscale, 
 with height of 600px and width of 800px.
 
 \subsubsection{Stereo Block Matching}
 
 The "Left Stereo Block Matching" and "Right Stereo Block Matching" items in figure \ref{fig:sw-flow} are performed with 
 the \texttt{StereoSGBM} class from OpenCV \cite{bradski_opencv_2000}. The left matcher is constructed with the arguments 
-shown in table \ref{tab:stereo-args} and OpenCVs \texttt{createRightMatcher} function is used to create a right matcher 
+shown in table \ref{tab:stereo-args} and \texttt{OpenCV}s \texttt{createRightMatcher} function is used to create a right matcher 
 with corresponding parameters. The "minDisparity" and "numDisparities" parameters in table \ref{tab:stereo-args} were calculated
 based on the calibration data to give a detection distance range of approximately 0.2m to 3.0m.
 
 The left and right matchers are used, instead of only one matcher, to support the next WLS filtering step. The left and right
-matcher compute disparity values from left to right and right to left, respectively. These two disparity maps can then be cross 
-checked to remove inalid disparity values, for example incorrect disparity values resulting from occlusions. 
+matcher compute disparity values from left to right and right to left, respectively. These two disparity maps can then be cross-checked 
+to remove invalid disparity values, for example incorrect disparity values resulting from occlusions. 
 
 \begin{table}[H]
     \centering
@@ -73,9 +76,36 @@ checked to remove inalid disparity values, for example incorrect disparity value
 \end{table}
 
 
+\subsubsection{Background and Foreground Segmentation}
+
+The step "Background Separation" in figure \ref{fig:sw-flow} is intended to help filter out background objects that are not suitable perches and 
+are likely to contribute false positive images. In the laboratory test setup this background is likely to be a surface like a wall, which is relatively
+textureless, difficult for the block matching algorithm to process correctly, and tends to introduce artifacts into the point cloud that get mistakenly
+identified as perches. In a real world scenario this background would more likely be open sky or a tree canopy, which may not be so featureless as a wall
+but may still introduce its own challenges for the block matching algorithm.
+
+To remove background points from consideration, image thresholding using Otsu's method \cite{otsu_threshold_1979} is performed. Otsu's method automatically determines
+a threshold value based on the distribution of light and dark pixels in the image. The process used here is:
+\begin{enumerate}
+    \item A Gaussian blur with a 5x5 kernel is applied to left camera image.
+    \item Otsu's method is used to determine the optimal threshold value.
+    \item Pixels with values lower than the threshold are assigned as foreground (possible perches). Other pixels are background.
+\end{enumerate}
+
+This process does make two critical assumptions about the images that will be encountered and the properties of possible perches:
+\begin{enumerate}
+    \item Images will be binomially distributed into a light and dark category (a criterion for Otsu's method to work well \cite{otsu_threshold_1979}).
+    \item The pixels corresponding to possible perches will fall into the dark category (the background will be lighter than the perch).
+\end{enumerate}
+
+These assumptions hold well in the laboratory with white walls and dark test objects. In possible field applications they may still hold in many cases, since
+the camera on this device is intended to be aimed towards the sky to detect a perch above the drone. A power line against the sky will appear as a dark gray 
+object against a lighter backdrop, similarly will a tree branch against a canopy illuminated by filtered sun.
+
+
 \subsubsection{WLS Filtering}
 
-The "Weighted Least Squares Filtering" step uses OpenCVs \texttt{DisparityWLSFilter} class \cite{bradski_opencv_2000} to improve the quality of the dispartity data.
+The "Weighted Least Squares Filtering" step uses \texttt{OpenCV}s \texttt{DisparityWLSFilter} class \cite{bradski_opencv_2000} to improve the quality of the disparity data.
 This filter uses the left and right disparity to remove low quality point. It also uses the left grayscale image as a guide to fill in missing disparity values, under 
 the assumption that edges in the grayscale image should correspond to the edges in the disparity map. The filter produces two outputs: a filtered disparity map, and a
 confidence map reflecting the approximate confidence that each disparity is correct.
@@ -102,20 +132,32 @@ in the guide image. The names of those arguments and the values used here are li
 \subsubsection{Point Cloud Generation}
 
 In the "Point Cloud Projection and Downsampling" step in figure \ref{fig:sw-flow}, the disparity map is converted 
-to a point cloud with OpenCVs \texttt{reprojectImageTo3D} function \cite{bradski_opencv_2000}.
+to a point cloud with \texttt{OpenCV}s \texttt{reprojectImageTo3D} function \cite{bradski_opencv_2000}.
 
-Next the point cloud is downsampled using the following process:
+There are four criteria applied to all points in the point cloud to determine validity. They are:
+\begin{enumerate}
+    \item The points z-coordinate is greater than 0.2m. 
+    \item The points z-coordinate is less than 3.0m. 
+    \item The points x-coordinate, in image pixel units, is more than 75 px away from either left or right edge of the image.
+    \item The points y-coordinate, in image pixel units, is more than 75 px away from either top or bottom edge of the image.
+\end{enumerate}
+
+Criteria 1 and 2 corresponds to the min and max distances used when calculating disparity ranges for the stereo matchers. Values outside
+that range indicate invalid disparities. Criteria 3 and 4 serve to remove points that are more likely to be calibration error. Calibration 
+error often appears worst at the edges of an image, and such artifacts were seen in some of the test data. It was not deemed likely that a 
+calibration of sufficient quality and stability could be obtained with the device used to completely avoid the presence of such artifacts, 
+so this margin of ignored points was added to mitigate the impact of calibration errors.
+
+In addition to the above basic validity checks, further downsampling is needed in order to minimize the Hough transform 
+processing time. In order to reduce the total number of points while preserving as much data quality as possible,
+the point cloud is downsampled using the following process:
 \begin{enumerate}
     \item The confidence map is split into 4x4px, non-overlapping neighborhoods.
     \item For each neighborhood the pixel with highest confidence is identified.
     \item The point in the point cloud corresponding to that pixel of highest confidence is identified.
-    \item That point with highest confidence in its neighborhood is kept if its Z-coordinate is between 0.2m and 3m. This
-        correponds to the min and max distances used when calculating disparity ranges for the stereo matchers and values outside
-        that range indicate invalid disparities. If the Z-coordinate of a point is outside that range, it is discarded.
+    \item That point with highest confidence in its neighborhood is kept if it meets the above 4 validity criteria. If it
+        does not, then it and all other points in this neighborhood are discarded.
 \end{enumerate}
-
-This process aims to both remove low quality points from the data, as well as reduce the total number of points in the point cloud 
-as the Hough transform becomes very computationally expensive as the number of points grows.
 
 
 \subsubsection{3D Hough Transform}
@@ -153,13 +195,13 @@ The iterative process, with these modifications, is summarized as follows:
     \item The line parameters with the highest vote count is selected.
     \item The line is refined by performing PCA on all points that are close to it.
     \item The length and width of the line are calculated by projecting all point close to the line onto 
-        the first and second principle component vectors and finding the largest magnitude of these projections.
-    \item The direction of the line (first principle component) is used to estimate the angle of the line to 
+        the first and second principal component vectors and finding the largest magnitude of these projections.
+    \item The direction of the line (first principal component) is used to estimate the angle of the line to 
         the cameras x-y plane.
     \item All points that are still close to the line after PCA refinement are removed from the point cloud and
         their votes are removed from the Hough accumulator.
     \item This line is returned as a candidate only if the ratio of length to width is greater than a threshold, and 
-        the angle it makes with the x-y plane is less than a limit. If thes criteria are not met, then the line is discarded
+        the angle it makes with the x-y plane is less than a limit. If these criteria are not met, then the line is discarded
         but all points belonging to it are still removed from the point cloud and their votes undone.
     \item The next highest voted line is identified starting from step 1 until there are no line parameters left that
         meet the minimum vote threshold, or the maximum number of lines to count has been reached.
@@ -176,7 +218,7 @@ in this thesis are listed in table \ref{tab:hough-args}.
         \hline
         Argument Name & Value \\
         \hline
-        minimum vote threshold & 300 \\
+        minimum vote threshold & 100 \\
         maximum number of lines & 10 \\
         number line direction quantization subdivisions & 4 \\
         number of x-y line position divisions & 128 \\
@@ -205,14 +247,14 @@ the smallest Z-coordinate). This closes line is the final output of the detectio
 A camera calibration script was creates using the functions available in OpenCV \cite{bradski_opencv_2000}. The script can be read in appendix \ref{app:cal-code}.
 285 total calibration image pairs were captured. The calibration pattern used was an 8 marker by 11 marker ChArUco board with 20mm checkers and 15mm markers, and a 4x4 AruCo dictionary.
 
-To perform individual camera intrinsic and distortion parameter calibrations, each image was loaded and the pattern corners were detected and mached to the expected board layout.
+To perform individual camera intrinsic and distortion parameter calibrations, each image was loaded then the pattern corners were detected and matched to the expected board layout.
 Any image in which fewer than 10 corner points were detected was discarded, as low point counts can result in bad calibration parameters. For accepted images, the identified calibration
 pattern corner locations in the image coordinates are saved, as well as the estimated position and orientation of the calibration board. The accepted points were then used to calculate 
-an initial estimate of the cameras intrinsic matrix and distotion coefficients. The calibration at this point is still low quality, so an iterative refinement is now applied. For each image
+an initial estimate of the cameras intrinsic matrix and distortion coefficients. The calibration at this point is still low quality, so an iterative refinement is now applied. For each image
 that was not rejected, the calibration pattern points are projected into image coordinates using the saved position and orientation estimates of the calibration board. Then the error between these 
 projected points and the positions of the previously detected points in that image were calculated. Once these errors were calculated for all images, any point in an image that had a reprojection error 
 greater than 3 standard deviations of the reprojection error for all points in all images was discarded, under the assumption that this high error was due to a bad detection of that corner. If any image 
-contained less then 10 valid points after removing points with high error, the entire image was discarded. This process was repeated until either one of the following termination criteria was met:
+contained less than 10 valid points after removing points with high error, the entire image was discarded. This process was repeated until either one of the following termination criteria was met:
 
 \begin{itemize}
     \item The change in standard deviation of the reprojection errors for all points in all images was less than $1e-9$.
@@ -231,7 +273,7 @@ After following this process for each individual camera, and then for the stereo
 \begin{itemize}
     \item The errors were approximately zero-mean.
     \item The errors had approximately the same distribution in the x and y directions.
-    \item The detected marker locations covered most of the camera frame, to avoid overfitting to non-symetrical lens defects on one portion of the image. 
+    \item The detected marker locations covered most of the camera frame, to avoid overfitting to non-symmetrical lens defects on one portion of the image. 
 \end{itemize}
 
 Figures \ref{fig:cal-left}, \ref{fig:cal-right}, and \ref{fig:cal-stereo} show the visualizations used to perform this inspection of calibration results.
@@ -297,13 +339,13 @@ Figures \ref{fig:cal-left}, \ref{fig:cal-right}, and \ref{fig:cal-stereo} show t
 
 To first test the detection methods performance under the most controlled conditions, the device was placed facing a flat white wall, indoors,
 with only one object (a gray, 15mm diameter PVC pipe) in the frame. The object was placed at a distance $d = 1000mm$ from the camera, at an azimuth angle (angle between
-object and cameras y axis) $\theta = 0^\circ$ and elevation angle (angle between the cameras x-y plane and the object) $\phi = 0^\circ$.
+object and cameras y-axis) $\theta = 0^\circ$ and elevation angle (angle between the cameras x-y plane and the object) $\phi = 0^\circ$.
 
 The image processing program was started by the script found in appendix \ref{app:data-coll-code}. Once the output of the program indicated that at least one
 candidate line had been detected, the program was run for 2 minutes. The script monitored the detection results via serial terminal and saved the position, 
 orientation, and dimensions of the detected object each time a new update was produced by the detection program. At each new update the script also triggered the
 program to save a binary file containing both left and right images, the calculated disparity and confidence map, the filtered point cloud, and information about the 
-identified line candidates with labels for all points in the point cloud that belong to a line canditate.
+identified line candidates with labels for all points in the point cloud that belong to a line candidate.
 
 This test was performed for the following combinations of object poses. All angles were measured to be within $5^\circ$ of the target value using the "Clinometer" Android app,
 and the distances measured within $5mm$ via tape measure.
@@ -314,36 +356,20 @@ and the distances measured within $5mm$ via tape measure.
     \item $d = 2000mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
 \end{itemize}
 
-These three trials were then repeated with the object in front of a zig-zag background pattern. The motivation for this test is to compare the success rate in best and worst case conditions; the 
-flat white wall tends to be the most difficult case for the detection process due to the lack of features for stereo matching to use. The zig-zag background serves as a more optimistic performance test.
+These three trials were then repeated with the object in front of a zigzag background pattern. The motivation for this test is to compare the success rate in best and worst case conditions; the 
+flat white wall tends to be the most difficult case for the detection process due to the lack of features for stereo matching to use. The zigzag background serves as a more optimistic performance test.
 
-A review of initial results showed that the performance against the white wall background was poor. A possible method to improve this is to threshold the left image into light and dark regions, and
-only include points whose color falls in the dark region in the point cloud. This assumes that the target object will always be darker than the background. For a perching device facing upward towards
-open sky or tree canopies, this assumption may hold true. To implement this the "Weighted Least Squares Filtering" in figure \ref{fig:sw-flow} was modified to include the following algorithm:
-
-\begin{enumerate}
-    \item A Gaussian blur with a 5x5 kernel is applied to the left camera image.
-    \item A threshold value is determined for the blurred image via Otsu's method.
-    \item For each pixel with an intensity greater than the threshold value, the corresponding disparity value is set to -1. 
-        Negative disparity values result in invalid points whcih get filtered out in the "Point Cloud Projection and Downsampling" step of figure \ref{fig:sw-flow}
-\end{enumerate}
-
-This was tested again with both white and zig-zag backgrounds. The tests with added threshold filtering were performed by processing saved data from the first test trials through the
-image processing pipeline rather than collecting new data. The script in appendix \ref{app:retest-code} was used to process this new test data.
-
-Table \ref{tab:vision-test-cases} shows all test cases that were perform.
+Table \ref{tab:vision-test-cases} shows all test cases that were performed.
 
 \begin{table}[H]
     \centering
     \caption{List of test scenarios for which data was collected.}
     \label{tab:vision-test-cases}
-    \begin{tabular}{|c||c|c|}
-        Case Number & Background Type & Threshold Based Filter \\
+    \begin{tabular}{|c||c|}
+        Case Number & Background Type \\
         \hline
-        1 & White & Off  \\
-        2 & Zig-Zag & Off \\
-        3 & White & On \\
-        4 & Zig-Zag & On
+        1 & White \\
+        2 & Zigzag \\
     \end{tabular}
 \end{table}
 
@@ -351,13 +377,13 @@ Table \ref{tab:vision-test-cases} shows all test cases that were perform.
 
 The first analysis performed on the detection data was determining how often the device correctly detected the object. This 
 was done using the binary files saved in the data collection process alongside the script in appendix \ref{app:label-code}.
-This script displays the left camera image from each file and overlays the selected line candidate, alongside colored dots 
+The script displays the left camera image from each file and overlays the selected line candidate, alongside colored dots 
 indicating all points that are part of a candidate line. This allows the user to accept an image as a valid detection, or
 reject it if something appears to have gone wrong in the processing. The script then saves a JSON file containing the 
-overall sucess rate as a percentage of the files that were accepted by the user, as well as a boolean flag for each file
+overall success rate as a percentage of the files that were accepted by the user, as well as a boolean flag for each file
 indicating if the user accepted or rejected it.
 
-When labelling samples as valid or in valid, the follwing two criteria were used for determining if a detection was valid:
+When labelling samples as valid or in valid, the following two criteria were used for determining if a detection was valid:
 \begin{itemize}
     \item The line drawn to show the detected object must intersect somewhere with the real object.
     \item The line drawn to show the detected object must be approximately $10^\circ$ or less away from parallel to the real object.

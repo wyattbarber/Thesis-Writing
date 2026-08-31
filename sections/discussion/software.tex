@@ -1,14 +1,23 @@
-\subsection{Failure of Perch Detection and Possible Improvements}
+\subsection{Perch Detection Success Rate}
 
-The overall perch detection rate is poor, with under 70\% of samples being detected 
-correctly in the best scenario. 
+The results show that the proposed image processing method has potential, though performance is dependent on the background.
+Only about 2/3 of cases are correctly detected with the zigzag background, compared to every case against a white background.
+This difference appears to be the result of two primary causes:
+\begin{enumerate}
+    \item The thresholding based background filter is less effective when the background contains dark regions.
+    \item The Hough vote threshold is low, causing small background noise artifacts to be detected as valid lines.
+\end{enumerate}
 
-Introducing the threshold based background separation did drastically improve performance against the white background. 
-This is not surprising, as a plain white background with a single dark object 
-is where binary image thresholding is best at separating foreground from background.
-Interestingly the thresholding harmed the performance against the high-contrast patterned background. Why this is 
-happening, and what is causing the remaining failures, is not obvious. The next subsections examine some represantative failures
-to determine possible causes.
+Issue number 1 requires better foreground isolation to resolve, or better quality discrepancy maps. Improving the stereo discrepancy
+significantly may prove difficult while using off-the-shelf, free and open sourced software, especially while attempting to keep processing 
+speed high and suitable for real-time controls. Foreground isolation could perhaps be improved by incorporating time series data, such as optical
+flow, to isolate foreground by checking how object move relative to the drone. This would depend on the drone being in motion. Machine learning
+methods could also prove useful. 
+
+Issue 2 seems simple to fix by raising the Hough vote threshold, however retesting the data with a higher value showed that there is a trade-off
+between performance in the flat white background vs the zigzag background; raising the minimum vote parameter causes the target object to not be 
+detected in the simple white background case because it doesn't have enough points remaining to reach the threshold. Further experimentation may
+be needed to determine optimal parameters for different background types. 
 
 
 \subsubsection{Failure Analysis with White Background}
