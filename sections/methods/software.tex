@@ -44,7 +44,7 @@ with height of 600px and width of 800px.
 
 \subsubsection{Stereo Block Matching}
 
-The "Left Stereo Block Matching" and "Right Stereo Block Matching" items in figure \ref{fig:sw-flow} are performed with 
+The "Left Stereo Block Matching" and "Right Stereo Block Matching" items in Fig. {fig:sw-flow} are performed with 
 the \texttt{StereoSGBM} class from OpenCV \cite{bradski_opencv_2000}. The left matcher is constructed with the arguments 
 shown in table \ref{tab:stereo-args} and \texttt{OpenCV}s \texttt{createRightMatcher} function is used to create a right matcher 
 with corresponding parameters. The "minDisparity" and "numDisparities" parameters in table \ref{tab:stereo-args} were calculated
@@ -78,7 +78,7 @@ to remove invalid disparity values, for example incorrect disparity values resul
 
 \subsubsection{Background and Foreground Segmentation}
 
-The step "Background Separation" in figure \ref{fig:sw-flow} is intended to help filter out background objects that are not suitable perches and 
+The step "Background Separation" in Fig. {fig:sw-flow} is intended to help filter out background objects that are not suitable perches and 
 are likely to contribute false positive images. In the laboratory test setup this background is likely to be a surface like a wall, which is relatively
 textureless, difficult for the block matching algorithm to process correctly, and tends to introduce artifacts into the point cloud that get mistakenly
 identified as perches. In a real world scenario this background would more likely be open sky or a tree canopy, which may not be so featureless as a wall
@@ -131,7 +131,7 @@ in the guide image. The names of those arguments and the values used here are li
 
 \subsubsection{Point Cloud Generation}
 
-In the "Point Cloud Projection and Downsampling" step in figure \ref{fig:sw-flow}, the disparity map is converted 
+In the "Point Cloud Projection and Downsampling" step in Fig. {fig:sw-flow}, the disparity map is converted 
 to a point cloud with \texttt{OpenCV}s \texttt{reprojectImageTo3D} function \cite{bradski_opencv_2000}.
 
 There are four criteria applied to all points in the point cloud to determine validity. They are:
@@ -237,7 +237,7 @@ Lines produced by the Hough transform are defined by 3 vectors:
 
 \subsubsection{Candidate Selection}
 
-The final step in figure \ref{fig:sw-flow}, "Best Candidate Selection", checks each candidate line identified
+The final step in Fig. {fig:sw-flow}, "Best Candidate Selection", checks each candidate line identified
 by the Hough transform and determines which line is the closest to the camera (which lines anchor point has 
 the smallest Z-coordinate). This closes line is the final output of the detection process.
 
@@ -276,7 +276,7 @@ After following this process for each individual camera, and then for the stereo
     \item The detected marker locations covered most of the camera frame, to avoid overfitting to non-symmetrical lens defects on one portion of the image. 
 \end{itemize}
 
-Figures \ref{fig:cal-left}, \ref{fig:cal-right}, and \ref{fig:cal-stereo} show the visualizations used to perform this inspection of calibration results.
+Fig. {fig:cal-left}, \ref{fig:cal-right}, and \ref{fig:cal-stereo} show the visualizations used to perform this inspection of calibration results.
 
 \begin{figure}[H]
     \centering

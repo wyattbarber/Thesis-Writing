@@ -5,7 +5,7 @@ Only about 2/3 of cases are correctly detected with the zigzag background, compa
 Interestingly the white background performed better than the pattern, despite the white background typically being more
 difficult for the \texttt{StereoSGBM} algorithm to process. It seems that, in the white background case, 
 the background removal is effective enough to compensate for poor performance of the block matching. 
-This is illustrated in figure \ref{fig:fitler-compare}, which shows point clouds generated with and without
+This is illustrated in Fig. {fig:fitler-compare}, which shows point clouds generated with and without
 background removal enabled.
 
 \begin{figure}[H]
@@ -58,9 +58,9 @@ between performance in the flat white background vs the zigzag background; raisi
 detected in the simple white background case because it doesn't have enough points remaining to reach the threshold. Further experimentation may
 be needed to determine optimal parameters for different background types. 
 
-Figure \ref{fig:issues-background} illustrates these issues. The correct object is detected, indicating that the processing pipeline
+Fig. {fig:issues-background} illustrates these issues. The correct object is detected, indicating that the processing pipeline
 is not completely failing, however another region of points is also getting detected as a line and is selected as the best
-candidate because it is closer. Figure \ref{fig:issues-background:disp} shows that this object is an erroneous high disparity 
+candidate because it is closer. Fig. {fig:issues-background:disp} shows that this object is an erroneous high disparity 
 region. This suggests that the issues present here may simply be a result of suboptimal calibration. Table \ref{tab:success-rates-dist}
 shows that all failures were isolated to the 2000mm test case, which supports that the issue is due to how that specific scene
 layout interacts with the stereo calibration and matching.
