@@ -7,6 +7,8 @@ The image processing software used to validate the perch detection concept was i
     \centering
     \digraph[width=\textwidth]{swflow}{
         rankdir=TB;
+        graph [splines=ortho];
+
         lc [label="Left Camera Frame Acquisition" shape=box];
         rc [label="Right Camera Frame Acquisition" shape=box];
         ls [label="Left Stereo Block Matching" shape=box];
@@ -17,18 +19,18 @@ The image processing software used to validate the perch detection concept was i
         ht [label="3D Hough Transform" shape=box];
         s [label="Best Candidate Selection" shape=box];
 
-        lc -> ls [label="Left Side Image"];
-        lc -> rs [label="Left Side Image"];
-        lc -> bg [label="Left Side Image"];
-        lc -> f [label="Guide For Inpainting"];
-        rc -> ls [label="Right Side Image"];
-        rc -> rs [label="Right Side Image"];
-        ls -> f [label="Left-To-Right Disparity"];
-        rs -> f [label="Right-To-Left Disparity"];
-        f -> pc [label="Filtered Disparity and Confidence Map"];
-        bg -> pc [label="Segmented Foreground"];
-        pc -> ht [label="Down-Sampled Point Cloud"];
-        ht -> s [label="Position, Orientation, and Dimensions of Candidate Lines"];        
+        lc -> ls ;%[label="Left Side Image"];
+        lc -> rs ;%[label="Left Side Image"];
+        lc -> bg ;%[label="Left Side Image"];
+        lc -> f ;%[label="Guide For Inpainting"];
+        rc -> ls ;%[label="Right Side Image"];
+        rc -> rs ;%[label="Right Side Image"];
+        ls -> f ;%[label="Left-To-Right Disparity"];
+        rs -> f ;%[label="Right-To-Left Disparity"];
+        f -> pc ;%[label="Filtered Disparity and Confidence Map"];
+        bg -> pc ;%[label="Segmented Foreground"];
+        pc -> ht ;%[label="Down-Sampled Point Cloud"];
+        ht -> s ;%[label="Position, Orientation, and Dimensions of Candidate Lines"];        
     }
     \caption{Diagram of the dataflow for the proposed image processing pipeline, starting from image aquisition on the top
         to generation of coordinates for the detected perch on the bottom.}
