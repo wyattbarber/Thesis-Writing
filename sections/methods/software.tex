@@ -370,9 +370,12 @@ The motivation for this test is to compare the success rate in best and worst ca
 flat white wall tends to be the most difficult case for the \texttt{StereoSGBM} algorithm to process due to the lack of 
 features for stereo matching to use. The zigzag background serves as a more optimistic performance test.
 
+
 Table \ref{tab:vision-test-cases} shows all test cases that were performed. 
 In each test trial against the white wall background, the camera was 3830mm away from the wall. In each of
 the tests with a zigzag backdrop, the backdrop was placed 550mm behind the test object.
+Fig. \ref{fig:setup-wall} and \ref{fig:setup-zigzag} show images of the testing setup for the plain white wall
+and zigzag pattern backgrounds, respectively.
 
 \begin{table}[H]
     \centering
@@ -387,6 +390,53 @@ the tests with a zigzag backdrop, the backdrop was placed 550mm behind the test 
         \hline
     \end{tabular}
 \end{table}
+
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{sections/methods/setup_wall.jpg}
+        \caption{Viewed from the camera's perspective.}
+        \label{fig:setup-wall:front}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{sections/methods/setup_wall_side.jpg}
+        \caption{Viewed from the side.}
+        \label{fig:setup-wall:side}
+    \end{subfigure}
+    \caption{Example photos of the test setup for collecting perch detection data with a plain white background.
+    \ref{fig:setup-wall:front} shows the setup from approximately the cameras point of view (the cameras and 
+    Raspberry Pi are attached to the green device at the bottom of the frame). \ref{fig:setup-wall:side}
+    shows a side view of the same scene. There the green device can still be seen on the right side of the image.}
+    \label{fig:setup-wall}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{sections/methods/setup_blanket.jpg}
+        \caption{Viewed from the camera's perspective.}
+        \label{fig:setup-zigzag:front}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{sections/methods/setup_blanket_side.jpg}
+        \caption{Viewed from the side.}
+        \label{fig:setup-zigzag:side}
+    \end{subfigure}
+    \caption{Example photos of the test setup for collecting perch detection data with a zigzag pattern background.
+    \ref{fig:setup-zigzag:front} shows the setup from approximately the cameras point of view (the cameras and 
+    Raspberry Pi are attached to the green device at the bottom of the frame). \ref{fig:setup-zigzag:side}
+    shows a side view of the same scene. There the green device can still be seen on the right side of the image.}
+    \label{fig:setup-zigzag}
+\end{figure}
+
 
 \subsection{Perch Detection Validation Data Analysis}
 
