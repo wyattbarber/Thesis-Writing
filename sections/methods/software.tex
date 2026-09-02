@@ -446,10 +446,99 @@ The script displays the left camera image from each file and overlays the select
 indicating all points that are part of a candidate line. This allows the user to accept an image as a valid detection, or
 reject it if something appears to have gone wrong in the processing. The script then saves a JSON file containing the 
 overall success rate as a percentage of the files that were accepted by the user, as well as a boolean flag for each file
-indicating if the user accepted or rejected it.
+indicating if the user accepted or rejected it. Fig. \ref{fig:label-gui} shows an example of what the script displays to the
+user to label samples.
 
 When labelling samples as valid or in valid, the following two criteria were used for determining if a detection was valid:
 \begin{itemize}
     \item The line drawn to show the detected object must intersect somewhere with the real object.
     \item The line drawn to show the detected object must be approximately $10^\circ$ or less away from parallel to the real object.
 \end{itemize}
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{sections/methods/label_gui.png}
+    \caption{Example of the GUI used to label samples as valid or invalid detections.}
+    \label{fig:label-gui}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/label_good_1.png}
+            \caption{}
+            \label{fig:label-ex-good:1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/label_good_2.png}
+            \caption{}
+            \label{fig:label-ex-good:2}
+        \end{subfigure}
+    \end{subfigure}
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/label_good_3.png}
+            \caption{}
+            \label{fig:label-ex-good:3}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/label_good_4.png}
+            \caption{}
+            \label{fig:label-ex-good:4}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{Examples of data samples that would be labelled as valid detections. Note that though the image
+    in \ref{fig:label-ex-good:2} is on the edge of being invalid, it was determined that it was overlapping the real object 
+    enough to be marked valid.}
+    \label{fig:label-ex-good}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/label_bad_1.png}
+            \caption{}
+            \label{fig:label-ex-bad:1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/label_bad_2.png}
+            \caption{}
+            \label{fig:label-ex-bad:2}
+        \end{subfigure}
+    \end{subfigure}
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/label_bad_3.png}
+            \caption{}
+            \label{fig:label-ex-bad:3}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/label_bad_4.png}
+            \caption{}
+            \label{fig:label-ex-bad:4}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{Examples of data samples that would be labelled as invalid detections. \ref{fig:label-ex-bad:1} and 
+    \ref{fig:label-ex-bad:3} are invalid due to the detected line not being close enough to parallel with the real object.
+    \ref{fig:label-ex-bad:4} is invalid due to the detected line not intersecting with the real object. 
+    \ref{fig:label-ex-bad:2} is invalid for both lack of intersection and too large an angle.}
+    \label{fig:label-ex-bad}
+\end{figure}
