@@ -254,7 +254,7 @@ the smallest Z-coordinate). This closes line is the final output of the detectio
 \subsection{Stereo Camera Calibration}
 
 A camera calibration script was creates using the functions available in OpenCV \cite{bradski_opencv_2000}. The script can be read in appendix \ref{app:cal-code}.
-285 total calibration image pairs were captured. The calibration pattern used was an 8 marker by 11 marker ChArUco board with 20mm checkers and 15mm markers, and a 4x4 AruCo dictionary.
+232 total calibration image pairs were captured. The calibration pattern used was an 8 marker by 11 marker ChArUco board with 20mm checkers and 15mm markers, and a 4x4 AruCo dictionary.
 
 To perform individual camera intrinsic and distortion parameter calibrations, each image was loaded then the pattern corners were detected and matched to the expected board layout.
 Any image in which fewer than 10 corner points were detected was discarded, as low point counts can result in bad calibration parameters. For accepted images, the identified calibration
@@ -276,8 +276,8 @@ that were valid in both images were retained (ChArUco patterns use QR-like codes
 So if calibration point A was detected in the left image but not in the right image, or if it was detected in both but then was removed from the left point set due to too high 
 reprojection error, then it was not used in either. Image pairs that had less than 10 valid points in either left or right image were rejected from both sets. 
 
-After following this process for each individual camera, and then for the stereo combination, 26 images were retained as valid for the left camera, 17 for the right camera, and 
-10 images retained for the stereo combination. A visual inspection of the reprojection errors and detected corner locations was performed to confirm that:
+After following this process for each individual camera, and then for the stereo combination, 62 images were retained as valid for the left camera, 62 for the right camera, and 
+35 images retained for the stereo combination. A visual inspection of the reprojection errors and detected corner locations was performed to confirm that:
 
 \begin{itemize}
     \item The errors were approximately zero-mean.
