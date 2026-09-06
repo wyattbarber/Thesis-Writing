@@ -7,33 +7,75 @@ was tested.
 
 \begin{table}[H]
     \centering
-    \caption{Detection success rate for each test scenario in table \ref{tab:vision-test-cases}.}
+    \caption{Detection success rate for each background in table \ref{tab:vision-test-cases}.}
     \label{tab:success-rates}
     \begin{tabular}{|c||c|}
         \hline
-        Case Number & Success Rate [\%] \\
+        Background & Success Rate [\%] \\
         \hline
-        1 & 100.0  \\
-        2 & 63.6 \\
+        White & 100.0  \\
+        Zigzag & 83.3 \\
+        Checker & 31.7 \\
         \hline
     \end{tabular}
 \end{table}
 
 \begin{table}[H]
     \centering
-    \caption{Detection success rate for each test scenario in table \ref{tab:vision-test-cases}, 
-    separated by distance to the object.}
+    \caption{Detection success rate for each background and distance in table \ref{tab:vision-test-cases}}
     \label{tab:success-rates-dist}
-    \begin{tabular}{|c|c||c|}
+    \begin{tabular}{|c|c|c||c|}
         \hline
-        Case Number & Distance to Object [mm] & Success Rate [\%] \\
+        Test Number & Background & Distance to Object [mm] & Success Rate [\%] \\
         \hline
-        1 & 500 & 100.0  \\
-        1 & 1000 & 100.0  \\
-        1 & 2000 & 100.0  \\
-        2 & 500 & 100.0 \\
-        2 & 1000 & 100.0 \\
-        2 & 2000 & 0.0 \\
+        1 & White & 500 & 100.0 \\
+        2 & White & 1000 & 100.0 \\
+        3 & White & 2000 & 100.0 \\
+        4 & Zigzag & 500 & 100.0 \\
+        5 & Zigzag & 1000 & 100.0 \\
+        6 & Zigzag & 2000 & 50.0 \\
+        7 & Checker & 500 & 90.0 \\
+        8 & Checker & 1000 & 5.0 \\
+        9 & Checker & 2000 & 0.0 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\subsection{Multi Object Success Rate}
+
+Table \ref{tab:success-rates-multi} shows the success rate for each background when a second object was added behind the intended target.
+Table \ref{tab:success-rates-multi-dist} shows the success rates for the same tests but split out by individual distances.
+
+\begin{table}[H]
+    \centering
+    \caption{Detection success rate for each background tested with two objects.}
+    \label{tab:success-rates-multi}
+    \begin{tabular}{|c||c|}
+        \hline
+        Background & Success Rate [\%] \\
+        \hline
+        White & 100.0  \\
+        Zigzag & 90.0 \\
+        Checker & 0.0 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Detection success rate for each background and distance tested with two objects.}
+    \label{tab:success-rates-dist-multi}
+    \begin{tabular}{|c|c|c||c|}
+        \hline
+        Test Number & Background & Distance to Object [mm] & Success Rate [\%] \\
+        \hline
+        2 & White & 1000 & 100.0 \\
+        3 & White & 2000 & 100.0 \\
+        5 & Zigzag & 1000 & 100.0 \\
+        6 & Zigzag & 2000 & 80.0 \\
+        8 & Checker & 1000 & 0.0 \\
+        9 & Checker & 2000 & 0.0 \\
         \hline
     \end{tabular}
 \end{table}
