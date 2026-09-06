@@ -1,70 +1,157 @@
 \subsection{Perch Detection Success Rate}
 
 The results show that the proposed image processing method has potential, though performance is dependent on the background.
-Only about 2/3 of cases are correctly detected with the zigzag background, compared to every case against a white background.
-Interestingly the white background performed better than the pattern, despite the white background typically being more
-difficult for the \texttt{StereoSGBM} algorithm to process. It seems that, in the white background case, 
-the background removal is effective enough to compensate for poor performance of the block matching. 
-This is illustrated in Fig. \ref{fig:fitler-compare}, which shows point clouds generated with and without
-background removal enabled.
+Both patterned backgrounds performed worse than the plain white wall, with the checkered pattern performing extremely poorly (not
+even a 50\% success rate), and the zigzag background showing a much smaller performance reduction compared to the white wall than 
+for the checkered background.
 
-
-
-The lower performance of the patterned background appears to be the result of two primary causes:
-\begin{enumerate}
-    \item The thresholding based background filter is less effective when the background contains dark regions.
-    \item The Hough vote threshold is low, causing small background noise artifacts to be detected as valid lines.
-\end{enumerate}
-
-Issue 1 requires better foreground isolation to resolve, or better quality discrepancy maps. Improving the stereo discrepancy
-significantly may prove difficult while using off-the-shelf, free and open sourced software, especially while attempting to keep processing 
-speed high and suitable for real-time controls. Foreground isolation could perhaps be improved by incorporating time series data, such as optical
-flow, to isolate foreground by checking how object move relative to the drone. This would depend on the drone being in motion. Machine learning
-methods could also prove useful. 
-
-Issue 2 seems simple to fix by raising the Hough vote threshold, however retesting the data with a higher value showed that there is a trade-off
-between performance in the flat white background vs the zigzag background; raising the minimum vote parameter causes the target object to not be 
-detected in the simple white background case because it doesn't have enough points remaining to reach the threshold. Further experimentation may
-be needed to determine optimal parameters for different background types. 
-
-Fig. \ref{fig:issues-background} illustrates these issues. The correct object is detected, indicating that the processing pipeline
-is not completely failing, however another region of points is also getting detected as a line and is selected as the best
-candidate because it is closer. Fig. \ref{fig:issues-background:disp} shows that this object is an erroneous high disparity 
-region. This suggests that the issues present here may simply be a result of suboptimal calibration. Table \ref{tab:success-rates-dist}
-shows that all failures were isolated to the 2000mm test case, which supports that the issue is due to how that specific scene
-layout interacts with the stereo calibration and matching.
+The reason for the difference between the success rate for checkered and zigzag background patterns is not immediately obvious. 
+Inspecting the point cloud data for each reveals that the problem most likely lies in how the background pattern is interacting 
+with the \texttt{StereoSGBM} block matcher. Fig. \ref{fig:pattern-compare} shows the differences in stereo camera data for two samples
+from each background pattern. It shows that the checkered pattern produces a region of erroneous high disparity, which prevents the 
+line detection algorithms from correctly selecting the test object. Further experimentation would be needed to determine exactly 
+why that is happening, one possibility is that the checker pattern is too small compared to the block size or disparity range
+that \texttt{StereoSGBM} was configured to use, leading to incorrect block matches.
 
 \begin{figure}[H]
     \centering
-    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_margin_75_hough_100\\blanket_w_filter\\pvc_2000_0_0_0_0_bin_7"
+    % Generated from "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_sept_5\\blanket\\pvc_2000_0_0_0_bin_5"
+    \begin{subfigure}[b]{\textwidth}        
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-left-failure.png}
+            \caption{Left camera image with zigzag background.}
+            \label{fig:pattern-compare:zigzag:img}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-disp-failure.png}
+            \caption{Disparity map calculated from \ref{fig:pattern-compare:zigzag:img} and the corresponding right image.}
+            \label{fig:pattern-compare:zigzag:disp}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-ptcld-failure.png}
+            \caption{Point cloud produced from the disparity data in \ref{fig:pattern-compare:zigzag:disp}.}
+            \label{fig:pattern-compare:zigzag:ptcld}
+        \end{subfigure}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}[b]{\textwidth}
+        % Generated from "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_sept_5\\cloth\\pvc_2000_0_0_0_bin_18"
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/check-left-failure.png}
+            \caption{Left camera image with checkered background.}
+            \label{fig:pattern-compare:check:img}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/check-disp-failure.png}
+            \caption{Disparity map calculated from \ref{fig:pattern-compare:check:img} and the corresponding right image.}
+            \label{fig:pattern-compare:check:disp}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/check-ptcld-failure.png}
+            \caption{Point cloud produced from the disparity data in \ref{fig:pattern-compare:check:disp}.}
+            \label{fig:pattern-compare:check:ptcld}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{Comparison of sample data with the zigzag background and the checkered background. In both of the cases shown the object
+        was not successfully detected. Note the region of high disparity in the upper right corner of the backdrop shown in \ref{fig:pattern-compare:check:disp},
+        which is not seen in \ref{fig:pattern-compare:zigzag:disp}.}
+    \label{fig:pattern-compare}
+\end{figure}
+
+The failures with the zigzag background do not appear to be a result of incorrect disparity data like the checkered background failures. 
+Fig. \ref{fig:zigzag-fail-2} and \ref{fig:zigzag-fail-3} show sample data from two more failure cases with the zigzag background. Neither
+Fig. \ref{fig:zigzag-fail-2:disp} nor \ref{fig:zigzag-fail-3:disp} show erroneous disparity artifacts such as seen in Fig. \ref{fig:pattern-compare:check:disp}.
+Instead, the failures seem to be related to the Hough line detection. Fig. \ref{fig:zigzag-fail-2:ptcld-front} and \ref{fig:zigzag-fail-3:ptcld-front} 
+show that the test object was not even identified as a target line (as it is shown in black and has no line drawn through it). This suggests that
+the line did not meet the minimum vote threshold, or it had few enough votes that there were 10 higher voted incorrect lines.
+Fig. \ref{fig:zigzag-fail-2:ptcld-side} and \ref{fig:zigzag-fail-3:ptcld-side} show that the test object was split up somewhat in 
+the z axis, which may explain why its vote count was low. Lowering the minimum Hough vote threshold or raising the maximum number
+of lines could help with this, though could also increase false detections due to poor quality background depth data.
+
+
+\begin{figure}[H]
+    \centering
+    % Generated from "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_sept_5\\blanket\\pvc_2000_0_0_0_bin_18"
     \begin{subfigure}[b]{\textwidth}
         \begin{subfigure}[b]{0.45\textwidth}
             \centering
-        \includegraphics[width=\textwidth]{sections/discussion/sample-ptrn-left.png}
-        \caption{Left camera grayscale image.}
-        \label{fig:issues-background:img}
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-img-failure-2.png}
+            \caption{Left camera image with the zigzag background pattern.}
+            \label{fig:zigzag-fail-2:img}
         \end{subfigure}
         \hfill
         \begin{subfigure}[b]{0.45\textwidth}
             \centering
-            \includegraphics[width=\textwidth]{sections/discussion/ptrn-thresh-disp.png}
-            \caption{Disparity map.}
-            \label{fig:issues-background:disp}
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-disp-failure-2.png}
+            \caption{Disparity map produced from \ref{fig:zigzag-fail-2:img} and the corresponding right image.}
+            \label{fig:zigzag-fail-2:disp}
         \end{subfigure}
     \end{subfigure}
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{sections/discussion/ptrn-thresh-ptcloud.png}
-        \caption{Point cloud data.}
-        \label{fig:issues-background:ptcld}
-    \end{subfigure}
     \vfill
-    \caption{Sample image acquired from the left camera (\ref{fig:issues-background:img}), the corresponding disparity map
-    (\ref{fig:issues-background:disp}), and the resulting point cloud (\ref{fig:issues-background:ptcld}). Note the region
-    of high disparity in the lower right corner of \ref{fig:issues-background:disp}, which is shown as the selected
-    line candidate in \ref{fig:issues-background:ptcld}. Also note the dark regions of the backdrop in \ref{fig:issues-background:img}
-    that are included in the foreground points in \ref{fig:issues-background:ptcld}, showing the limitations of using 
-    intensity based thresholding for background removal.}
-    \label{fig:issues-background}
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-ptcld-failure-2-front.png}
+            \caption{Front view of the point cloud produced from the disparity data in \ref{fig:zigzag-fail-2:disp}.}
+            \label{fig:zigzag-fail-2:ptcld-front}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-ptcld-failure-2-side.png}
+            \caption{Side view of the same point cloud shown in \ref{fig:zigzag-fail-2:ptcld-front}.}
+            \label{fig:zigzag-fail-2:ptcld-side}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{}
+    \label{fig:zigzag-fail-2}
 \end{figure}
 
+
+\begin{figure}[H]
+    \centering
+    % Generated from "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_sept_5\\blanket\\pvc_2000_0_0_0_bin_7"
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-img-failure-3.png}
+            \caption{Left camera image with the zigzag background pattern.}
+            \label{fig:zigzag-fail-3:img}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-disp-failure-3.png}
+            \caption{Disparity map produced from \ref{fig:zigzag-fail-3:img} and the corresponding right image.}
+            \label{fig:zigzag-fail-3:disp}
+        \end{subfigure}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-ptcld-failure-3-front.png}
+            \caption{Front view of the point cloud produced from the disparity data in \ref{fig:zigzag-fail-3:disp}.}
+            \label{fig:zigzag-fail-3:ptcld-front}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-ptcld-failure-3-side.png}
+            \caption{Side view of the same point cloud shown in \ref{fig:zigzag-fail-3:ptcld-front}.}
+            \label{fig:zigzag-fail-3:ptcld-side}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{}
+    \label{fig:zigzag-fail-3}
+\end{figure}
