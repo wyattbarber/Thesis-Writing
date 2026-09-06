@@ -8,37 +8,6 @@ the background removal is effective enough to compensate for poor performance of
 This is illustrated in Fig. \ref{fig:fitler-compare}, which shows point clouds generated with and without
 background removal enabled.
 
-\begin{figure}[H]
-    \centering
-    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_cart_res_0\\wall_w_filter\\pvc_2000_0_0_0_0_bin_4"
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{sections/discussion/sample-left.png}
-        \caption{Left camera grayscale image.}
-        \label{fig:filter-compare:img}
-    \end{subfigure}
-    \vfill
-    \begin{subfigure}[b]{\textwidth}
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{sections/discussion/nothresh-ptcloud.png}
-            \caption{Point cloud generated without background removal.}
-            \label{fig:filter-compare:ptcld-nothresh}
-        \end{subfigure}
-        \hfill
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{sections/discussion/thresh-ptcloud.png}
-            \caption{Point cloud generated with background removal.}
-            \label{fig:filter-compare:ptcld-thresh}
-        \end{subfigure}
-    \end{subfigure}
-    \caption{Sample image acquired from the left camera (\ref{fig:filter-compare:img}) and the point clouds generated from it,
-        showing the difference between point clouds without background removal (\ref{fig:filter-compare:ptcld-nothresh}) where
-        the perch is barely distinguishable against the incorrectly matched background, and with background removal 
-        (\ref{fig:filter-compare:ptcld-thresh}) where nearly all the incorrect points have been removed.}
-    \label{fig:fitler-compare}
-\end{figure}
 
 
 The lower performance of the patterned background appears to be the result of two primary causes:

@@ -351,31 +351,101 @@ with only one object (a black, 22mm diameter PVC pipe) in the frame. The object 
 object and cameras y-axis) $\theta = 0^\circ$ and elevation angle (angle between the cameras x-y plane and the object) $\phi = 0^\circ$.
 
 The image processing program was started by the script found in appendix \ref{app:data-coll-code}. Once the output of the program indicated that at least one
-candidate line had been detected, the program was run for 2 minutes. The script monitored the detection results via serial terminal and saved the position, 
+candidate line had been detected, the program was run until 20 updates had been produced. The script monitored the detection results via serial terminal and saved the position, 
 orientation, and dimensions of the detected object each time a new update was produced by the detection program. At each new update the script also triggered the
 program to save a binary file containing both left and right images, the calculated disparity and confidence map, the filtered point cloud, and information about the 
 identified line candidates with labels for all points in the point cloud that belong to a line candidate.
 
 This test was performed for the following combinations of object poses. All angles were measured to be within $5^\circ$ of the target value using the "Clinometer" Android app,
-and the distances measured within $5mm$ via tape measure. 
+and the distances measured within $5mm$ via tape measure. Smaller distances were not tested due to limitations of the stereo camera device; smaller distances require a higher number of disparities to detect,
+and higher disparities produce a larger margin on the left side of the image where no depth data is available. At distances much smaller than 500mm the required number of disparities 
+causes nearly half the image to be without depth data.
 
 \begin{itemize}
-    \item $d = 5000mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
+    \item $d = 500mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
     \item $d = 1000mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
     \item $d = 2000mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
 \end{itemize}
 
-These three trials were then repeated with the object in front of a zigzag background pattern. 
-The motivation for this test is to compare the success rate in best and worst case conditions; the 
-flat white wall tends to be the most difficult case for the \texttt{StereoSGBM} algorithm to process due to the lack of 
-features for stereo matching to use. The zigzag background serves as a more optimistic performance test.
+These three trials were repeated with the object in front of 3 different backgrounds:
+\begin{itemize}
+    \item A white, flat, featureless wall.
+    \item A black and white zigzag patterned backdrop.
+    \item A black and white checker patterned backdrop.
+\end{itemize}
+These different backgrounds are tested to determine how the image processing pipeline handles different background 
+geometries. On one hand, the \texttt{StereoSGBM} algorithm used to calculate stereo disparity tends to fail in large 
+textureless regions such as a white wall; since it is based on matching blocks pixels in the left and right image, 
+there is nothing to distinguish correct from incorrect matches if those blocks have no unique textures. 
+Fig. \ref{fig:fitler-compare} illustrates the issue with a comparison of point clouds against a white wall with and without
+background filtering.
+On the other hand, the background removal filter will perform optimally against a white wall where the background pixels all fall neatly
+into the high-intensity pixel class. In a background with more textures and objects for \texttt{StereoSGBM} to match,
+the darker pixels that pass through the background filter may still lead to more incorrect lines detected in an image.
+Testing against two different patterned backgrounds aims to assess how different geometries and pattern sizes may impact 
+the performance of the completed pipeline. Fig. \ref{fig:backdrop-patterns} shows the two patterns used.
+
+\begin{figure}[H]
+    \centering
+    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_cart_res_0\\wall_w_filter\\pvc_2000_0_0_0_0_bin_4"
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{sections/methods/sample-left.png}
+        \caption{Left camera grayscale image.}
+        \label{fig:filter-compare:img}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/nothresh-ptcloud.png}
+            \caption{Point cloud generated without background removal.}
+            \label{fig:filter-compare:ptcld-nothresh}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/thresh-ptcloud.png}
+            \caption{Point cloud generated with background removal.}
+            \label{fig:filter-compare:ptcld-thresh}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{Sample image acquired from the left camera (\ref{fig:filter-compare:img}) and the point clouds generated from it,
+        showing the difference between point clouds without background removal (\ref{fig:filter-compare:ptcld-nothresh}) where
+        the perch is barely distinguishable against the incorrectly matched background, and with background removal 
+        (\ref{fig:filter-compare:ptcld-thresh}) where nearly all the incorrect points have been removed.}
+    \label{fig:fitler-compare}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/background-zigzag.jpg}
+            \caption{The zigzag backdrop pattern.}
+            \label{fig:backdrop-patterns:zigzag}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/background-checker.jpg}
+            \caption{The checkered backdrop pattern.}
+            \label{fig:backdrop-patterns:checker}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{Close-up of the two patterned backdrops used in the tests.}
+    \label{fig:backdrop-patterns}
+\end{figure}
 
 
 Table \ref{tab:vision-test-cases} shows all test cases that were performed. 
 In each test trial against the white wall background, the camera was 3830mm away from the wall. In each of
 the tests with a zigzag backdrop, the backdrop was placed 550mm behind the test object.
 Fig. \ref{fig:setup-wall} and \ref{fig:setup-zigzag} show images of the testing setup for the plain white wall
-and zigzag pattern backgrounds, respectively.
+and zigzag pattern backgrounds, respectively. The setup for the checkered pattern was identical to the zigzag pattern,
+but with a different backdrop panel behind the object.
 
 \begin{table}[H]
     \centering
@@ -383,10 +453,17 @@ and zigzag pattern backgrounds, respectively.
     \label{tab:vision-test-cases}
     \begin{tabular}{|c||c|}
         \hline
-        Case Number & Background Type \\
+        Test Number & Background Type & Distance [mm] \\
         \hline
-        1 & White \\
-        2 & Zigzag \\
+        1 & White & 500 \\
+        2 & White & 1000 \\
+        3 & White & 1000 \\
+        4 & Zigzag & 500 \\
+        5 & Zigzag & 1000 \\
+        6 & Zigzag & 2000 \\
+        7 & Checker & 500 \\
+        8 & Checker & 1000 \\
+        9 & Checker & 2000 \\
         \hline
     \end{tabular}
 \end{table}
@@ -438,7 +515,10 @@ and zigzag pattern backgrounds, respectively.
 \end{figure}
 
 
+
 \subsection{Perch Detection Validation Data Analysis}
+
+\subsubsection{Success Rate} \label{sec:methods:analysis-success-rate}
 
 The first analysis performed on the detection data was determining how often the device correctly detected the object. This 
 was done using the binary files saved in the data collection process alongside the script in appendix \ref{app:label-code}.
@@ -542,3 +622,46 @@ When labelling samples as valid or in valid, the following two criteria were use
     \ref{fig:label-ex-bad:2} is invalid for both lack of intersection and too large an angle.}
     \label{fig:label-ex-bad}
 \end{figure}
+
+
+\subsubsection{Accuracy}
+
+
+
+\subsection{Perch Detection Multi-Object Detection}
+
+To verify the software's ability to correctly detect the closest perch when multiple possibly valid candidates are present, 
+some of the tests in table \ref{tab:vision-test-cases} were repeated with a second object placed behind the intended target. 
+The second object was another black PVC pipe, placed at a $30^\circ$ angle relative to the target object and __mm behind it.
+The test cases 2,3,5,6,8, and 9 (all backgrounds, 1000mm and 2000mm distances) were repeated, and the detection success rate was 
+measured by labelling the results as described in Section \ref{sec:methods:analysis-success-rate}. Fig. \ref{fig:multi-object}
+shows the multi-object setup against the white wall background.
+
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/2-obj-side.jpg}
+            \caption{Close-up side view of the 2 object setup.}
+            \label{fig:multi-object:side}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/2-obj-front.jpg}
+            \caption{Front view, showing the camera's perspective.}
+            \label{fig:multi-object:front}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{The setup for testing perch detection with multiple objects present, showing the
+        intended perch vertical from the floor and the secondary object behind it at an angle.
+        The additional white pipe across the floor is simply a counterbalance to keep the test objects upright.}
+    \label{fig:multi-object}
+\end{figure}
+
+
+The tests at 500mm distance were not included in the multi-object tests because at that close distance the second object was 
+close enough to the edge of the picture that it was cropped out of the depth data. Those tests then provided no value in
+determining the effects of multiple objects in the frame, since the second object could not be detected at anyhow.
