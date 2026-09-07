@@ -157,3 +157,63 @@ of lines could help with this, though could also increase false detections due t
     \ref{fig:zigzag-fail-3:ptcld-side} shows the test object was not identified as a candidate line.}
     \label{fig:zigzag-fail-3}
 \end{figure}
+
+
+\subsection{Multiple Object Success Rate}
+
+Table \ref{tab:success-rates-dist-multi} shows that, against the flat white background, adding a second object behind the first did not
+impact the success rate. The checkered background does not show a significant difference (p > 0.05 via Chi-Squared test with 1 degree of freedom)
+between the results with one or two objects. 
+
+The results for the zigzag backdrop do display a significant change in success rate, interestingly an increase. 
+Inspecting the results showed that issues such as illustrated in Fig. \ref{fig:zigzag-fail-2} and \ref{fig:zigzag-fail-3},
+where the test object is not recognized as a line in the point cloud, did not happen as often when the second object was added.
+Fig. \ref{fig:zigzag-2obj-compare} illustrates the difference between sample point clouds with one and two objects. 
+
+How the addition of the second object could have improved the overall point cloud quality and increased the successful 
+detection rate is not clear; it may be that this change was instead caused by slight variation in the backdrop placement
+between these two tests or other uncontrolled variables.
+
+
+\begin{figure}[H]
+    \centering
+    % Generated from "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_sept_5\\blanket\\pvc_2000_0_0_0_bin_18"
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-left-failure-4.png}
+            \caption{Left camera image with a single test object.}
+            \label{fig:zigzag-2obj-compare:left-single}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-ptcld-failure-4.png}
+            \caption{Point cloud generated from \ref{fig:zigzag-2obj-compare:left-single}, 
+                in which the test object has not been detected as a candidate.}
+            \label{fig:zigzag-2obj-compare:ptcld-single}
+        \end{subfigure}
+    \end{subfigure}
+    \vfill
+    % Generated from "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_sept_5\\blanket_2_obj\\pvc_2000_0_0_0_bin_18"
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-left-2-obj.png}
+            \caption{Left camera image with a single test object.}
+            \label{fig:zigzag-2obj-compare:left-double}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-ptcld-2-obj.png}
+            \caption{Point cloud generated from \ref{fig:zigzag-2obj-compare:left-double}, 
+                in which the test object has not been detected as a candidate.}
+            \label{fig:zigzag-2obj-compare:ptcld-double}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{Sample data from a test with a single object (\ref{fig:zigzag-2obj-compare:left-single} and \ref{fig:zigzag-2obj-compare:ptcld-single})
+    in which the object was not correctly detected, and with two objects (\ref{fig:zigzag-2obj-compare:left-double} and \ref{fig:zigzag-2obj-compare:ptcld-double})
+    in which the object was correctly detected. Note in \ref{fig:zigzag-2obj-compare:ptcld-double} how the test object is correctly detected, shown as the light green
+    points vertically arranged in the center of the point cloud, and the second object is not detected as a candidate line.}
+\end{figure}
