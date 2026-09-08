@@ -159,10 +159,46 @@ of lines could help with this, though could also increase false detections due t
 \end{figure}
 
 
+\subsection{Perch Detection Accuracy}
+
+Table \ref{tab:dist-error} and Fig. \ref{fig:dist-error} show a downward trend in the distance errors as the object gets closer to the camera, with errors at 500mm 
+distance averaging 10mm. The standard deviation of errors also decreases between 1000mm and 500mm distance. Both trends
+are promising for the devices potential to guide a drone to a perch; the errors both decrease and the measurement becomes
+more stable as the drone approaches.
+
+Interestingly, the distance measurement errors have zero standard deviation at 2000mm distance; all measured distances are identical. 
+This can also be seen in the elevation angle measurement errors at 2000mm, in table \ref{tab:elev-error} and Fig. \ref{fig:elev-error}. 
+This may be a result of the depth measurement quantization.
+Since depth is measured from pixel disparity, depth is quantized with a step size depending on the camera's calibration data. 
+
+The quantization of depth data is not linear; the step size is higher at larger distances. 
+So at small distances the measurement noise is larger than the step size, allowing the object to be detected in a variety of positions. 
+At large distances the quantization step is larger than the measurement noise, 
+so the object is only ever detected in one depth plane. 
+
+For the elevation angle, the variation is larger at small distances because the 
+small quantization step allows the object to be detected tilted across multiple depth planes. But at larger distances the step size is
+again larger than the measurement noise, so the object is only ever detected in one exactly vertical depth plane.
+
+The azimuth angle errors in table \ref{tab:azim-error} and Fig. \ref{fig:azim-error} show a trend of increasing average error 
+and increasing standard deviation as the distance to the object decreases.
+This may be due to how the Hough transform detects line direction: once points are identified that are all close to a highly voted line,
+the line parameters are refined by PCA on the points assigned to that line. When the object is close to the camera, it appears
+wider in the frame than when it is far. This will cause its first principal component, which is used as the refined direction
+of the line, to shift away from the intended central axis of the object towards the diagonal across the rectangle the object appears
+as on-screen. This causes azimuth angle error to increase as the object gets closer, or more specifically as the object appears wider
+relative to the image frame.
+
+That the azimuth error increases and becomes more variable as distance decreases could pose an issue for using this device to guide a drone
+to a perch. The azimuth angle would be critical for setting the yaw controls of the drone such that it is correctly aligned with the perch.
+If this control destabilizes as the drone approaches the perch, that would guide the drone to the incorrect target position and cause perching 
+to fail. Solving this issue would likely require changing how line positions are detected and refined in the Hough transform algorithm.
+
+
 \subsection{Multiple Object Success Rate}
 
 Table \ref{tab:success-rates-dist-multi} shows that, against the flat white background, adding a second object behind the first did not
-impact the success rate. The checkered background does not show a significant difference (p > 0.05 via Chi-Squared test with 1 degree of freedom)
+impact the success rate. The checkered background does not show a significant difference (p \> 0.05 via Chi-Squared test with 1 degree of freedom)
 between the results with one or two objects. 
 
 The results for the zigzag backdrop do display a significant change in success rate, interestingly an increase. 
@@ -216,4 +252,5 @@ between these two tests or other uncontrolled variables.
     in which the object was not correctly detected, and with two objects (\ref{fig:zigzag-2obj-compare:left-double} and \ref{fig:zigzag-2obj-compare:ptcld-double})
     in which the object was correctly detected. Note in \ref{fig:zigzag-2obj-compare:ptcld-double} how the test object is correctly detected, shown as the light green
     points vertically arranged in the center of the point cloud, and the second object is not detected as a candidate line.}
+    \label{fig:zigzag-2obj-compare}
 \end{figure}

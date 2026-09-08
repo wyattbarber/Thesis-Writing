@@ -41,11 +41,85 @@ was tested.
     \end{tabular}
 \end{table}
 
+\subsection{Perch Detection Accuracy}
+
+Data for each error metric are shown in the following tables: distance errors in table \ref{tab:dist-error}, azimuth errors 
+in table \ref{tab:azim-error}, and elevation errors in table \ref{tab:elev-error}.
+Scatter plots showing the distributions of errors for all samples are also shown: distance errors in Fig. \ref{fig:dist-error}, azimuth errors 
+in Fig. \ref{fig:azim-error}, and elevation errors in Fig. \ref{fig:elev-error}.
+
+\begin{table}[H]
+    \centering
+    \caption{Distance measurement errors vs object distance.}
+    \label{tab:dist-error}
+    \begin{tabular}{|c|c||c|}
+        \hline
+        True Distance [mm] & Average Error [mm] & Error Standard Deviation [mm]\\
+        \hline
+        500 & -9.7 & 2.0 \\
+        1000 & -32.9 & 4.9 \\
+        2000 & -73.4 & 0.0 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Azimuth angle measurement errors vs object distance.}
+    \label{tab:azim-error}
+    \begin{tabular}{|c|c||c|}
+        \hline
+        True Distance [mm] & Average Error [deg] & Error Standard Deviation [deg] \\
+        \hline
+        500 & 3.9 & 2.7 \\
+        1000 & 2.1 & 0.2 \\
+        2000 & 0.9 & 0.5 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Elevation angle measurement errors vs object distance.}
+    \label{tab:elev-error}
+    \begin{tabular}{|c|c||c|}
+        \hline
+        True Distance [mm] & Average Error [deg] & Error Standard Deviation [deg] \\
+        \hline
+        500 & 3.5 & 1.1 \\
+        1000 & 3.7 & 0.5 \\
+        2000 & 0.0 & 0.0 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{sections/results/dist-error.png}
+    \caption{Distance measurement errors versus actual distance to object for all tests.}
+    \label{fig:dist-error}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{sections/results/azimuth-error.png}
+    \caption{Azimuth angle measurement errors versus distance to object for all tests.}
+    \label{fig:azim-error}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{sections/results/elevation-error.png}
+    \caption{Elevation angle measurement errors versus distance to object for all tests.}
+    \label{fig:elev-error}
+\end{figure}
+
+
 
 \subsection{Multi Object Success Rate}
 
 Table \ref{tab:success-rates-multi} shows the success rate for each background when a second object was added behind the intended target.
-Table \ref{tab:success-rates-multi-dist} shows the success rates for the same tests but split out by individual distances.
+Table \ref{tab:success-rates-dist-multi} shows the success rates for the same tests but split out by individual distances.
 
 \begin{table}[H]
     \centering
