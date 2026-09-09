@@ -1,10 +1,74 @@
 \subsection{Application of Perching Drones}
 
-\subsubsection{Environmental Monitoring}
-
 \subsubsection{Infrastructure Inspection}
 
+Drones show potential for the automation of inspecting and maintaining infrastructure such as power lines. Chen et al. propose
+a method for using lidar mounted on UAVs to measure clearance around transmission line corridors. Performing
+checks for encroaching vegetation regularly and quickly is critical for preventing power outages and wildfires caused by encroaching
+vegetation. Done manually, this task is slow and inefficient due to the large distances and rough unmanaged terrain that 
+must be covered. Drones may perform this task faster as they are unencumbered by the terrain and may move faster
+than humans on foot or in land vehicles \cite{chen_automatic_2018}.
+
+Chen et al. developed a clearance measurement system that was deployed on a large UAV; they did not specify the size beyond "large" but the
+sensor module they describe building uses a RIEGL VZ-400i LiDAR scanner, which has a specified mass of 9.7kg, and there are other sensors in the
+module besides the LiDAR \cite{chen_automatic_2018}. With a mass exceeding 9kg, it is not a device that a typical small quadrotor drone could carry.
+
+There are benefits to using small drones for power line inspection; a small drone could extend its mission time by attaching to the power line
+and charging inductively using a design such as the one proposed by Hoang et al. \cite{hoang_autonomous_2024} or Kitchen et al. \cite{kitchen_design_2020}.
+
+The device designed by Hoang et al., shown in Fig. \ref{fig:clasp}, consists of a grasper, a charging circuit and a guidance system. The grasper is passively actuated 
+by ribbons that are drawn closed as the drone pushes against the bottom of the power line. Once closer, the grasper is held shut electromagnetically, using
+current harvested from the power line. The guidance system implemented uses a radar for measuring distance to power lines and an RGB camera for 
+measuring the orientation of the line \cite{hoang_autonomous_2024}.    
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{screenshots/clasp-1.png}
+            \caption{Close-up side view of the perching device.}
+            \label{fig:clasp:1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{screenshots/clasp-2.png}
+            \caption{Perching device and drone attached to a power line.}
+            \label{fig:clasp:2}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{An example of a perching mechanism designed to attach to and charge from power lines. \ref{fig:clasp:1} shows
+    a close up of the grasper and charging device, \ref{fig:clasp:2} shows the device and drone attached to a power line.
+    Adapted from \cite{hoang_autonomous_2024}.}
+    \label{fig:clasp}
+\end{figure}
+
+Hoang et al. demonstrated that their design was successful, with a field test lasting over two hours and containing 5 cycles of 
+autonomously attaching to a power line, charging, then detaching and resuming flight \cite{hoang_autonomous_2024}.
+
+The device designed by Kitchen et al. is similar to that designed by Hoang et al. The devices design is
+illustrated in Fig. \ref{fig:kitchen-grasper}. It consists of a grasper and an inductive charging circuit, 
+their grasper is actively actuated rather than passively. Kitchen et al. did not 
+develop an autonomous detection and guidance system, and performed their testing in a laboratory environment by 
+manually placing a drone on a simulated perch \cite{kitchen_design_2020}.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{screenshots/kitchen-grasper.png}
+    \caption{An example of an actively actuated perching mechanism designed to attach 
+        to and charge from power lines. Adapted from \cite{kitchen_design_2020}.}
+    \label{fig:kitchen-grasper}
+\end{figure}
+
+
+\subsubsection{Environmental Monitoring}
+
+
 \subsubsection{Networking}
+
+
 
 
 \subsection{Modes of Perching}
@@ -35,15 +99,9 @@ both in static testing and when dropped onto a perch \cite{chi_optimized_2014}.
 \end{figure}
 
 Though many grasping based perching mechanisms are inspired by avian biomechanics, some take a different approach and attach a drone to a perch from the bottom via a mechanical clasping mechanism.
-One such device is that proposed by Hoang et al., shown in Fig. \ref{fig:clasp}, which is intended for use in power line inspection. It uses ribbons to passively close an electromagnetic clasp once the drone has approached 
-the appropriate position below a power line. Once closed, current harvested from the power line can be used to keep clasp closed as well as recharge the drone \cite{hoang_autonomous_2024}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{screenshots/clasp.png}
-    \caption{Alternative grasping based perching mechanism, intended to attach a drone beneath a powerline. Adapted from \cite{hoang_autonomous_2024}.}
-    \label{fig:clasp}
-\end{figure}
+The device proposed by Hoang et al. shown in Fig. \ref{fig:clasp}, which is intended for use in power line inspection, is such a device.
+It uses ribbons to passively close an electromagnetic clasp once the drone has approached the appropriate position below a power line. 
+Once closed, current harvested from the power line can be used to keep clasp closed as well as recharge the drone \cite{hoang_autonomous_2024}.
 
 The device designed by Kominami et al., shown in Fig. \ref{fig:passive}, is another grasping type device that grasps a perch beneath the drone. 
 A distinguishing feature of this design is that it is passively driven; the grasping force is provided by the weight of the drone on top of the grasper \cite{kominami_detection_2023}.
@@ -54,7 +112,6 @@ A distinguishing feature of this design is that it is passively driven; the gras
     \caption{A passively actuated perching mechanism that uses the drones weight to provide the grasping force. Adapted from \cite{kominami_detection_2023}.}
     \label{fig:passive}
 \end{figure}
-
 
 
 \subsubsection{Embedding}
