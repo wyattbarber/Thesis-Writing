@@ -10,12 +10,28 @@
 \renewcommand{\maketitle}{%
     \begin{titlepage}  
         \begin{center}
-            \@title\\
+            { \huge \@title}\\
+            \vspace{\baselineskip}
             \@author\\
-            \@date\\
-            \vspace*{\fill}
-            Grand Valley State University\\
-            School of Engineering \\
+            \vspace{\baselineskip}\vspace{\baselineskip}\vspace{\baselineskip}\vspace{\baselineskip}
+            \vspace{\baselineskip}\vspace{\baselineskip}\vspace{\baselineskip}\vspace{\baselineskip}
+            \vspace{\baselineskip}
+            A Thesis Submitted to the Graduate Faculty of\\
+            \vspace{\baselineskip}
+            GRAND VALLEY STATE UNIVERSITY\\
+            \vspace{\baselineskip}
+            In\\
+            \vspace{\baselineskip}
+            Partial Fulfillment of the Requirements \\
+            \vspace{\baselineskip}
+            For the Degree of \\
+            \vspace{\baselineskip}
+            Master of Science in Engineering \\             
+            \vspace{\baselineskip}\vspace{\baselineskip}\vspace{\baselineskip}\vspace{\baselineskip}
+            Department of Electrical and Computer Engineering \\
+            \vspace{\baselineskip}\vspace{\baselineskip}\vspace{\baselineskip}\vspace{\baselineskip}
+            \vspace{\baselineskip}\vspace{\baselineskip}\vspace{\baselineskip}\vspace{\baselineskip}
+            December 2026\\
         \end{center}
     \end{titlepage}
 }
@@ -23,7 +39,7 @@
 
 \begin{document}
 
-\title{{\huge MSE Thesis}\\Design of a UAV perching mechanism for low power, long term data collection}
+\title{Design of a UAV Perching Device for Detection and Grasping}
 
 \author{Wyatt Barber}
 \date{\today}
@@ -33,10 +49,14 @@
 
 \section{Approval}
 
+\setcounter{page}{2}
+\begin{doublespace}
 
 \section{Abstract} % (max 350 words)
 
 \input{sections/abstract}
+
+\end{doublespace}
 
 
 \section{Table of Contents}
@@ -51,6 +71,7 @@
 \subsection{List of Tables}
 \listoftables
 
+\begin{doublespace}
 
 \section{Introduction}
 \input{sections/intro}
@@ -72,6 +93,12 @@
 \section{Discussion}
 
 \input{sections/discussion/software}
+    
+\end{doublespace}
+
+
+\section{References}
+\printbibliography[heading=none]
 
 
 \begin{appendices}
@@ -115,13 +142,8 @@
 
 \end{appendices}
 
-\section{References}
-\printbibliography[heading=none]
 
-
-\section{Submission Agreement}
-
-
+%\section{Submission Agreement}
 
 
 \end{document}
