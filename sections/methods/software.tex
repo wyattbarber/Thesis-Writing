@@ -365,6 +365,99 @@ Fig. \ref{fig:cal-left}, \ref{fig:cal-right}, and \ref{fig:cal-stereo} show the 
 \end{figure}
 
 
+
+\subsection{Perch Detection Validation Data Analysis}
+
+\subsubsection{Success Rate} \label{sec:methods:analysis-success-rate}
+
+The first analysis performed on the detection data was determining how often the device correctly detected the object. This 
+was done using the binary files saved in the data collection process alongside the script in appendix \ref{app:label-code}.
+The script displays the left camera image from each file and overlays the selected line candidate, alongside colored dots 
+indicating all points that are part of a candidate line. This allows the user to accept an image as a valid detection, or
+reject it if something appears to have gone wrong in the processing. The script then saves a JSON file containing the 
+overall success rate as a percentage of the files that were accepted by the user, as well as a boolean flag for each file
+indicating if the user accepted or rejected it. Fig. \ref{fig:label-gui} shows an example of what the script displays to the
+user to label samples.
+
+When labelling samples as valid or in valid, the following two criteria were used for determining if a detection was valid:
+\begin{itemize}
+    \item The line drawn to show the detected object must intersect somewhere with the real object.
+    \item The line drawn to show the detected object must be approximately $10^\circ$ or less away from parallel to the real object.
+\end{itemize}
+Tables \ref{tab:label-ex-good} and \ref{tab:label-ex-bad} show examples of samples that are labelled valid and invalid,
+respectively. For clarification of how to interpret the displayed point cloud data, refer to Section \ref{sec:conv:ptcld}.
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{sections/methods/label_gui.png}
+    \caption{
+        Example output of the GUI used to label samples as valid or invalid detections.
+        The method of displaying and interpreting point cloud data is explained in Section \ref{sec:conv:ptcld}.}
+    \label{fig:label-gui}
+\end{figure}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Sample images shown by the labelling GUI that are labelled as valid. \\
+        The method of displaying and interpreting point cloud data is explained in Section \ref{sec:conv:ptcld}.}
+    \label{tab:label-ex-good}
+    \begin{tabular}{
+        |>{\raggedright\arraybackslash}m{0.33\textwidth}||
+        >{\raggedright\arraybackslash}m{0.15\textwidth}|}
+        \hline
+        Sample Image & Label \\
+        \hline
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_good_1.png} & Valid \\
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_good_2.png} & Valid \\
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_good_3.png} & Valid \\
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_good_4.png} & Valid \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Sample images shown by the labelling GUI that are labelled as invalid. \\
+        The method of displaying and interpreting point cloud data is explained in Section \ref{sec:conv:ptcld}.}
+    \label{tab:label-ex-bad}
+    \begin{tabular}{
+        |>{\raggedright\arraybackslash}m{0.33\textwidth}||
+        >{\raggedright\arraybackslash}m{0.15\textwidth}|
+        >{\raggedright\arraybackslash}m{0.33\textwidth}|}
+        \hline
+        Sample Image & Label & Reason \\
+        \hline
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_bad_1.png} & Invalid & {
+            Detected line more than $10^\circ$ from the real object.}\\
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_bad_2.png} & Invalid & {Detected line does not 
+            intersect the real object and is more than $10^\circ$ from the real object.}\\
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_bad_3.png} & Invalid & {Detected line more than $10^\circ$
+            from the real object.}\\
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_bad_4.png} & Invalid & {Detected line does not intersect
+            the real object.}\\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Accuracy} \label{sec:methods:analysis-accuracy}
+
+To assess the accuracy of the perch detection, all samples that were marked as valid were checked for the following error metrics:
+\begin{itemize}
+    \item Measured vs actual distance to perch.
+    \item Measured vs actual perch azimuth.
+    \item Measured vs actual perch elevation.
+    \item Measured vs actual perch width.
+\end{itemize} 
+
+Mean and standard deviations of each error metric were recorded for each distance in tables \ref{tab:dist-error},
+\ref{tab:elev-error}, and \ref{tab:azim-error}. All backgrounds were aggregated together.
+
+
+
 \subsection{Perch Detection Validation Data Collection}
 
 To first test the detection methods performance under the most controlled conditions, the device was placed facing a flat white wall, indoors,
@@ -466,7 +559,10 @@ In each test trial against the white wall background, the camera was 3830mm away
 the tests with a zigzag backdrop, the backdrop was placed 550mm behind the test object.
 Fig. \ref{fig:setup-wall} and \ref{fig:setup-zigzag} show images of the testing setup for the plain white wall
 and zigzag pattern backgrounds, respectively. The setup for the checkered pattern was identical to the zigzag pattern,
-but with a different backdrop panel behind the object.
+but with a different backdrop panel behind the object. The success rate of detection was calculated for each background,
+according to the method in Section \ref{sec:methods:analysis-success-rate}, and recorded in tables
+\ref{tab:success-rates} and \ref{tab:success-rates-dist}.
+
 
 \begin{table}[H]
     \centering
@@ -536,106 +632,15 @@ but with a different backdrop panel behind the object.
 \end{figure}
 
 
-\subsection{Perch Detection Validation Data Analysis}
-
-\subsubsection{Success Rate} \label{sec:methods:analysis-success-rate}
-
-The first analysis performed on the detection data was determining how often the device correctly detected the object. This 
-was done using the binary files saved in the data collection process alongside the script in appendix \ref{app:label-code}.
-The script displays the left camera image from each file and overlays the selected line candidate, alongside colored dots 
-indicating all points that are part of a candidate line. This allows the user to accept an image as a valid detection, or
-reject it if something appears to have gone wrong in the processing. The script then saves a JSON file containing the 
-overall success rate as a percentage of the files that were accepted by the user, as well as a boolean flag for each file
-indicating if the user accepted or rejected it. Fig. \ref{fig:label-gui} shows an example of what the script displays to the
-user to label samples.
-
-When labelling samples as valid or in valid, the following two criteria were used for determining if a detection was valid:
-\begin{itemize}
-    \item The line drawn to show the detected object must intersect somewhere with the real object.
-    \item The line drawn to show the detected object must be approximately $10^\circ$ or less away from parallel to the real object.
-\end{itemize}
-Tables \ref{tab:label-ex-good} and \ref{tab:label-ex-bad} show examples of samples that are labelled valid and invalid,
-respectively. For clarification of how to interpret the displayed point cloud data, refer to Section \ref{sec:conv:ptcld}.
-
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{sections/methods/label_gui.png}
-    \caption{
-        Example output of the GUI used to label samples as valid or invalid detections.
-        The method of displaying and interpreting point cloud data is explained in Section \ref{sec:conv:ptcld}.}
-    \label{fig:label-gui}
-\end{figure}
-
-
-\begin{table}[H]
-    \centering
-    \caption{Sample images shown by the labelling GUI that are labelled as valid. \\
-        The method of displaying and interpreting point cloud data is explained in Section \ref{sec:conv:ptcld}.}
-    \label{tab:label-ex-good}
-    \begin{tabular}{
-        |>{\raggedright\arraybackslash}m{0.33\textwidth}||
-        >{\raggedright\arraybackslash}m{0.15\textwidth}|}
-        \hline
-        Sample Image & Label \\
-        \hline
-        \includegraphics[width=0.33\textwidth]{sections/methods/label_good_1.png} & Valid \\
-        \includegraphics[width=0.33\textwidth]{sections/methods/label_good_2.png} & Valid \\
-        \includegraphics[width=0.33\textwidth]{sections/methods/label_good_3.png} & Valid \\
-        \includegraphics[width=0.33\textwidth]{sections/methods/label_good_4.png} & Valid \\
-        \hline
-    \end{tabular}
-\end{table}
-
-
-\begin{table}[H]
-    \centering
-    \caption{Sample images shown by the labelling GUI that are labelled as invalid. \\
-        The method of displaying and interpreting point cloud data is explained in Section \ref{sec:conv:ptcld}.}
-    \label{tab:label-ex-bad}
-    \begin{tabular}{
-        |>{\raggedright\arraybackslash}m{0.33\textwidth}||
-        >{\raggedright\arraybackslash}m{0.15\textwidth}|
-        >{\raggedright\arraybackslash}m{0.33\textwidth}|}
-        \hline
-        Sample Image & Label & Reason \\
-        \hline
-        \includegraphics[width=0.33\textwidth]{sections/methods/label_bad_1.png} & Invalid & {
-            Detected line more than $10^\circ$ from the real object.}\\
-        \includegraphics[width=0.33\textwidth]{sections/methods/label_bad_2.png} & Invalid & {Detected line does not 
-            intersect the real object and is more than $10^\circ$ from the real object.}\\
-        \includegraphics[width=0.33\textwidth]{sections/methods/label_bad_3.png} & Invalid & {Detected line more than $10^\circ$
-            from the real object.}\\
-        \includegraphics[width=0.33\textwidth]{sections/methods/label_bad_4.png} & Invalid & {Detected line does not intersect
-            the real object.}\\
-        \hline
-    \end{tabular}
-\end{table}
-
-
-
-\subsubsection{Accuracy} \label{sec:methods:analysis-accuracy}
-
-To assess the accuracy of the perch detection, all samples that were marked as valid were checked for the following error metrics:
-\begin{itemize}
-    \item Measured vs actual distance to perch.
-    \item Measured vs actual perch azimuth.
-    \item Measured vs actual perch elevation.
-    \item Measured vs actual perch width.
-\end{itemize} 
-
-Mean and standard deviations of each error metric were recorded for each distance. All backgrounds were aggregated together.
-
-
 \subsection{Perch Detection Multi-Object Detection}
 
 To verify the software's ability to correctly detect the closest perch when multiple possibly valid candidates are present, 
 some of the tests in table \ref{tab:vision-test-cases} were repeated with a second object placed behind the intended target. 
 The second object was another black PVC pipe, placed at a $30^\circ$ angle relative to the target object and \_mm behind it.
-The test cases 2,3,5,6,8, and 9 (all backgrounds, 1000mm and 2000mm distances) were repeated, and the detection success rate was 
-measured by labelling the results as described in Section \ref{sec:methods:analysis-success-rate}. Fig. \ref{fig:multi-object}
-shows the multi-object setup against the white wall background.
+The test cases 2,3,5,6,8, and 9 (all backgrounds, 1000mm and 2000mm distances) were repeated, the detection success rate was 
+measured by labelling the results as described in Section \ref{sec:methods:analysis-success-rate}, and the results recorded in 
+tables \ref{tab:success-rates-multi} and \ref{tab:success-rates-dist-multi}. 
+Fig. \ref{fig:multi-object} shows the multi-object setup against the white wall background.
 
 
 \begin{figure}[H]
@@ -665,5 +670,4 @@ shows the multi-object setup against the white wall background.
 The tests at 500mm distance were not included in the multi-object tests because at that close distance the second object was 
 close enough to the edge of the picture that it was cropped out of the depth data. Those tests then provided no value in
 determining the effects of multiple objects in the frame, since the second object could not be detected at anyhow.
-
 
