@@ -534,97 +534,64 @@ When labelling samples as valid or in valid, the following two criteria were use
     \item The line drawn to show the detected object must intersect somewhere with the real object.
     \item The line drawn to show the detected object must be approximately $10^\circ$ or less away from parallel to the real object.
 \end{itemize}
+Tables \ref{tab:label-ex-good} and \ref{tab:label-ex-bad} show examples of samples that are labelled valid and invalid,
+respectively.
 
 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{sections/methods/label_gui.png}
-    \caption{Example of the GUI used to label samples as valid or invalid detections.}
+    \caption{Example output of the GUI used to label samples as valid or invalid detections.}
     \label{fig:label-gui}
 \end{figure}
 
 
-\begin{figure}[H]
+\begin{table}[H]
     \centering
-    \begin{subfigure}[b]{\textwidth}
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{sections/methods/label_good_1.png}
-            \caption{}
-            \label{fig:label-ex-good:1}
-        \end{subfigure}
-        \hfill
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{sections/methods/label_good_2.png}
-            \caption{}
-            \label{fig:label-ex-good:2}
-        \end{subfigure}
-    \end{subfigure}
-    \begin{subfigure}[b]{\textwidth}
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{sections/methods/label_good_3.png}
-            \caption{}
-            \label{fig:label-ex-good:3}
-        \end{subfigure}
-        \hfill
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{sections/methods/label_good_4.png}
-            \caption{}
-            \label{fig:label-ex-good:4}
-        \end{subfigure}
-    \end{subfigure}
-    \caption{Examples of data samples that would be labelled as valid detections. Note that though the image
-    in \ref{fig:label-ex-good:2} is on the edge of being invalid, it was determined that it was overlapping the real object 
-    enough to be marked valid.}
-    \label{fig:label-ex-good}
-\end{figure}
+    \caption{Sample images shown by the labelling GUI that are labelled as valid.}
+    \label{tab:label-ex-good}
+    \begin{tabular}{
+        |>{\raggedright\arraybackslash}m{0.33\textwidth}||
+        >{\raggedright\arraybackslash}m{0.15\textwidth}|}
+        \hline
+        Sample Image & Label \\
+        \hline
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_good_1.png} & Valid \\
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_good_2.png} & Valid \\
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_good_3.png} & Valid \\
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_good_4.png} & Valid \\
+        \hline
+    \end{tabular}
+\end{table}
 
 
-\begin{figure}[H]
+\begin{table}[H]
     \centering
-    \begin{subfigure}[b]{\textwidth}
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{sections/methods/label_bad_1.png}
-            \caption{}
-            \label{fig:label-ex-bad:1}
-        \end{subfigure}
-        \hfill
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{sections/methods/label_bad_2.png}
-            \caption{}
-            \label{fig:label-ex-bad:2}
-        \end{subfigure}
-    \end{subfigure}
-    \begin{subfigure}[b]{\textwidth}
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{sections/methods/label_bad_3.png}
-            \caption{}
-            \label{fig:label-ex-bad:3}
-        \end{subfigure}
-        \hfill
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{sections/methods/label_bad_4.png}
-            \caption{}
-            \label{fig:label-ex-bad:4}
-        \end{subfigure}
-    \end{subfigure}
-    \caption{Examples of data samples that would be labelled as invalid detections. \ref{fig:label-ex-bad:1} and 
-    \ref{fig:label-ex-bad:3} are invalid due to the detected line not being close enough to parallel with the real object.
-    \ref{fig:label-ex-bad:4} is invalid due to the detected line not intersecting with the real object. 
-    \ref{fig:label-ex-bad:2} is invalid for both lack of intersection and too large an angle.}
-    \label{fig:label-ex-bad}
-\end{figure}
+    \caption{Sample images shown by the labelling GUI that are labelled as invalid.}
+    \label{tab:label-ex-bad}
+    \begin{tabular}{
+        |>{\raggedright\arraybackslash}m{0.33\textwidth}||
+        >{\raggedright\arraybackslash}m{0.15\textwidth}|
+        >{\raggedright\arraybackslash}m{0.33\textwidth}|}
+        \hline
+        Sample Image & Label & Reason \\
+        \hline
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_bad_1.png} & Invalid & {
+            Detected line more than $10^\circ$ from the real object.}\\
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_bad_2.png} & Invalid & {Detected line does not 
+            intersect the real object and is more than $10^\circ$ from the real object.}\\
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_bad_3.png} & Invalid & {Detected line more than $10^\circ$
+            from the real object.}\\
+        \includegraphics[width=0.33\textwidth]{sections/methods/label_bad_4.png} & Invalid & {Detected line does not intersect
+            the real object.}\\
+        \hline
+    \end{tabular}
+\end{table}
 
 
-\subsubsection{Accuracy}
+
+\subsubsection{Accuracy} \label{sec:methods:analysis-accuracy}
 
 To assess the accuracy of the perch detection, all samples that were marked as valid were checked for the following error metrics:
 \begin{itemize}

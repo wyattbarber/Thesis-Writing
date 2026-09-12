@@ -1,0 +1,1 @@
+{"rule":"PHRASE_REPETITION","sentence":"^\\QSample Image Label Valid Valid Valid Valid\\E$"}
