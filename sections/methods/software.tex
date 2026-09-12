@@ -555,21 +555,24 @@ When labelling samples as valid or in valid, the following two criteria were use
     \item The line drawn to show the detected object must be approximately $10^\circ$ or less away from parallel to the real object.
 \end{itemize}
 Tables \ref{tab:label-ex-good} and \ref{tab:label-ex-bad} show examples of samples that are labelled valid and invalid,
-respectively.
+respectively. For clarification of how to interpret the displayed point cloud data, refer to Section \ref{sec:conv:ptcld}.
 
 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{sections/methods/label_gui.png}
-    \caption{Example output of the GUI used to label samples as valid or invalid detections.}
+    \caption{
+        Example output of the GUI used to label samples as valid or invalid detections.
+        The method of displaying and interpreting point cloud data is explained in Section \ref{sec:conv:ptcld}.}
     \label{fig:label-gui}
 \end{figure}
 
 
 \begin{table}[H]
     \centering
-    \caption{Sample images shown by the labelling GUI that are labelled as valid.}
+    \caption{Sample images shown by the labelling GUI that are labelled as valid. \\
+        The method of displaying and interpreting point cloud data is explained in Section \ref{sec:conv:ptcld}.}
     \label{tab:label-ex-good}
     \begin{tabular}{
         |>{\raggedright\arraybackslash}m{0.33\textwidth}||
@@ -588,7 +591,8 @@ respectively.
 
 \begin{table}[H]
     \centering
-    \caption{Sample images shown by the labelling GUI that are labelled as invalid.}
+    \caption{Sample images shown by the labelling GUI that are labelled as invalid. \\
+        The method of displaying and interpreting point cloud data is explained in Section \ref{sec:conv:ptcld}.}
     \label{tab:label-ex-bad}
     \begin{tabular}{
         |>{\raggedright\arraybackslash}m{0.33\textwidth}||
@@ -661,3 +665,5 @@ shows the multi-object setup against the white wall background.
 The tests at 500mm distance were not included in the multi-object tests because at that close distance the second object was 
 close enough to the edge of the picture that it was cropped out of the depth data. Those tests then provided no value in
 determining the effects of multiple objects in the frame, since the second object could not be detected at anyhow.
+
+

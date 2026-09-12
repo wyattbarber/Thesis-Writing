@@ -67,7 +67,8 @@ that \texttt{StereoSGBM} was configured to use, leading to incorrect block match
         Note the region of high disparity in the upper right corner of the backdrop shown in 
         \ref{fig:pattern-compare:check:disp} which is not seen in \ref{fig:pattern-compare:zigzag:disp}.
         This type of incorrect disparity is present in most of the samples with a checker background, causing
-        its low success rate.}
+        its low success rate.
+        The method of displaying and interpreting point cloud data is explained in Section \ref{sec:conv:ptcld}.}
     \label{fig:pattern-compare}
 \end{figure}
 
@@ -118,7 +119,8 @@ of lines could help with this, though could also increase false detections due t
     \end{subfigure}
     \caption{Sample failure case with the zigzag background. Note that the point cloud in 
     \ref{fig:zigzag-fail-2:ptcld-front} and \ref{fig:zigzag-fail-2:ptcld-side} shows 
-    the test object was not identified as a candidate line.}
+    the test object was not identified as a candidate line.
+    The method of displaying and interpreting point cloud data is explained in Section \ref{sec:conv:ptcld}.}
     \label{fig:zigzag-fail-2}
 \end{figure}
 
@@ -159,7 +161,8 @@ of lines could help with this, though could also increase false detections due t
     \end{subfigure}
     \caption{Sample failure case with the zigzag background. 
     Note that the point cloud in \ref{fig:zigzag-fail-3:ptcld-front} and \ref{fig:zigzag-fail-3:ptcld-side} 
-    shows the test object was not identified as a candidate line.}
+    shows the test object was not identified as a candidate line.
+    The method of displaying and interpreting point cloud data is explained in Section \ref{sec:conv:ptcld}.}
     \label{fig:zigzag-fail-3}
 \end{figure}
 
@@ -256,6 +259,7 @@ between these two tests or other uncontrolled variables.
     \caption{Sample data from a test with a single object (\ref{fig:zigzag-2obj-compare:left-single} and \ref{fig:zigzag-2obj-compare:ptcld-single})
     in which the object was not correctly detected, and with two objects (\ref{fig:zigzag-2obj-compare:left-double} and \ref{fig:zigzag-2obj-compare:ptcld-double})
     in which the object was correctly detected. Note in \ref{fig:zigzag-2obj-compare:ptcld-double} how the test object is correctly detected, shown as the light green
-    points vertically arranged in the center of the point cloud, and the second object is not detected as a candidate line.}
+    points vertically arranged in the center of the point cloud, and the second object is not detected as a candidate line.
+    The method of displaying and interpreting point cloud data is explained in Section \ref{sec:conv:ptcld}.}
     \label{fig:zigzag-2obj-compare}
 \end{figure}

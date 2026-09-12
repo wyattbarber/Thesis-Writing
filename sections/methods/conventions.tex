@@ -1,0 +1,50 @@
+\subsection{Conventions}
+
+\subsubsection{Coordinate System} \label{sec:conv:coord}
+
+\subsubsection{Measurements} \label{sec:conv:meas}
+
+
+\subsubsection{Point Cloud Rendering} \label{sec:conv:ptcld}
+
+Point cloud data shown in this thesis contains data about 3D points, as 
+well as lines that were detected by the perch detection algorithm. 
+To display multiple detected lines in point cloud data, points that are assigned
+to a line are shown with a color, while other background is shown in black and white. 
+Point cloud data is displayed in one of two ways:
+\begin{itemize}
+    \item As a screenshot of point cloud data displayed in 3D, as shown in Fig. \ref{fig:ptcld-display}
+    \item Overlaid on the image captured by the left camera, from which the point cloud was taken, 
+        as shown in Fig. \ref{fig:ptcld-overlay}
+\end{itemize}
+
+Note that in both displays, the different colors used have no specific meaning; the only intent of the different 
+colors is to visually distinguish clusters of points that belong to different lines.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{sections/discussion/zigzag-ptcld-2-obj.png}
+    \caption{
+        Example of a point cloud display. For each line, the points that belong to it are shown by highlighting
+        those points a different color. The lines are also drawn in the point cloud to precisely show their detected
+        size and orientation. Only one line is selected as the correct candidate object, and it is drawn in blue. The
+        rejected candidate lines are drawn in red. In this example the selected candidate is near the center of the image,
+        vertical, and the points belonging to it are shown in lime green. Since it was selected as the correct object,
+        its precise size and orientation are shown with a thin blue line passing through the cluster of lime green points.
+    }
+    \label{fig:ptcld-display}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{sections/methods/label_bad_3.png}
+    \caption{
+        Example of a point cloud overlaid on a grayscale image. Each detected line is shown by projecting the points 
+        belonging to it into the 2D image coordinates and highlighting those points a unique color. The line selected
+        as the correct object as a solid red line drawn through it showing its precise position and orientation. This
+        sample includes many lines that do not correspond to real objects, due to poorly generated disparity data over the 
+        textureless backgorund.
+    }
+    \label{fig:ptcld-overlay}
+\end{figure}
