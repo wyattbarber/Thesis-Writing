@@ -62,9 +62,12 @@ that \texttt{StereoSGBM} was configured to use, leading to incorrect block match
             \label{fig:pattern-compare:check:ptcld}
         \end{subfigure}
     \end{subfigure}
-    \caption{Comparison of sample data with the zigzag background and the checkered background. In both of the cases shown the object
-        was not successfully detected. Note the region of high disparity in the upper right corner of the backdrop shown in \ref{fig:pattern-compare:check:disp},
-        which is not seen in \ref{fig:pattern-compare:zigzag:disp}.}
+    \caption{Comparison of sample data with the zigzag background and the checkered background. 
+        In both of the cases shown the object was not successfully detected. 
+        Note the region of high disparity in the upper right corner of the backdrop shown in 
+        \ref{fig:pattern-compare:check:disp} which is not seen in \ref{fig:pattern-compare:zigzag:disp}.
+        This type of incorrect disparity is present in most of the samples with a checker background, causing
+        its low success rate.}
     \label{fig:pattern-compare}
 \end{figure}
 
@@ -113,8 +116,9 @@ of lines could help with this, though could also increase false detections due t
             \label{fig:zigzag-fail-2:ptcld-side}
         \end{subfigure}
     \end{subfigure}
-    \caption{Sample failure case with the zigzag background. Note that the point cloud in \ref{fig:zigzag-fail-2:ptcld-front} and
-    \ref{fig:zigzag-fail-2:ptcld-side} shows the test object was not identified as a candidate line.}
+    \caption{Sample failure case with the zigzag background. Note that the point cloud in 
+    \ref{fig:zigzag-fail-2:ptcld-front} and \ref{fig:zigzag-fail-2:ptcld-side} shows 
+    the test object was not identified as a candidate line.}
     \label{fig:zigzag-fail-2}
 \end{figure}
 
@@ -153,8 +157,9 @@ of lines could help with this, though could also increase false detections due t
             \label{fig:zigzag-fail-3:ptcld-side}
         \end{subfigure}
     \end{subfigure}
-    \caption{Sample failure case with the zigzag background. Note that the point cloud in \ref{fig:zigzag-fail-3:ptcld-front} and
-    \ref{fig:zigzag-fail-3:ptcld-side} shows the test object was not identified as a candidate line.}
+    \caption{Sample failure case with the zigzag background. 
+    Note that the point cloud in \ref{fig:zigzag-fail-3:ptcld-front} and \ref{fig:zigzag-fail-3:ptcld-side} 
+    shows the test object was not identified as a candidate line.}
     \label{fig:zigzag-fail-3}
 \end{figure}
 

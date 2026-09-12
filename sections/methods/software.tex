@@ -33,8 +33,9 @@ image processing pipeline and how data flows between them.
         pc -> ht ;%[label="Down-Sampled Point Cloud"];
         ht -> s ;%[label="Position, Orientation, and Dimensions of Candidate Lines"];        
     }
-    \caption{Diagram of the dataflow for the proposed image processing pipeline, starting from image aquisition on the top
-        to generation of coordinates for the detected perch on the bottom.}
+    \caption{Diagram of the data flow for the proposed image processing pipeline, 
+        starting from image acquisition on the top to generation of coordinates for 
+        the detected perch on the bottom.}
     \label{fig:sw-flow}
 \end{figure}
 
@@ -302,7 +303,14 @@ Fig. \ref{fig:cal-left}, \ref{fig:cal-right}, and \ref{fig:cal-stereo} show the 
         \caption{After removing outliers.}
         \label{fig:cal-left-2}
     \end{subfigure}
-    \caption{Calibration visualizations for the left camera, before (\ref{fig:cal-left-1}) and after (\ref{fig:cal-left-2}) iterative outlier removal.}
+    \caption{Calibration visualizations for the left camera, before (\ref{fig:cal-left-1}) and after 
+        (\ref{fig:cal-left-2}) iterative outlier removal. The data in \ref{fig:cal-left-2} represents 
+        the final calibration that was saved and used. The center image in \ref{fig:cal-left-2} shows
+        that the reprojection errors are approximately zero-mean in both x and y directions, and the 
+        distribution is approximately circular, which indicates that the calibration was successful. 
+        The image on the right of \ref{fig:cal-left-2} shows all detected calibration markers as yellow circles,
+        placed at the location in the image frame they were detected. This shows that there are no areas of the 
+        image frame for which no calibration samples are available.}
     \label{fig:cal-left}
 \end{figure}
 
@@ -321,7 +329,14 @@ Fig. \ref{fig:cal-left}, \ref{fig:cal-right}, and \ref{fig:cal-stereo} show the 
         \caption{After removing outliers.}
         \label{fig:cal-right-2}
     \end{subfigure}
-    \caption{Calibration visualizations for the right camera, before (\ref{fig:cal-right-1}) and after (\ref{fig:cal-right-2}) iterative outlier removal.}
+    \caption{Calibration visualizations for the right camera, before (\ref{fig:cal-right-1}) and after 
+        (\ref{fig:cal-right-2}) iterative outlier removal.  The data in \ref{fig:cal-right-2} represents 
+        the final calibration that was saved and used. The center image in \ref{fig:cal-right-2} shows
+        that the reprojection errors are approximately zero-mean in both x and y directions, and the 
+        distribution is approximately circular, which indicates that the calibration was successful. 
+        The image on the right of \ref{fig:cal-right-2} shows all detected calibration markers as yellow circles,
+        placed at the location in the image frame they were detected. This shows that there are no areas of the 
+        image frame for which no calibration samples are available.}
     \label{fig:cal-right}
 \end{figure}
 
@@ -340,9 +355,15 @@ Fig. \ref{fig:cal-left}, \ref{fig:cal-right}, and \ref{fig:cal-stereo} show the 
         \caption{After removing outliers.}
         \label{fig:cal-stereo-2}
     \end{subfigure}
-    \caption{Calibration visualizations for the stereo pair, before (\ref{fig:cal-stereo-1}) and after (\ref{fig:cal-stereo-2}) iterative outlier removal.}
+    \caption{Calibration visualizations for the stereo pair, before (\ref{fig:cal-stereo-1}) and after 
+    (\ref{fig:cal-stereo-2}) iterative outlier removal. The scatter plots at the bottom of \ref{fig:cal-stereo-2}
+    show that the reprojection errors are approximately zero mean in the x and y directions for both cameras, and
+    that the error vector distribution is approximately circular. Right camera errors show some non-circular clustering
+    and distortion compared to the left camera errors, and the right camera errors are also larger in magnitude, but this
+    does not seem to have prevented valid depth data from being collected.}
     \label{fig:cal-stereo}
 \end{figure}
+
 
 \subsection{Perch Detection Validation Data Collection}
 
@@ -513,7 +534,6 @@ but with a different backdrop panel behind the object.
     shows a side view of the same scene. There the green device can still be seen on the right side of the image.}
     \label{fig:setup-zigzag}
 \end{figure}
-
 
 
 \subsection{Perch Detection Validation Data Analysis}
