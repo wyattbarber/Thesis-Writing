@@ -1,5 +1,6 @@
 \subsection{Perch Detection Success Rate}
 
+\subsubsection{Success Rate with Single Object}
 For each test trial in table \ref{tab:vision-test-cases}, table \ref{tab:success-rates} shows
 the percentage of samples in which the object was correctly detected. Table \ref{tab:success-rates-dist}
 shows the same data, but with success rates reported for each distance between camera and object that 
@@ -39,6 +40,45 @@ Section \ref{sec:methods:analysis-success-rate}.
         Zigzag & 2000 & 50.0 \\
         Checker & 500 & 90.0 \\
         Checker & 1000 & 5.0 \\
+        Checker & 2000 & 0.0 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\subsubsection{Success Rate with Additional Object}
+
+Table \ref{tab:success-rates-multi} shows the success rate for each background when a second object was added behind the intended target.
+Table \ref{tab:success-rates-dist-multi} shows the success rates for the same tests but split out by individual distances.
+
+\begin{table}[H]
+    \centering
+    \caption{Detection success rate for each background tested with two objects.}
+    \label{tab:success-rates-multi}
+    \begin{tabular}{|c||c|}
+        \hline
+        Background & Success Rate [\%] \\
+        \hline
+        White & 100.0  \\
+        Zigzag & 90.0 \\
+        Checker & 0.0 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Detection success rate for each background and distance tested with two objects.}
+    \label{tab:success-rates-dist-multi}
+    \begin{tabular}{|c|c||c|}
+        \hline
+        Background & Distance to Object [mm] & Success Rate [\%] \\
+        \hline
+        White & 1000 & 100.0 \\
+        White & 2000 & 100.0 \\
+        Zigzag & 1000 & 100.0 \\
+        Zigzag & 2000 & 80.0 \\
+        Checker & 1000 & 0.0 \\
         Checker & 2000 & 0.0 \\
         \hline
     \end{tabular}
@@ -140,43 +180,3 @@ values.
     \caption{Elevation angle measurement errors versus distance to object for all tests.}
     \label{fig:elev-error}
 \end{figure}
-
-
-
-\subsection{Multi Object Success Rate}
-
-Table \ref{tab:success-rates-multi} shows the success rate for each background when a second object was added behind the intended target.
-Table \ref{tab:success-rates-dist-multi} shows the success rates for the same tests but split out by individual distances.
-
-\begin{table}[H]
-    \centering
-    \caption{Detection success rate for each background tested with two objects.}
-    \label{tab:success-rates-multi}
-    \begin{tabular}{|c||c|}
-        \hline
-        Background & Success Rate [\%] \\
-        \hline
-        White & 100.0  \\
-        Zigzag & 90.0 \\
-        Checker & 0.0 \\
-        \hline
-    \end{tabular}
-\end{table}
-
-\begin{table}[H]
-    \centering
-    \caption{Detection success rate for each background and distance tested with two objects.}
-    \label{tab:success-rates-dist-multi}
-    \begin{tabular}{|c|c||c|}
-        \hline
-        Background & Distance to Object [mm] & Success Rate [\%] \\
-        \hline
-        White & 1000 & 100.0 \\
-        White & 2000 & 100.0 \\
-        Zigzag & 1000 & 100.0 \\
-        Zigzag & 2000 & 80.0 \\
-        Checker & 1000 & 0.0 \\
-        Checker & 2000 & 0.0 \\
-        \hline
-    \end{tabular}
-\end{table}

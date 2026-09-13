@@ -484,13 +484,13 @@ Fig. \ref{fig:cal-left}, \ref{fig:cal-right}, and \ref{fig:cal-stereo} show the 
 
 
 
-\subsection{Perch Detection Validation Data Analysis}
+\subsection{Perch Detection Data Analysis}
 
 \subsubsection{Success Rate} \label{sec:methods:analysis-success-rate}
 
-The first analysis performed on the detection data was determining how often the device correctly detected the object. This 
-was done using the binary files saved in the data collection process alongside the script in appendix \ref{app:label-code}.
-The script displays the left camera image from each file and overlays the selected line candidate, alongside colored dots 
+To determine the success rate of perch detection, samples were manually labelled as valid or invalid detections
+using the script in appendix \ref{app:label-code}.
+The script uses binary files saved in the data collection process display the left camera image from each file and overlays the selected line candidate, alongside colored dots 
 indicating all points that are part of a candidate line. This allows the user to accept an image as a valid detection, or
 reject it if something appears to have gone wrong in the processing. The script then saves a JSON file containing the 
 overall success rate as a percentage of the files that were accepted by the user, as well as a boolean flag for each file
@@ -504,7 +504,6 @@ When labelling samples as valid or in valid, the following two criteria were use
 \end{itemize}
 Tables \ref{tab:label-ex-good} and \ref{tab:label-ex-bad} show examples of samples that are labelled valid and invalid,
 respectively. For clarification of how to interpret the displayed point cloud data, refer to Section \ref{sec:conv:ptcld}.
-
 
 
 \begin{figure}[H]
@@ -576,8 +575,9 @@ Mean and standard deviations of each error metric were recorded for each distanc
 
 
 
-\subsection{Perch Detection Validation Data Collection}
+\subsection{Perch Detection Data Collection}
 
+\subsubsection{Detecting a Single Object}
 To first test the detection methods performance under the most controlled conditions, the device was placed facing a flat white wall, indoors,
 with only one object (a black, 22mm diameter PVC pipe) in the frame. The object was placed at a distance $d = 1000mm$ from the camera, at an azimuth angle (angle between
 object and cameras y-axis) $\theta = 0^\circ$ and elevation angle (angle between the cameras x-y plane and the object) $\phi = 0^\circ$.
@@ -718,7 +718,7 @@ according to the method in Section \ref{sec:methods:analysis-success-rate}, and 
 \end{figure}
 
 
-\subsection{Perch Detection Multi-Object Detection}
+\subsubsection{Detection with an Additional Object}
 
 To verify the software's ability to correctly detect the closest perch when multiple possibly valid candidates are present, 
 some of the tests in table \ref{tab:vision-test-cases} were repeated with a second object placed behind the intended target. 
