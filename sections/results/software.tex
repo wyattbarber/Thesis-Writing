@@ -3,7 +3,10 @@
 For each test trial in table \ref{tab:vision-test-cases}, table \ref{tab:success-rates} shows
 the percentage of samples in which the object was correctly detected. Table \ref{tab:success-rates-dist}
 shows the same data, but with success rates reported for each distance between camera and object that 
-was tested.
+was tested. Each success rate in table \ref{tab:success-rates-dist} are the percent of the 20 total
+samples for that background and distance that were marked as valid, using the procedure described in 
+Section \ref{sec:methods:analysis-success-rate}.
+
 
 \begin{table}[H]
     \centering
@@ -41,6 +44,7 @@ was tested.
     \end{tabular}
 \end{table}
 
+
 \subsection{Perch Detection Accuracy}
 
 Data for each error metric are shown in the following tables: distance errors in table \ref{tab:dist-error}, azimuth errors 
@@ -48,11 +52,31 @@ in table \ref{tab:azim-error}, and elevation errors in table \ref{tab:elev-error
 Scatter plots showing the distributions of errors for all samples are also shown: distance errors in Fig. \ref{fig:dist-error}, azimuth errors 
 in Fig. \ref{fig:azim-error}, and elevation errors in Fig. \ref{fig:elev-error}.
 
+Since only the valid samples were used to calculate detection errors, the sample count used for error calculations is given in
+table \ref{tab:error-sample-counts}. This is calculated as the sum of samples that 
+were marked valid at each distance for all backgrounds, using the success rates in table \ref{tab:success-rates-dist}.
+
+
+\begin{table}[H]
+    \centering
+    \caption{Distance measurement errors vs object distance.}
+    \label{tab:error-sample-counts}
+    \begin{tabular}{|c||c|c|}
+        \hline
+        True Distance [mm] & Valid Sample Count\\
+        \hline
+        500 & 58 \\
+        1000 & 41 \\
+        2000 & 30 \\
+        \hline
+    \end{tabular}
+\end{table}
+
 \begin{table}[H]
     \centering
     \caption{Distance measurement errors vs object distance.}
     \label{tab:dist-error}
-    \begin{tabular}{|c|c||c|}
+    \begin{tabular}{|c||c|c|}
         \hline
         True Distance [mm] & Average Error [mm] & Error Standard Deviation [mm]\\
         \hline
@@ -67,9 +91,9 @@ in Fig. \ref{fig:azim-error}, and elevation errors in Fig. \ref{fig:elev-error}.
     \centering
     \caption{Azimuth angle measurement errors vs object distance.}
     \label{tab:azim-error}
-    \begin{tabular}{|c|c||c|}
+    \begin{tabular}{|c||c|c|}
         \hline
-        True Distance [mm] & Average Error [deg] & Error Standard Deviation [deg] \\
+        True Distance [mm] & Average Error [deg] & Error Standard Deviation [deg]\\
         \hline
         500 & 3.9 & 2.7 \\
         1000 & 2.1 & 0.2 \\
@@ -82,9 +106,9 @@ in Fig. \ref{fig:azim-error}, and elevation errors in Fig. \ref{fig:elev-error}.
     \centering
     \caption{Elevation angle measurement errors vs object distance.}
     \label{tab:elev-error}
-    \begin{tabular}{|c|c||c|}
+    \begin{tabular}{|c||c|c|}
         \hline
-        True Distance [mm] & Average Error [deg] & Error Standard Deviation [deg] \\
+        True Distance [mm] & Average Error [deg] & Error Standard Deviation [deg]\\
         \hline
         500 & 3.5 & 1.1 \\
         1000 & 3.7 & 0.5 \\
