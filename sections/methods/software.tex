@@ -10,15 +10,15 @@ image processing pipeline and how data flows between them.
         rankdir=TB;
         graph [splines=ortho];
 
-        lc [label="Left Camera Frame Acquisition" shape=box];
-        rc [label="Right Camera Frame Acquisition" shape=box];
-        ls [label="Left Stereo Block Matching" shape=box];
-        rs [label="Right Stereo Block Matching" shape=box];
-        f [label="Weighted Least Squares Filtering" shape=box];
-        bg [label="Background Separation" shape=box];
-        pc [label="Point Cloud Projection and Downsampling" shape=box];
-        ht [label="3D Hough Transform" shape=box];
-        s [label="Best Candidate Selection" shape=box];
+        lc [label="1a: Left Camera Frame Acquisition" shape=box];
+        rc [label="1b: Right Camera Frame Acquisition" shape=box];
+        ls [label="2a: Left Stereo Block Matching" shape=box];
+        rs [label="2b: Right Stereo Block Matching" shape=box];
+        f [label="3: Weighted Least Squares Filtering" shape=box];
+        bg [label="4: Background Separation" shape=box];
+        pc [label="5: Point Cloud Projection and Downsampling" shape=box];
+        ht [label="6: 3D Hough Transform" shape=box];
+        s [label="7: Best Candidate Selection" shape=box];
 
         lc -> ls ;%[label="Left Side Image"];
         lc -> rs ;%[label="Left Side Image"];
@@ -42,13 +42,13 @@ image processing pipeline and how data flows between them.
 
 \subsubsection{Image Acquisition}
 
-The left and right camera images were captured on a Raspberry Pi Compute Module 4, with 2 Raspberry Pi Camera V2 modules. 
+In steps 1a and 1b in Fig. \ref{fig:sw-flow}, the left and right camera images were captured on a Raspberry Pi Compute Module 4, with 2 Raspberry Pi Camera V2 modules. 
 The \texttt{libcamera} library was used for interfacing with the cameras and reading in images. The images were captured in 8-bit 
 grayscale, with height of 600px and width of 800px.
 
 \subsubsection{Stereo Block Matching}
 
-The "Left Stereo Block Matching" and "Right Stereo Block Matching" items in Fig. \ref{fig:sw-flow} were performed with 
+Steps 2a and 2b, "Left Stereo Block Matching" and "Right Stereo Block Matching" items in Fig. \ref{fig:sw-flow}, were performed with 
 the \texttt{StereoSGBM} class from OpenCV \cite{bradski_opencv_2000}. The left matcher was constructed with the arguments 
 shown in table \ref{tab:stereo-args} and \texttt{OpenCV}s \texttt{createRightMatcher} function was used to create a right matcher 
 with corresponding parameters. The "minDisparity" and "numDisparities" parameters in table \ref{tab:stereo-args} were calculated
@@ -81,9 +81,36 @@ to remove invalid disparity values, for example incorrect disparity values resul
 \end{table}
 
 
+\subsubsection{WLS Filtering}
+
+Step 4 in Fig. \ref{fig:sw-flow}, "Weighted Least Squares Filtering", used \texttt{OpenCV}s \texttt{DisparityWLSFilter} class \cite{bradski_opencv_2000} to improve the quality of the disparity data.
+This filter uses the left and right disparity to remove low quality point. It also uses the left grayscale image as a guide to fill in missing disparity values, under 
+the assumption that edges in the grayscale image should correspond to the edges in the disparity map. The filter produces two outputs: a filtered disparity map, and a
+confidence map reflecting the approximate confidence that each disparity is correct.
+
+The \texttt{DisparityWLSFilter} class has 4 arguments that influence how much smoothing it applies and how much the produced disparity follows edges
+in the guide image. The names of those arguments and the values used here are listed in table \ref{tab:wls-filter-args}.
+
+\begin{table}[H]
+    \centering
+    \caption{DisparityWLSFilter arguments used in this thesis.}
+    \label{tab:wls-filter-args}
+    \begin{tabular}{|c||c|}
+        \hline
+        Argument Name & Value \\
+        \hline
+        Lambda & 15000 \\
+        SigmaColor & 0.2 \\
+        DepthDiscontinuityRadius & 2 \\
+        LRCthresh & 24 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
 \subsubsection{Background and Foreground Segmentation}
 
-The step "Background Separation" in Fig. \ref{fig:sw-flow} was intended to help filter out background objects that were not suitable perches and 
+Step 4 "Background Separation" in Fig. \ref{fig:sw-flow} was intended to help filter out background objects that were not suitable perches and 
 were likely to contribute false positive images. In the laboratory test setup this background was a painted wall,
 which was relatively textureless, difficult for the block matching algorithm to process correctly, 
 and tends to introduce artifacts into the point cloud that get mistakenly identified as perches. 
@@ -111,36 +138,9 @@ the sky to detect a perch above the drone. A power line against the sky will app
 object against a lighter backdrop, similarly will a tree branch against a canopy illuminated by filtered sun.
 
 
-\subsubsection{WLS Filtering}
-
-The "Weighted Least Squares Filtering" step used \texttt{OpenCV}s \texttt{DisparityWLSFilter} class \cite{bradski_opencv_2000} to improve the quality of the disparity data.
-This filter uses the left and right disparity to remove low quality point. It also uses the left grayscale image as a guide to fill in missing disparity values, under 
-the assumption that edges in the grayscale image should correspond to the edges in the disparity map. The filter produces two outputs: a filtered disparity map, and a
-confidence map reflecting the approximate confidence that each disparity is correct.
-
-The \texttt{DisparityWLSFilter} class has 4 arguments that influence how much smoothing it applies and how much the produced disparity follows edges
-in the guide image. The names of those arguments and the values used here are listed in table \ref{tab:wls-filter-args}.
-
-\begin{table}[H]
-    \centering
-    \caption{DisparityWLSFilter arguments used in this thesis.}
-    \label{tab:wls-filter-args}
-    \begin{tabular}{|c||c|}
-        \hline
-        Argument Name & Value \\
-        \hline
-        Lambda & 15000 \\
-        SigmaColor & 0.2 \\
-        DepthDiscontinuityRadius & 2 \\
-        LRCthresh & 24 \\
-        \hline
-    \end{tabular}
-\end{table}
-
-
 \subsubsection{Point Cloud Generation}
 
-In the "Point Cloud Projection and Downsampling" step in Fig. \ref{fig:sw-flow}, the disparity map was converted 
+In step 5 of Fig. \ref{fig:sw-flow}, "Point Cloud Projection and Downsampling", the disparity map was converted 
 to a point cloud with \texttt{OpenCV}s \texttt{reprojectImageTo3D} function \cite{bradski_opencv_2000}.
 
 Four criteria were applied to all points in the point cloud to determine validity. They are:
@@ -171,7 +171,7 @@ the point cloud was downsampled using the following process:
 
 \subsubsection{3D Hough Transform}
 
-The "3D Hough Transform" step of Fig. \ref{fig:sw-flow} applied the algorithm proposed by Dalitz et al. \cite{dalitz_iterative_2017} 
+The "3D Hough Transform" in step 6 of Fig. \ref{fig:sw-flow} applied the algorithm proposed by Dalitz et al. \cite{dalitz_iterative_2017} 
 to the downsampled point cloud. In the Hough transform each point "votes" on possible lines in the cloud. 
 Each point represents 1 vote for all possible lines it could exist on. After the entire point cloud "voted" 
 the iterative process summarized below was followed to produce candidates:
@@ -247,7 +247,7 @@ Lines produced by the Hough transform are defined by 3 vectors:
 
 \subsubsection{Candidate Selection}
 
-The final step in Fig. \ref{fig:sw-flow}, "Best Candidate Selection", checks each candidate line identified
+The final step, number 7, in Fig. \ref{fig:sw-flow}, "Best Candidate Selection", checks each candidate line identified
 by the Hough transform and determines which line is the closest to the camera (which lines anchor point has 
 the smallest Z-coordinate). This closes line is the final output of the detection process.
 
