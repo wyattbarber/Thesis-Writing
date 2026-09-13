@@ -49,12 +49,15 @@ Section \ref{sec:methods:analysis-success-rate}.
 
 Data for each error metric are shown in the following tables: distance errors in table \ref{tab:dist-error}, azimuth errors 
 in table \ref{tab:azim-error}, and elevation errors in table \ref{tab:elev-error}.
-Scatter plots showing the distributions of errors for all samples are also shown: distance errors in Fig. \ref{fig:dist-error}, azimuth errors 
+Violin plots showing the distributions of errors for all samples are also shown: distance errors in Fig. \ref{fig:dist-error}, azimuth errors 
 in Fig. \ref{fig:azim-error}, and elevation errors in Fig. \ref{fig:elev-error}.
 
 Since only the valid samples were used to calculate detection errors, the sample count used for error calculations is given in
 table \ref{tab:error-sample-counts}. This is calculated as the sum of samples that 
 were marked valid at each distance for all backgrounds, using the success rates in table \ref{tab:success-rates-dist}.
+
+All error values are signed, rather than absolute values, to retain visibility to any bias towards under or over estimating
+values.
 
 
 \begin{table}[H]
