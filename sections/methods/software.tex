@@ -80,7 +80,6 @@ to remove invalid disparity values, for example incorrect disparity values resul
     \end{tabular}
 \end{table}
 
-
 \subsubsection{WLS Filtering}
 
 Step 4 in Fig. \ref{fig:sw-flow}, "Weighted Least Squares Filtering", used \texttt{OpenCV}s \texttt{DisparityWLSFilter} class \cite{bradski_opencv_2000} to improve the quality of the disparity data.
@@ -107,15 +106,47 @@ in the guide image. The names of those arguments and the values used here are li
     \end{tabular}
 \end{table}
 
-
 \subsubsection{Background and Foreground Segmentation}
 
 Step 4 "Background Separation" in Fig. \ref{fig:sw-flow} was intended to help filter out background objects that were not suitable perches and 
 were likely to contribute false positive images. In the laboratory test setup this background was a painted wall,
 which was relatively textureless, difficult for the block matching algorithm to process correctly, 
 and tends to introduce artifacts into the point cloud that get mistakenly identified as perches. 
+Fig. \ref{fig:filter-compare} illustrates the poor performance of block matching against a featureless background.
 In a real world scenario this background would more likely be open sky or a tree canopy, which may not be so featureless as a wall
 but may still introduce its own challenges for the block matching algorithm.
+
+\begin{figure}[H]
+    \centering
+    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_cart_res_0\\wall_w_filter\\pvc_2000_0_0_0_0_bin_4"
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{sections/methods/sample-left.png}
+        \caption{Left camera grayscale image.}
+        \label{fig:filter-compare:img}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/nothresh-ptcloud.png}
+            \caption{Point cloud generated without background removal.}
+            \label{fig:filter-compare:ptcld-nothresh}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/thresh-ptcloud.png}
+            \caption{Point cloud generated with background removal.}
+            \label{fig:filter-compare:ptcld-thresh}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{Sample image acquired from the left camera (\ref{fig:filter-compare:img}) and the point clouds generated from it.
+    \ref{fig:filter-compare:ptcld-nothresh} show the point cloud containing all background points as well, note how the test object
+    can hardly be distinguished due to the background pixels being merged with it. In \ref{fig:filter-compare:ptcld-thresh} the background
+    pixels have been removed, and the test object can be clearly identified.}
+    \label{fig:filter-compare}
+\end{figure}
 
 To remove background points from consideration, image thresholding using Otsu's method \cite{otsu_threshold_1979} is performed. 
 Otsu's method automatically determines a threshold value based on the distribution of light and dark pixels in the image. 
@@ -132,11 +163,31 @@ This process does make two critical assumptions about the images that will be en
     \item The pixels corresponding to possible perches will fall into the dark category (the background will be lighter than the perch).
 \end{enumerate}
 
+
+Table \ref{tab:background-removal} shows preliminary test results comparing the success rate, determined as described in Section \ref{sec:methods:analysis-success-rate},
+for a flat white background and a zigzag patterned background. Sample counts are also listed, since the test was run for a fixed 2m interval per distance tested,
+rather than for a fixed number of samples. The table compares success rate with and without background removal for each
+background type. The results show that this step does improve performance against a featureless background, but may have a small
+negative effect against patterned backgrounds.
+
+\begin{table}[H]
+    \centering
+    \caption{Detection success rate with and without background removal.}
+    \label{tab:background-removal}
+    \begin{tabular}{|c||c|}
+        \hline
+        Background & Sample Count & Success Rate without Background Removal [\%] & Success Rate with Background Removal [\%] \\
+        \hline
+        White & 29 & 3.3 & 50.0 \\
+        Zigzag & 33 & 63.3 & 60.6 \\
+        \hline
+    \end{tabular}
+\end{table}
+
 These assumptions hold well in the laboratory with white walls and dark test objects. 
 In field applications they may still hold in many cases, since the camera on this device is intended to be aimed towards 
 the sky to detect a perch above the drone. A power line against the sky will appear as a dark gray 
 object against a lighter backdrop, similarly will a tree branch against a canopy illuminated by filtered sun.
-
 
 \subsubsection{Point Cloud Generation}
 
@@ -167,6 +218,55 @@ the point cloud was downsampled using the following process:
     \item That point with highest confidence in its neighborhood is kept if it meets the above 4 validity criteria. If it
         does not, then it and all other points in this neighborhood were discarded.
 \end{enumerate}
+
+Preserving the highest confidence point in a neighborhood, as opposed to keeping a fraction of the highest confidence points was used in order to preserve spatial uniformity in the point cloud,
+and avoid issues such as those shown in Fig. \ref{fig:bad-downsample} where half of the image is discarded. This leads to 
+the test object not being detected in the Hough transform, because too many of its points have been discarded.
+Table \ref{tab:bad-downsample} shows the success rate, measured as described in Section \ref{sec:methods:analysis-success-rate} for a 
+preliminary set of 13 images, with the two downsampling methods. The table shows no change, this is because at the point in
+software development this step was added a number of other issues remained. This step was kept because it has a visible improvement
+on point cloud quality, as shown in Fig. \ref{fig:bad-downsample}.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/downsample-bad.png}
+            \caption{Point cloud downsampled by discarding all but the most confident 50\% of all points.}
+            \label{fig:bad-downsample:bad}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/downsample-fixed.png}
+            \caption{Point cloud downsampled by discarding the 3 least confident points in each 4x4 pixel neighborhood.}
+            \label{fig:bad-downsample:fixed}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{An example of downsampling by taking the 50\% of all points with the highest confidence, and the improvement caused by downsampling
+    in 4x4 pixel neighborhoods. When overall confidence is low the first method results in most of the lower half being discarded. 
+    In \ref{fig:bad-downsample:bad} the test object, seen as a black cluster of points in the lower right 
+    corner of the image, has had most of its lower half discarded and is not detected as a candidate as a result. In \ref{fig:bad-downsample:fixed},
+    the upper and lower halves of the point cloud have similar density, and the test object is fully formed and recognized as a line.
+    }
+    \label{fig:bad-downsample}
+\end{figure}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Detection success rate with global and neighborhood based downsampling.}
+    \label{tab:bad-downsample}
+    \begin{tabular}{|c||c|}
+        \hline
+        Downsampling Method &  Success Rate [\%] \\
+        \hline
+        Save the most confident 50\% of all points & 23.1 \\
+        Save the most confident point in each 4x4 neighborhood & 23.1 \\
+        \hline
+    \end{tabular}
+\end{table}
 
 
 \subsubsection{3D Hough Transform}
@@ -243,7 +343,6 @@ Lines produced by the Hough transform are defined by 3 vectors:
     \item Direction: A vector parallel to the line, whose magnitude is half the estimated length of the line.
     \item Normal: A vector perpendicular to the line, whose magnitude is half the estimated width of the line.
 \end{itemize}
-
 
 \subsubsection{Candidate Selection}
 
@@ -489,48 +588,16 @@ These three trials were repeated with the object in front of 3 different backgro
 \end{itemize}
 These different backgrounds are tested to determine how the image processing pipeline handles different background 
 geometries. On one hand, the \texttt{StereoSGBM} algorithm used to calculate stereo disparity tends to fail in large 
-textureless regions such as a white wall; since it is based on matching blocks pixels in the left and right image, 
+textureless regions such as a white wall, as illustrated in Fig. \ref{fig:filter-compare}; since it is based on matching blocks pixels in the left and right image, 
 there is nothing to distinguish correct from incorrect matches if those blocks have no unique textures. 
-Fig. \ref{fig:fitler-compare} illustrates the issue with a comparison of point clouds against a white wall with and without
-background filtering.
-On the other hand, the background removal filter will perform optimally against a white wall where the background pixels all fall neatly
-into the high-intensity pixel class. In a background with more textures and objects for \texttt{StereoSGBM} to match,
-the darker pixels that pass through the background filter may still lead to more incorrect lines detected in an image.
+
+On the other hand, as shown in table \ref{tab:background-removal} the background removal filter will perform optimally 
+against a white wall where the background pixels all fall neatly into the high-intensity pixel class. 
+In a background with more textures and objects for \texttt{StereoSGBM} to match, the darker pixels that pass through the
+background filter may still lead to more incorrect lines detected in an image.
+
 Testing against two different patterned backgrounds aims to assess how different geometries and pattern sizes may impact 
 the performance of the completed pipeline. Fig. \ref{fig:backdrop-patterns} shows the two patterns used.
-
-\begin{figure}[H]
-    \centering
-    % Generated with "C:\\Users\\wyatt\\Documents\\GVSU\\Thesis\\august_test_data\\idc_aug_23\\retest_cart_res_0\\wall_w_filter\\pvc_2000_0_0_0_0_bin_4"
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{sections/methods/sample-left.png}
-        \caption{Left camera grayscale image.}
-        \label{fig:filter-compare:img}
-    \end{subfigure}
-    \vfill
-    \begin{subfigure}[b]{\textwidth}
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{sections/methods/nothresh-ptcloud.png}
-            \caption{Point cloud generated without background removal.}
-            \label{fig:filter-compare:ptcld-nothresh}
-        \end{subfigure}
-        \hfill
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{sections/methods/thresh-ptcloud.png}
-            \caption{Point cloud generated with background removal.}
-            \label{fig:filter-compare:ptcld-thresh}
-        \end{subfigure}
-    \end{subfigure}
-    \caption{Sample image acquired from the left camera (\ref{fig:filter-compare:img}) and the point clouds generated from it,
-        showing the difference between point clouds without background removal (\ref{fig:filter-compare:ptcld-nothresh}) where
-        the perch is barely distinguishable against the incorrectly matched background, and with background removal 
-        (\ref{fig:filter-compare:ptcld-thresh}) where nearly all the incorrect points have been removed.}
-    \label{fig:fitler-compare}
-\end{figure}
-
 
 \begin{figure}[H]
     \centering
