@@ -268,7 +268,6 @@ on point cloud quality, as shown in Fig. \ref{fig:bad-downsample}.
     \end{tabular}
 \end{table}
 
-
 \subsubsection{3D Hough Transform}
 
 The "3D Hough Transform" in step 6 of Fig. \ref{fig:sw-flow} applied the algorithm proposed by Dalitz et al. \cite{dalitz_iterative_2017} 
@@ -316,6 +315,12 @@ The iterative process, with these modifications, is summarized as follows:
         meet the minimum vote threshold, or the maximum number of lines to count has been reached.
 \end{enumerate}
 
+Lines produced by the Hough transform are defined by 3 vectors:
+\begin{itemize}
+    \item Anchor point: A point that lies on the line, the centroid of the point cloud points close to the line.
+    \item Direction: A vector parallel to the line, whose magnitude is half the estimated length of the line.
+    \item Normal: A vector perpendicular to the line, whose magnitude is half the estimated width of the line.
+\end{itemize}
 This Hough transform, with the proposed modifications, has a number of parameters. The parameters and the values set for them 
 in this thesis are listed in table \ref{tab:hough-args}.
 
@@ -337,12 +342,26 @@ in this thesis are listed in table \ref{tab:hough-args}.
     \end{tabular}
 \end{table}
 
-Lines produced by the Hough transform are defined by 3 vectors:
-\begin{itemize}
-    \item Anchor point: A point that lies on the line, the centroid of the point cloud points close to the line.
-    \item Direction: A vector parallel to the line, whose magnitude is half the estimated length of the line.
-    \item Normal: A vector perpendicular to the line, whose magnitude is half the estimated width of the line.
-\end{itemize}
+Preliminary tests showed that the success rate was sensitive to the vote threshold parameter. 
+Table \ref{tab:hough-votes} shows success rates for a set of early test images with the vote 
+threshold set to 100 and 200. At the higher value success rate drops, because the 
+test object does not produce enough points to reach the threshold. 
+
+\begin{table}[H]
+    \centering
+    \caption{Detection success rate with minimum Hough vote threshold of 100 and 200.}
+    \label{tab:hough-votes}
+    \begin{tabular}{|c||c|}
+        \hline
+        Background & Sample Count & Success Rate with Minimum Vote of 100 [\%] & Success Rate with Minimum Vote of 200 [\%] \\
+        \hline
+        White & 29 & 100.0 & 63.3 \\
+        Zigzag & 33 & 93.9 & 72.7 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
 
 \subsubsection{Candidate Selection}
 
