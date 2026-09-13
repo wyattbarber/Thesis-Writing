@@ -70,6 +70,121 @@ This is illustrated in Fig. \ref{fig:coordinates}.
 
 \subsubsection{Measurements} \label{sec:conv:meas}
 
+There are 3 position measurements relevant for the perch detection 
+in this thesis:
+\begin{itemize}
+    \item Distance: $d$, distance along the z-axis between the camera and test object. Illustrated in Fig. \ref{fig:distance}
+    \item Azimuth: $\alpha$, Angle between the y-axiz and the test object. Illustrated in Fig. \ref{fig:angles}
+    \item Elevation: $\theta$, Angle between the x-y plane and the test object. Illustrated in Fig. \ref{fig:angles}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \tdplotsetmaincoords{65}{115}
+    \begin{tikzpicture}[tdplot_main_coords, scale=1.2, >=Stealth, line join=round] 
+    %===================================================
+    % Coordinate axes (camera frame: y up, z out of lens).
+    % NOTE: to get y rendered as the vertical (up) axis with
+    % these view angles, a *true* coordinate (X,Y,Z) is drawn
+    % at the local pgf coordinate (X,Z,Y) throughout this
+    % picture -- i.e. slot 2 <-> true z (depth), slot 3 <->
+    % true y (height).
+    %===================================================
+    \draw[thick,-{Stealth[length=3mm]}] (0,0,0) -- (-1.5,0,0) node[above right]{$x$};
+    \draw[thick,-{Stealth[length=3mm]}] (0,0,0) -- (0,0,1.5) node[above]{$y$};
+    \draw[thick,-{Stealth[length=3mm]}] (0,0,0) -- (0,1.5,0) node[below right]{$z$};
+    \filldraw[black] (0,0,0) circle (0.02);
+    
+    %===================================================
+    % Vertical rod, parallel to the y axis, passing through
+    % the z axis at some positive depth
+    %===================================================
+    \pgfmathsetmacro{\rodz}{2.6}
+    \draw[ultra thick, black!60, line cap=round]
+        (0,\rodz,-1.4) -- (0,\rodz,1.4);
+    \filldraw[black!60] (0,\rodz,-1.4) circle (0.03);
+    \filldraw[black!60] (0,\rodz, 1.4) circle (0.03);
+    \node[anchor=west] at (0,\rodz,1.55) {Perch};
+    
+    %===================================================
+    % Simple stereo camera, sitting on the negative z axis,
+    % looking down the +z direction
+    %===================================================
+    \pgfmathsetmacro{\camz}{-1.8}
+    
+    % camera body (a flat box in the x-y plane at depth z = \camz)
+    \draw[fill=black!75, draw=black]
+        (-0.75,\camz,-0.3) -- (0.75,\camz,-0.3) --
+        (0.75, \camz, 0.3) -- (-0.75, \camz, 0.3) -- cycle;
+    
+    % two lenses, offset along x (stereo baseline).
+    % "circle" always draws in the flat, screen-facing canvas plane,
+    % so it must be re-anchored into the camera body's own plane
+    % (fixed local y = \camz, varying local x/z) via a canvas scope.
+    \begin{scope}[canvas is xz plane at y=\camz]
+        \filldraw[fill=black!40, draw=black] (-0.38,0) circle (0.2);
+        \filldraw[fill=black!40, draw=black] ( 0.38,0) circle (0.2);
+        \filldraw[fill=black]                (-0.38,0) circle (0.07);
+        \filldraw[fill=black]                ( 0.38,0) circle (0.07);
+    \end{scope}
+    
+    % dashed line showing the camera's viewing (+z) direction
+    \draw[dashed, gray] (0,\camz,0) -- (0,0,0);
+
+    % dashed line showing the distance measurement
+    \draw[dashed, red] (0,\camz,-1) -- (0,\rodz,-1) node[midway,below,red]{d};
+    
+    \node[anchor=north] at (0,\camz,-0.45) {Stereo Camera};
+    \end{tikzpicture}
+    \caption{Illustration of the distance measurement from the stereo camera to the perch.}
+    \label{fig:distance}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \tdplotsetmaincoords{65}{115}
+    \begin{tikzpicture}[tdplot_main_coords, scale=1.2, >=Stealth, line join=round] 
+    %===================================================
+    % Coordinate axes (camera frame: y up, z out of lens).
+    % NOTE: to get y rendered as the vertical (up) axis with
+    % these view angles, a *true* coordinate (X,Y,Z) is drawn
+    % at the local pgf coordinate (X,Z,Y) throughout this
+    % picture -- i.e. slot 2 <-> true z (depth), slot 3 <->
+    % true y (height).
+    %===================================================
+    \draw[thick,-{Stealth[length=3mm]}] (0,0,0) -- (-1.5,0,0) node[above right]{$x$};
+    \draw[thick,-{Stealth[length=3mm]}] (0,0,0) -- (0,0,1.5) node[above]{$y$};
+    \draw[thick,-{Stealth[length=3mm]}] (0,0,0) -- (0,1.5,0) node[below right]{$z$};
+    \filldraw[black] (0,0,0) circle (0.02);
+
+    \coordinate (O) at (0,0,0);
+    \tdplotsetcoord{P}{3}{25}{135}    
+    \draw[dashed, red] (O) -- (Pxz);
+    \draw[dashed, red] (O) -- (Pz);
+    
+    %===================================================
+    % Vertical rod, parallel to the y axis, passing through
+    % the z axis at some positive depth
+    %===================================================
+    \pgfmathsetmacro{\rodz}{0}
+    \pgfmathsetmacro{\rodl}{3}
+    \tdplotsetrotatedcoords{135}{25}{0}
+    \begin{scope}[tdplot_rotated_coords]
+        \draw[ultra thick, black!60, line cap=round]
+            (0,\rodz,-\rodl) -- (0,\rodz,\rodl);
+        \filldraw[black!60] (0,\rodz,-\rodl) circle (0.03);
+        \filldraw[black!60] (0,\rodz, \rodl) circle (0.03);
+        \node[anchor=west] at (0,\rodz,\rodl+0.15) {Perch};
+    \end{scope}
+
+    \pic[draw=red, text=red, "$\theta$", angle radius=2cm, angle eccentricity=1.3] {angle = P--O--Pxz};
+    \pic[draw=red, text=red, "$\alpha$", angle radius=2.5cm, angle eccentricity=1.3] {angle = Pxz--O--Pz};
+
+    \end{tikzpicture}
+    \caption{Illustration of the angle measurements of a perch's orientation: $\alpha$, the angle between the perch
+        and the y-axis, and $\theta$, the angle between the perch and the x-y plane.}
+    \label{fig:angles}
+\end{figure}
 
 \subsubsection{Point Cloud Rendering} \label{sec:conv:ptcld}
 
