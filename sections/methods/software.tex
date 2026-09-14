@@ -174,7 +174,7 @@ negative effect against patterned backgrounds.
     \centering
     \caption{Detection success rate with and without background removal.}
     \label{tab:background-removal}
-    \begin{tabular}{|c|c||c|c|}
+    \begin{tabular}{|c|c||p{0.25\textwidth}|p{0.25\textwidth}|}
         \hline
         Background & Sample Count & Success Rate without Background Removal [\%] & Success Rate with Background Removal [\%] \\
         \hline
@@ -351,7 +351,7 @@ test object does not produce enough points to reach the threshold.
     \centering
     \caption{Detection success rate with minimum Hough vote threshold of 100 and 200.}
     \label{tab:hough-votes}
-    \begin{tabular}{|c|c||c|c|}
+    \begin{tabular}{|c|c||p{0.25\textwidth}|p{0.25\textwidth}|}
         \hline
         Background & Sample Count & Success Rate with Minimum Vote of 100 [\%] & Success Rate with Minimum Vote of 200 [\%] \\
         \hline
@@ -481,7 +481,6 @@ Fig. \ref{fig:cal-left}, \ref{fig:cal-right}, and \ref{fig:cal-stereo} show the 
 \end{figure}
 
 
-
 \subsection{Perch Detection Data Analysis}
 
 \subsubsection{Success Rate} \label{sec:methods:analysis-success-rate}
@@ -588,7 +587,6 @@ are used to calculate accuracy and precision:
     \item $\mu_{\Delta \theta} = \frac{1}{N} \sum_{n=0}^{N-1} \Delta \theta_n$
     \item $\sigma_{\Delta \theta} = \sqrt{\frac{\sum_{n=0}^{N} (\Delta \theta_n - \mu_{\Delta \theta})^2 }{N}}$
 \end{itemize}
-
 
 
 \subsection{Perch Detection Data Collection}
