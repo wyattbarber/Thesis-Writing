@@ -1,6 +1,6 @@
 \subsection{Perch Detection Software Design}
 
-The image processing software used to validate the perch detection concept was implemented in C++, compiled with GCC x.x.x, %TODO: version
+The image processing software used to validate the perch detection concept was implemented in C++, compiled with GCC 14.2.0 for Debian 13.2,
 and executed on a Raspberry Pi Compute Module 4. The graph in figure \ref{fig:sw-flow} provides a high-level illustration of the steps in the 
 image processing pipeline and how data flows between them.
 
@@ -736,7 +736,7 @@ according to the method in Section \ref{sec:methods:analysis-success-rate}, and 
 
 To verify the software's ability to correctly detect the closest perch when multiple possibly valid candidates are present, 
 some of the tests in table \ref{tab:vision-test-cases} were repeated with a second object placed behind the intended target. 
-The second object was another black PVC pipe, placed at a $30^\circ$ angle relative to the target object and \_mm behind it.
+The second object was another black PVC pipe, placed at a $30^\circ$ angle relative to the target object and 250mm behind it.
 The test cases 2,3,5,6,8, and 9 (all backgrounds, 1000mm and 2000mm distances) were repeated, the detection success rate was 
 measured by labelling the results as described in Section \ref{sec:methods:analysis-success-rate}, and the results recorded in 
 tables \ref{tab:success-rates-multi} and \ref{tab:success-rates-dist-multi}. 
@@ -780,3 +780,5 @@ then sorted by $d$, the true distance to the test object. The accuracy and preci
 $\mu_{\Delta\alpha}$, $\sigma_{\Delta\alpha}$, $\mu_{\Delta\theta}$, and $\sigma_{\Delta\theta}$ 
 were calculated as defined in Section \ref{sec:methods:analysis-accuracy} for each value of $d$. 
 The results of these calculations are shown in tables \ref{tab:dist-error}, \ref{tab:azim-error}, and \ref{tab:elev-error}.
+
+
