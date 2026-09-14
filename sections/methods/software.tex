@@ -560,25 +560,43 @@ respectively. For clarification of how to interpret the displayed point cloud da
 
 \subsubsection{Accuracy} \label{sec:methods:analysis-accuracy}
 
-To assess the accuracy of the perch detection, all samples that were marked as valid were checked for the following error metrics:
+When calculating the accuracy of perch detection, the measurement definitions in Section \ref{sec:conv:meas}
+are used. Additionally, the following values are defined for distinguishing values measured by the perch
+detection device from the true values configured in the test:
 \begin{itemize}
-    \item Measured vs actual distance to perch.
-    \item Measured vs actual perch azimuth.
-    \item Measured vs actual perch elevation.
-    \item Measured vs actual perch width.
-\end{itemize} 
+    \item $\hat{d}$: The estimated value of $d$, or the distance to the perch that was measured by the device.
+    \item $\hat{\alpha}$: The estimated value of $\alpha$, or the angle between perch and the y-axis that was measured by the device.
+    \item $\hat{\theta}$: The estimated value of $\theta$, or the angle between perch and the x-y plane that was measured by the device.
+    \item $\Delta d = \hat{d} - d$
+    \item \[\Delta \alpha = \begin{cases}
+        \hat{\alpha} - \alpha & \hat{\alpha} \leq 90 \\
+        (180 - \hat{\alpha}) - \alpha & \hat{\alpha} > 90 \\
+    \end{cases}\]
+    \item $\Delta \theta = \hat{\theta} - \theta$
+\end{itemize}
 
-Mean and standard deviations of each error metric were recorded for each distance in tables \ref{tab:dist-error},
-\ref{tab:elev-error}, and \ref{tab:azim-error}. All backgrounds were aggregated together.
+To assess the error in $\hat{d}$. $\hat{\alpha}$, and $\hat{\theta}$ for a group of samples,
+the accuracy and precision are measured as means and standard deviations of all error 
+values in a group. For a group containing N samples, the following definitions
+are used to calculate accuracy and precision:
+
+\begin{itemize}
+    \item $\mu_{\Delta d} = \frac{1}{N} \sum_{n=0}^{N-1} \Delta d_n$
+    \item $\sigma_{\Delta d} = \sqrt{\frac{\sum_{n=0}^{N} (\Delta d_n - \mu_{\Delta d})^2 }{N}}$
+    \item $\mu_{\Delta \alpha} = \frac{1}{N} \sum_{n=0}^{N-1} \Delta \alpha_n$
+    \item $\sigma_{\Delta \alpha} = \sqrt{\frac{\sum_{n=0}^{N} (\Delta \alpha_n - \mu_{\Delta \alpha})^2 }{N}}$
+    \item $\mu_{\Delta \theta} = \frac{1}{N} \sum_{n=0}^{N-1} \Delta \theta_n$
+    \item $\sigma_{\Delta \theta} = \sqrt{\frac{\sum_{n=0}^{N} (\Delta \theta_n - \mu_{\Delta \theta})^2 }{N}}$
+\end{itemize}
 
 
 
 \subsection{Perch Detection Data Collection}
 
-\subsubsection{Detecting a Single Object}
+\subsubsection{Success Rate with a Single Object} \label{sec:methods:collection-single}
 To first test the detection methods performance under the most controlled conditions, the device was placed facing a flat white wall, indoors,
 with only one object (a black, 22mm diameter PVC pipe) in the frame. The object was placed at a distance $d = 1000mm$ from the camera, at an azimuth angle (angle between
-object and cameras y-axis) $\theta = 0^\circ$ and elevation angle (angle between the cameras x-y plane and the object) $\phi = 0^\circ$.
+object and cameras y-axis) $\alpha = 0^\circ$ and elevation angle (angle between the cameras x-y plane and the object) $\theta = 0^\circ$.
 
 The image processing program was started by the script found in appendix \ref{app:data-coll-code}. Once the output of the program indicated that at least one
 candidate line had been detected, the program was run until 20 updates had been produced. The script monitored the detection results via serial terminal and saved the position, 
@@ -592,9 +610,9 @@ and higher disparities produce a larger margin on the left side of the image whe
 causes nearly half the image to be without depth data.
 
 \begin{itemize}
-    \item $d = 500mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
-    \item $d = 1000mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
-    \item $d = 2000mm$, $\theta = 0^\circ$, $\phi = 0^\circ$
+    \item $d = 500mm$, $\alpha = 0^\circ$, $\theta = 0^\circ$
+    \item $d = 1000mm$, $\alpha = 0^\circ$, $\theta = 0^\circ$
+    \item $d = 2000mm$, $\alpha = 0^\circ$, $\theta = 0^\circ$
 \end{itemize}
 
 These three trials were repeated with the object in front of 3 different backgrounds:
@@ -716,7 +734,7 @@ according to the method in Section \ref{sec:methods:analysis-success-rate}, and 
 \end{figure}
 
 
-\subsubsection{Detection with an Additional Object}
+\subsubsection{Success Rate with an Additional Object} \label{sec:methods:collection-multi}
 
 To verify the software's ability to correctly detect the closest perch when multiple possibly valid candidates are present, 
 some of the tests in table \ref{tab:vision-test-cases} were repeated with a second object placed behind the intended target. 
@@ -755,3 +773,12 @@ The tests at 500mm distance were not included in the multi-object tests because 
 close enough to the edge of the picture that it was cropped out of the depth data. Those tests then provided no value in
 determining the effects of multiple objects in the frame, since the second object could not be detected at anyhow.
 
+
+\subsubsection{Detection Accuracy}
+
+The data collected in Section \ref{sec:methods:collection-single} was also used to determine the accuracy 
+of the perch detection. All samples collected for each of the 3 backgrounds were collected and aggregated,
+then sorted by $d$, the true distance to the test object. The accuracy and precision values $\mu_{\Delta d}$, $\sigma_{\Delta d}$,
+$\mu_{\Delta\alpha}$, $\sigma_{\Delta\alpha}$, $\mu_{\Delta\theta}$, and $\sigma_{\Delta\theta}$ 
+were calculated as defined in Section \ref{sec:methods:analysis-accuracy} for each value of $d$. 
+The results of these calculations are shown in tables \ref{tab:dist-error}, \ref{tab:azim-error}, and \ref{tab:elev-error}.

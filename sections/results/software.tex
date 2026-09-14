@@ -121,7 +121,7 @@ values.
     \label{tab:dist-error}
     \begin{tabular}{|c||c|c|}
         \hline
-        True Distance [mm] & Average Error [mm] & Error Standard Deviation [mm]\\
+        True Distance $d$ [mm] & Average Error $\mu_{\Delta d}$ [mm] & Error Standard Deviation $\sigma_{\Delta d}$ [mm]\\
         \hline
         500 & -9.7 & 2.0 \\
         1000 & -32.9 & 4.9 \\
@@ -136,7 +136,7 @@ values.
     \label{tab:azim-error}
     \begin{tabular}{|c||c|c|}
         \hline
-        True Distance [mm] & Average Error [deg] & Error Standard Deviation [deg]\\
+        True Distance $d$ [mm] & Average Error $\mu_{\Delta \alpha}$ [deg] & Error Standard Deviation $\sigma_{\Delta \alpha}$ [deg]\\
         \hline
         500 & 3.9 & 2.7 \\
         1000 & 2.1 & 0.2 \\
@@ -151,7 +151,7 @@ values.
     \label{tab:elev-error}
     \begin{tabular}{|c||c|c|}
         \hline
-        True Distance [mm] & Average Error [deg] & Error Standard Deviation [deg]\\
+        True Distance $d$ [mm] & Average Error $\mu_{\Delta \theta}$ [deg] & Error Standard Deviation $\sigma_{\Delta \theta}$ [deg]\\
         \hline
         500 & 3.5 & 1.1 \\
         1000 & 3.7 & 0.5 \\
@@ -163,7 +163,9 @@ values.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{sections/results/dist-error.png}
-    \caption{Distance measurement errors versus actual distance to object for all tests.}
+    \caption{Distance measurement errors versus actual distance to object for all tests.
+    The error bars at 2000mm distance do show 0 standard deviation; all measurements there
+    were indeed identical due to the large quantization step size of depth values at large distances.}
     \label{fig:dist-error}
 \end{figure}
 
@@ -177,6 +179,8 @@ values.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{sections/results/elevation-error.png}
-    \caption{Elevation angle measurement errors versus distance to object for all tests.}
+    \caption{Elevation angle measurement errors versus distance to object for all tests.
+    The error bars at 2000mm distance do show 0 standard deviation; all measurements there
+    were indeed identical due to the large quantization step size of depth values at large distances.}
     \label{fig:elev-error}
 \end{figure}
