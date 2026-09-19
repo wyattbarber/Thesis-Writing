@@ -1,0 +1,49 @@
+\subsection{Grasper Design}
+
+\subsubsection{Latch Mechanism}
+
+The chosen design for the grasper consists of a rotating clasp, driven by a servo motor. A rendering of the design
+is shown in Fig. \ref{fig:clasp-design}, and the OpenSCAD source used to create it can be found in appendix \ref{app:grasper-scad}.
+The \texttt{BOSL2} library \cite{belfryscad_bosl2_nodate} was used to create the gear components.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{sections/methods/grasper-render.png}
+    \caption{Rendering of the proposed grasping device. The backplate shown in red is meant to hold 
+    a servo, which drives the gear shown in blue. The green, toothed semicircle is driven by the blue gear to
+    open and close the grasper, and bears the weight of the device and drone once closed over a perch. The
+    yellow part supports and guides the green latch. Note that in the real device there is a third plate closing 
+    the front of the device, but it is not shown here so that the gear and latch mechanism are visible.}
+    \label{fig:clasp-design}
+\end{figure}
+
+The device used here has an inner radius of 35mm, which results in it being able to accept a perch of up to 
+50mm diameter. The outer radius of the device is 50mm. The latch component (green object in Fig. \ref{fig:clasp-design})
+has a radial width of 7.4mm.
+
+\subsubsection{Controller}
+
+A Raspberry Pi Compute Module 4 was used to control the servos on the grasper device. To avoid 
+complicating the design with limit switches to detect open and closed states, an Adafuit 
+ADS1015 analog-digital converter was used to measure the current drawn by each servo.
+The current measurement is used to detect when the servo has stalled, indicating 
+that the limits of travel are reached and the latch has either fully opened or closed.
+
+The schematic of the servo control module can be seen in appendix \ref{app:schematics},
+Fig. \ref{fig:clasp-ctl}. The schematic showing the compute module and its interface to the
+servo controller can be seen in appendix \ref{app:schematics},
+Fig. \ref{fig:cpu-module}.
+
+
+\subsection{Grasper Verification}
+
+
+\subsubsection{Weight}
+
+
+
+\subsubsection{Holding Capacity}
+
+
+
+\subsubsection{Repeatability}

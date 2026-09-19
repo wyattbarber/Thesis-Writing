@@ -83,6 +83,7 @@
 \section{Methods}
 
 \input{sections/methods/conventions}
+\input{sections/methods/hardware}
 \input{sections/methods/software}
 
 
@@ -103,6 +104,40 @@
 
 
 \begin{appendices}
+    \section{Grasper Device OpenSCAD Code}
+    \label{app:grasper-scad}
+    \inputminted[linenos, frame=lines, breaklines]{c}{"C:/Users/wyatt/Documents/GVSU/Thesis/design/grasper5/clasp.scad"}
+
+    \section{Schematics}
+    \label{app:schematics}
+
+    \subsection{CPU Module and Camera Interface}
+    \pagebreak
+    \begin{sidewaysfigure}[p]
+        \centering
+        \includegraphics[width=\textwidth]{appendices/cpu-carrier.pdf}
+        \caption{Carrier board and camera interface for the CPU. At center-right is J4, the 10-pin 
+        interface to the controller in Fig. \ref{fig:clasp-ctl}, as well as debug interfaces. J1 and J2
+        are the ribbon connectors for the MIPI CSI interface to the left and right camera. U4 is a time-of-flight
+        lidar sensor that was tested but ultimately not used due to poor performance in sunlight. U1 is the CPU,
+        and across the bottom of the schematic are power supply components.}
+        \label{fig:cpu-module}
+    \end{sidewaysfigure}
+    \FloatBarrier
+
+
+    \subsection{Servo Controller}
+ 
+    \begin{sidewaysfigure}[p]
+        \centering
+        \includegraphics[width=\textwidth]{appendices/grasper-ctl.pdf}
+        \caption{Servo control module used for this grasper design, consisting of a 5V regulator
+        that can be enabled or disabled digitally, three level shifters for servo PWM signals,
+        and an Adafruit ADS1015 analog-digital converter for current measurement.}
+        \label{fig:clasp-ctl}
+    \end{sidewaysfigure}
+    \FloatBarrier
+
     \section{Main Program Code}
     \label{app:main-code}
 
