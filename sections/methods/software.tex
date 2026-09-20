@@ -569,27 +569,99 @@ detection device from the true values configured in the test:
     \item $\hat{d}$: The estimated value of $d$, or the distance to the perch that was measured by the device.
     \item $\hat{\alpha}$: The estimated value of $\alpha$, or the angle between perch and the y-axis that was measured by the device.
     \item $\hat{\theta}$: The estimated value of $\theta$, or the angle between perch and the x-y plane that was measured by the device.
-    \item $\Delta d = \hat{d} - d$
-    \item \[\Delta \alpha = \begin{cases}
+\end{itemize}
+
+The error in each measured value is calculated with equations \ref{eqn:dd}, \ref{eqn:da}, and \ref{eqn:dt}.
+
+\begin{formula}[H]
+    \centering
+    \begin{math}
+        \Delta d = \hat{d} - d
+    \end{math}
+    \caption{Definition of error value for distance measurements.}
+    \label{eqn:dd}
+\end{formula}
+
+\begin{formula}[H]
+    \centering
+    \begin{math}
+        \Delta \alpha = \begin{cases}
         \hat{\alpha} - \alpha & \hat{\alpha} \leq 90 \\
         (180 - \hat{\alpha}) - \alpha & \hat{\alpha} > 90 \\
-    \end{cases}\]
-    \item $\Delta \theta = \hat{\theta} - \theta$
-\end{itemize}
+    \end{cases}
+    \end{math}
+    \caption{Definition of error value for azimuth measurements.}
+    \label{eqn:da}
+\end{formula}
+
+\begin{formula}[H]
+    \centering
+    \begin{math}
+        \Delta \theta = \hat{\theta} - \theta
+    \end{math}
+    \caption{Definition of error value for elevation measurements.}
+    \label{eqn:dt}
+\end{formula}
+
 
 To assess the error in $\hat{d}$. $\hat{\alpha}$, and $\hat{\theta}$ for a group of samples,
 the accuracy and precision are measured as means and standard deviations of all error 
-values in a group. For a group containing N samples, the following definitions
-are used to calculate accuracy and precision:
+values in a group. For a group containing N samples, the formulas in equations 
+\ref{eqn:m_dd} to \ref{eqn:s_dt} are used to calculate accuracy and precision.
 
-\begin{itemize}
-    \item $\mu_{\Delta d} = \frac{1}{N} \sum_{n=0}^{N-1} \Delta d_n$
-    \item $\sigma_{\Delta d} = \sqrt{\frac{\sum_{n=0}^{N} (\Delta d_n - \mu_{\Delta d})^2 }{N}}$
-    \item $\mu_{\Delta \alpha} = \frac{1}{N} \sum_{n=0}^{N-1} \Delta \alpha_n$
-    \item $\sigma_{\Delta \alpha} = \sqrt{\frac{\sum_{n=0}^{N} (\Delta \alpha_n - \mu_{\Delta \alpha})^2 }{N}}$
-    \item $\mu_{\Delta \theta} = \frac{1}{N} \sum_{n=0}^{N-1} \Delta \theta_n$
-    \item $\sigma_{\Delta \theta} = \sqrt{\frac{\sum_{n=0}^{N} (\Delta \theta_n - \mu_{\Delta \theta})^2 }{N}}$
-\end{itemize}
+\begin{formula}[H]
+    \centering
+    \begin{math}
+        \mu_{\Delta d} = \frac{1}{N} \sum_{n=0}^{N-1} \Delta d_n
+    \end{math}
+    \caption{Formula for accuracy of distance measurement (average value of error).}
+    \label{eqn:m_dd}
+\end{formula}
+
+\begin{formula}[H]
+    \centering
+    \begin{math}
+        \sigma_{\Delta d} = \sqrt{\frac{\sum_{n=0}^{N} (\Delta d_n - \mu_{\Delta d})^2 }{N}}
+    \end{math}
+    \caption{Formula for precision of distance measurement (standard deviation of error).}
+    \label{eqn:s_dd}
+\end{formula}
+
+\begin{formula}[H]
+    \centering
+    \begin{math}
+        \mu_{\Delta \alpha} = \frac{1}{N} \sum_{n=0}^{N-1} \Delta \alpha_n
+    \end{math}
+    \caption{Formula for accuracy of azimuth measurement (average value of error).}
+    \label{eqn:m_da}
+\end{formula}
+
+\begin{formula}[H]
+    \centering
+    \begin{math}
+        \sigma_{\Delta \alpha} = \sqrt{\frac{\sum_{n=0}^{N} (\Delta \alpha_n - \mu_{\Delta \alpha})^2 }{N}}
+    \end{math}
+    \caption{Formula for precision of azimuth measurement (standard deviation of error).}
+    \label{eqn:s_da}
+\end{formula}
+
+\begin{formula}[H]
+    \centering
+    \begin{math}
+        \mu_{\Delta \theta} = \frac{1}{N} \sum_{n=0}^{N-1} \Delta \theta_n
+    \end{math}
+    \caption{Formula for accuracy of elevation measurement (average value of error).}
+    \label{eqn:m_dt}
+\end{formula}
+
+\begin{formula}[H]
+    \centering
+    \begin{math}
+        \sigma_{\Delta \theta} = \sqrt{\frac{\sum_{n=0}^{N} (\Delta \theta_n - \mu_{\Delta \theta})^2 }{N}}
+    \end{math}
+    \caption{Formula for precision of elevation measurement (standard deviation of error).}
+    \label{eqn:s_dt}
+\end{formula}
 
 
 \subsection{Perch Detection Data Collection}
