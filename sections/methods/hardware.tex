@@ -1,6 +1,46 @@
 \subsection{Grasper Design}
 
+The proposed perching mechanism is a grasping type, as described in Section \ref{sec:litrev:modes-grasping},
+that intends to attach a drone beneath a perch such as a power line or tree branch. Similar designs
+include the device proposed by Hoang et al. (shown in Fig. \ref{fig:clasp}) \cite{hoang_autonomous_2024}
+and the device proposed by Kitchen et al. (shown in Fig. \ref{fig:kitchen-grasper}) \cite{kitchen_design_2020}.
+
+
 \subsubsection{Latch Mechanism}
+
+Two concepts were initially explored, but rejected for various reasons. The first concept was a shape-memory-allow loop
+that could be moved over a perch and into a lock that would hold it in place. The concept is illustrated in Fig. \ref{fig:latch-sma}.
+This concept was rejected due to concerns over available time and the author's lack of familiarity with SMA materials.
+
+\begin{figure}[H]
+    \centering
+    \large{To-Do: Make CAD sketch of this concept.}
+    \caption{Rendered sketch of the shape-memory-alloy based grasper concept.}
+    \label{fig:latch-sma}
+\end{figure}
+
+A similar concept that replaced the SMA mechanism with a cable-actuated flexible grasper, that would wrap over a perch
+and into a latch similarly to the SMA device. This design was rejected because the hobby servos used could not provide enough torque 
+to bend the grasper as needed, and the flexibility combined with the elasticity of the cable drive prevented the device
+from achieving sufficient repeatability in position control. Fig. \ref{fig:latch-cable} shows this prototype device.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics{sections/methods/flex-open.jpg}
+        \caption{The grasper in its open, resting state.}
+        \label{fig:latch-cable:open}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics{sections/methods/flex-closed.jpg}
+        \caption{The grasper in its closed state.}
+        \label{fig:latch-cable:closed}
+    \end{subfigure}
+    \caption{The cable-actuated flexible grasper concept.}
+    \label{fig:latch-cable}
+\end{figure}
+
 
 The chosen design for the grasper consists of a rotating clasp, driven by a servo motor. A rendering of the design
 is shown in Fig. \ref{fig:clasp-design}, and the OpenSCAD source used to create it can be found in appendix \ref{app:grasper-scad}.
@@ -19,7 +59,13 @@ The \texttt{BOSL2} library \cite{belfryscad_bosl2_nodate} was used to create the
 
 The device used here has an inner radius of 35mm, which results in it being able to accept a perch of up to 
 50mm diameter. The outer radius of the device is 50mm. The latch component (green object in Fig. \ref{fig:clasp-design})
-has a radial width of 7.4mm.
+has a radial width of 7.4mm. The code in appendix \ref{app:grasper-scad} is parameterized such that the grasper can easily
+be modified to grow to accommodate larger perches, or be shrunk to work with smaller perches while saving weight and space.
+
+It is worth noting that this device will not prevent the device from swinging, that is it provides no means 
+to prevent the drone from rotating about the y-axis once the drone is perched. This thesis assumes that the 
+application of this device does not require the drone to remain totally stationary, only that it be supported 
+so that it can power off its motors without falling.  
 
 \subsubsection{Controller}
 
