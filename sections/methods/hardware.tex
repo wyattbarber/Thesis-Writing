@@ -136,14 +136,23 @@ The achieved holding capacity of the device was achieved with the following test
 \begin{enumerate}
     \item The grasper was closed around a test perch, suspended above the ground.
     \item A bag was attached to the underside of the grasper, close to the center of its baseplate in the x-y plane.
-    \item Weights were added to the bag incrementally, with a 10-minute period between each addition.
-    \item Once the device breaks before the 10-minute period has expired after the most recent addition, the holding capacity
+    \item Weights were added to the bag incrementally, with a 5-minute period between each addition.
+    \item Once the device breaks before the 5-minute period has expired after the most recent addition, the holding capacity
         is determined to be the load weight at the previous successful weight addition.
 \end{enumerate}
 
 To avoid damaging the electronic components when the device failed, all except the servos were removed for the duration of this test. 
 The device is capable of remaining attached without power to the servos, and the weight of the removed electronics was removed from the
-final weight at the end of the test. The results are summarized in Section \ref{sec:results:capacity}
+final weight at the end of the test. The test setup is shown in Fig. \ref{fig:capacity-test}, 
+and the results are summarized in Section \ref{sec:results:capacity}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{sections/methods/capacity-test.jpg}
+    \caption{The test setup for determining the holding capacity of the grasper, showing the grasper with 
+    electronics removed and a shopping bag, where the test weights were placed, suspended from the base of the grasper.}
+    \label{fig:capacity-test}
+\end{figure}
 
 
 \subsubsection{Weight}
@@ -183,12 +192,8 @@ The overall weight and weight of individual components of the device were measur
 
 To verify that the proposed design can open and close reliably, the opening and closing process was manually 
 repeated 30 times. Each time after closing the grasper or opening it again, the device was 
-visually inspected to ensure that:
-\begin{itemize}
-    \item The latch had not become stuck on any other part of the device, causing stall detection to trigger
-        prematurely and prevent successful opening or closing.
-    \item The latch had not failed to engage with the servo, preventing it from moving.
-\end{itemize}
+visually inspected to ensure that the latch did reach its fully closed and opened positions in each
+test cycle.
 
 If opening or closing was not successful, then that test was marked as a failure, and the specific reason recorded.
 The success rate and failure causes are shown in Section \ref{sec:results:repeatability}.
