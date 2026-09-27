@@ -118,14 +118,34 @@ There appear to be a few classes of drones represented:
     \item Heavy weight 1.5 kg + drones
 \end{itemize}
 
-This device was designed to hold a drone of up to 500g, plus 31.58 N
-of dynamic load, for a total static load of 3.72 kg.
 
-The dynamic load is to allow for force introduced by motion of the perch, such as a swaying tree branch.
+The device must also allow for some dynamic load, to allow for force introduced by motion of the perch such as a swaying tree branch.
 Assuming that the drone is perched in a tree and subject to sinusoidal motion, its maximum acceleration is estimated at $63.17 m/s^2$ 
 based on data provided by Kamimura et al. (0.4 m max displacement with a frequency of 2 Hz) \cite{kamimura_energy_2024}.  
 The referenced study did use only Japanese Cedar, which may not
 be representative of all trees. However, similar data for other species could not be found.
+
+Equation \ref{eqn:load-lim} gives a formula for a total test mass that the device must support, 
+to match the mass of a drone and its maximum dynamic load.
+
+\begin{formula}[H]
+    \centering
+    \begin{math}
+        m_t = m_d (1 + \frac{a}{g}) = 7.44 m_d
+    \end{math}
+    Where:
+    \begin{itemize}
+        \item $m_d$: Mass of the drone.
+        \item $m_t$: Test mass to mimic the drone and its dynamic load.
+        \item $g$: Gravitational acceleration, $9.81 m/s^2$.
+        \item $a$: Maximum acceleration experienced by a perched drone, estimated at $63.17 m/s^2$.
+    \end{itemize}
+    \caption{Test load mass that mimics a given drone mass under acceleration.}
+    \label{eqn:load-lim}
+\end{formula}
+
+This device targets the lowest weight group of drones, with mass up to 500g. Using equation \ref{eqn:load-lim},
+the device must support a test load of at least 3.72 kg. 
 
 The first reason for targeting the lowest weight group is that the low weight is far more
 manageable for the device to hold. The other reasons are cost and risk. The medium and heavy drones tend to be significantly 
