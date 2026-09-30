@@ -2,11 +2,46 @@
 
 Much recent research has been dedicated to developing multi-modal drones that can transition between flight
 and a stationary mode attached to a structure. Often referred to as "perching", this behavior is intended
-to enable the use of drones over longer mission times, where perching can reduce power use, or in scenarios
-where the noise of a drone's running motors is undesirable. Often the targeted use case for this is ecology research,
-where drones could place a sensor payload in an inaccessible forest canopy, or monitor wildlife without the disruptive
-noise of its motors \cite{liu_mini-drone_2023,meng_aerial_2022}. 
+to increase the flexibility of how drones can be used \cite{meng_aerial_2022}. Perching may be used to extend 
+mission time when a drone does not need to be in flight for the entirety of its use, for example if used for
+sensor deployment \cite{liu_perching_2022,kirchgeorg_hedgehog_2022}. In some cases, such as if used for power line
+inspection, they may even recharge while perched \cite{hoang_autonomous_2024,kitchen_design_2020}. Perching may extend
+a drone's mission time through inclement weather in which it would be unable to fly \cite{liu_perching_2022}. Drones 
+equipped with perching mechanisms can be used to deploy sensors in areas that are inaccessible or hazardous for 
+humans to reach \cite{liu_mini-drone_2023,seiber_tracking_2018}.
 
+There are many designs for devices to enable perching, ranging from simple grippers that attach to an object and use
+mechanical pressure to hold a drone in place \cite{kirchgeorg_soft_2023,chi_optimized_2014}, to biomimetic bird claw 
+inspired designs \cite{roderick_bird-inspired_2021}. Some designs use micro scale spikes \cite{roderick_bioinspired_2017}, 
+electrostatics \cite{graule_perching_2016}, or electromagnetics \cite{liu_perching_2022} to attach to specific surfaces.
+One proposed mechanism even uses a grapple suspended beneath a drone by a tether, with the drone looping around the 
+perch to attach \cite{nguyen_passively_2019}.
+
+Each of the varied mechanisms has different benefits and drawbacks. Electrostatic and electromagnetic based devices
+only work on specific materials, though they can be used to attach a drone to a vertical surface instead of only above 
+or beneath a perch \cite{meng_aerial_2022,liu_perching_2022,graule_perching_2016}. Claw like designs can attach to a wider 
+variety of surfaces, though typically only from a specific orientation, and they have limits on the size and shape of perch they can grasp. 
+If designed correctly, a claw like perching mechanism can double as a manipulator to carry 
+and release additional payloads \cite{meng_aerial_2022,roderick_bird-inspired_2021}.
+
+The form of grasping mechanism can influence the complexity of control algorithms required to perform perching. 
+Bird like mechanisms also require that the drone perform a specific approach to the perch, mimicking how a bird
+would land \cite{roderick_bird-inspired_2021}. The grappling based mechanism requires the drone to perform an approach 
+from above the perch, loop around to the bottom once the grapple is engaged, and then reverse the procedure to 
+resume flight.
+
+Also of importance is a method for detecting suitable perches. A mechanism designed to grasp a perch is sensitive to how
+it approaches and lands on the perch \cite{roderick_bird-inspired_2021,kirchgeorg_hedgehog_2022}. A human operator may struggle
+to correctly align a drone to a perch without a semi-autonomous guidance function, as the distance between them and the drone may be 
+large and not provide a good viewing angle for gauging drone orientation and distance relative to the perch, even if the operator has line-of-sight. 
+Most proposed methods use stereo cameras to detect specific geometries such as thin boards or cylinders. These methods depend on relatively 
+expensive stereo cameras to measure quality depth data \cite{kominami_detection_2023,von_frankenberg_detection_2020}.
+
+Despite the research interest in creating perching drones, little evidence of these designed being put to practical use could be found. 
+It may be that the proposed designs are complex and inaccessible to researchers who would put them to use in ecology, infrastructure inspection,
+disaster response, or any of the other fields where such devices have been suggested to provide value. 
+Design of perching mechanisms that are simple to fabricate, allow for simple flight controllers to execute the approach to a perch, 
+and provide detection with low-cost components and open-sourced software can expand the accessibility of using perching drones in research.
 
 
 \subsection{Purpose}
