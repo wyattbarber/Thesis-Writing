@@ -46,32 +46,48 @@ and provide detection with low-cost components and open-sourced software can exp
 
 \subsection{Purpose}
 
-This thesis aims to design a novel perch detection method that can detect cylindrical perches such as branches or power lines, 
-as well as a grasping device that can attach a drone underneath such an object. The device should use low-cost components and accessible
-software libraries to keep the proposed design affordable and accessible. This thesis will verify the reliability and accuracy
-of the proposed detection method and the strength, and weight of the grasping mechanism. 
+This thesis aimed to design a novel perch detection method that can detect cylindrical perches such as branches or power lines, 
+as well as a grasping device that can attach a drone underneath such an object. The design used low-cost components and open source
+software libraries to keep the proposed design affordable and accessible. The design was also intended to be easy to redesign for different drones
+or perch types, to facilitate easy research and experimentation with its potential applications.
+This thesis verified the reliability and accuracy
+of the proposed detection method, as well as the strength, weight, and reliability of the grasping mechanism. 
 
 
 \subsection{Scope}
 
-The scope of this thesis is limited to designing and verifying a perch detection and grasping device under controlled 
-lab conditions. The device will not be integrated with a drone and no drone will be used in testing.
+The scope of this thesis was limited to designing and verifying a perch detection and grasping device under controlled 
+lab conditions. The testing of perch detection was limited to simple cylindrical objects, and only under static conditions;
+the testing did not examine the effects of the camera moving relative to the perch. The perching mechanism was tested
+to verify its holding strength under static conditions, with the final holding capacity derated from the total load
+to account for estimated worst-case dynamic forces. 
 
 
 \subsection{Assumptions}
 
-This thesis assumes that the device may need to support a drone with a mass of up to 500g, plus 31.58 N
-of dynamic load, for a total static load of 3.72 kg.
+There were a number of assumptions made about the use case for the proposed device, as the identified potential use 
+cases encompass a wide variety of potential perch types and drone sizes. When estimating the worst case dynamic load
+that the device might experience when supporting a drone, a study of oscillations induced by wind in Japanese Cedar
+trees \cite{kamimura_energy_2024} was used. This assumes that the motion experienced by the drone would not be significantly
+different in different forest types or on a different perch altogether. This likely is not accurate, however similar 
+data encompassing a wider variety of tree types could not be found.
 
-The dynamic load is to allow for force introduced by motion of the perch, such as a swaying tree branch.
-Assuming that the drone is perched in a tree and subject to sinusoidal motion, its maximum acceleration is estimated at $63.17 m/s^2$ 
-based on data provided by Kamimura et al. (0.4 m max displacement with a frequency of 2 Hz) \cite{kamimura_energy_2024}.  
-The referenced study did use only Japanese Cedar, which may not
-be representative of all trees. However, similar data for other species could not be found.
+Assumptions are also made about the payload capacity of a small drone. Many commercial products do not specify a payload
+capacity or maximum takeoff weight separate from the device weight. Additionally, a small drone that is purpose built for 
+a role may have a higher payload than commercial products of similar size, due to the custom design allowing for more 
+optimization. In tables \ref{tab:weights} and \ref{tab:payload}, where a number of commercial drones were assessed 
+to identify typical weights and payload capacities, only one model in the sub 500g group had a payload capacity. 
+This value was assumed to be representative of the payload capacity of other drones in the same size group.
 
+In developing the perch detection process, a method was needed to remove low confidence background pixels from 
+an image. This thesis used binary thresholding to accomplish this, under the assumption that most backgrounds 
+seen in drone perching will consist of higher intensity pixels with a low intensity perch. For example a gray 
+power line against the sky, or a brown tree branch against a sunlit forest canopy.
 
 \subsection{Significance}
 
 Perching can increase the versatility of drones in data collection and inspection tasks, allowing them to achieve longer mission times
-and deploy sensors in otherwise inaccessible locations. Novel and affordable detection ad grasping methods such as those proposed in this thesis can
-make perching more accessible for a wider variety of applications.
+and deploy sensors in otherwise inaccessible locations. Novel methods of detecting and grasping perches that are easy to implement 
+can make perching behaviors more accessible, and accelerate the use of perching in data collection, disaster response, or other applications.
+This thesis presents such a design, that can be easily fabricated for varying use cases with affordable components and freely available 
+software libraries. 
