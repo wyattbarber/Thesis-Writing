@@ -59,6 +59,14 @@
 }
 \makeatother
 
+\newcommand{\unnumberedsection}[1]{%
+  \section*{#1}%
+  \addcontentsline{toc}{section}{#1}%
+}
+\newcommand{\unnumberedsubsection}[1]{%
+  \subsection*{#1}%
+  \addcontentsline{toc}{subsection}{#1}%
+}
 
 \addbibresource{references.bib}
 

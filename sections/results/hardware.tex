@@ -2,34 +2,13 @@
 
 \subsubsection{Holding Capacity} \label{sec:results:capacity}
 
-Table \ref{tab:weight-inc} shows the weight increments added during the test,
-the total weight at each step, and the result (OK or NOK based on whether the 
-5-minute waiting period passed without the device breaking). The test ended without
-failure being reached, because all available weights had been added.
-
-This test gives a total verified holding capacity, after accounting for the 
-electronics that were removed for the test, of 8.7 kg. The actual limit is still
+During the testing of the devices holding capacity, all available weights 
+were added without reaching the point of failure. The final total weight
+supported by the device was 8.83 kg.
+After accounting for the electronics that were removed for the test, the verified 
+holding capacity of the device is 8.76 kg. The actual limit is still
 unknown, due to the limited number of test weights available.
 
-\begin{table}[H]
-    \centering
-    \caption{Weights of Grasper Components}
-    \label{tab:weight-inc}
-    \begin{tabular}{|c||c|c|c|}
-        \hline
-        Addition Number & Added Weight [g] & Total Weight [g] & Result\\
-        \hline
-        1 & 3830 & 3830 & OK\\
-        2 & 1000 & 4830 & OK\\
-        3 & 1000 & 5830 & OK\\
-        4 & 1000 & 6830 & OK\\
-        5 & 500 & 7330 & OK\\
-        6 & 500 & 7830 & OK\\
-        7 & 500 & 8330 & OK\\
-        8 & 500 & 8830 & OK\\
-        \hline
-    \end{tabular}
-\end{table}
 
 \subsubsection{Weight}
 
@@ -77,6 +56,7 @@ remaining two trials.
         \hline
         Premature Current Limit While Grasping & {The current limit used to detect when the grasper has reached its fully closed
         position was triggered before the closed position had actually been reached.} & 2 \\
+        &&\\
         Failure to Detect Released Position & {The current limit used to detect when the grasper has reached its fully opened
         position was not triggered within roughly 20 seconds of it reaching the fully opened position.} & 4\\
         \hline
