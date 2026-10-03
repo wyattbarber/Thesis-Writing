@@ -1,4 +1,4 @@
-\subsection{Grasper Mechanism Viability}
+\subsection{Grasper Mechanism Weight and Strength}
 
 The results in table \ref{tab:weight-inc} show that the device is capable of holding
 over twice the target weight. Using equation \ref{eqn:load-lim}, the verified 
@@ -20,6 +20,9 @@ however:
         PCBs and connectors used. The Raspberry Pi used for image processing may also perform some flight
         control functions, reducing the electronics weight needed for the drone.
 \end{itemize}
+
+
+\subsection{Grasper Mechanism Controller}
 
 The repeatability tests reveal some issues with the grasper control logic, specifically 
 with detecting when the grasper has reached its limits based on the motor current. The first 
@@ -44,7 +47,7 @@ and eliminating the current based limit detection in favor of limit switches or 
 sensors to detect the limits of travel may also be needed.
 
 
-\subsection{Perch Detection Viability}
+\subsection{Perch Detection Background Sensitivity}
 
 
 The results show that the proposed image processing method has potential, though performance is dependent on the background.
@@ -273,6 +276,8 @@ between these two tests or other uncontrolled variables.
     \label{fig:zigzag-2obj-compare}
 \end{figure}
 
+
+\subsection{Impact of Distance on Perch Detection Errors}
 
 Table \ref{tab:dist-error} and Fig. \ref{fig:dist-error} show a downward trend in the distance errors as the object gets closer to the camera, with errors at 500mm 
 distance averaging 10mm. The standard deviation $\sigma_{\Delta d}$ also decreases between 1000mm and 500mm distance. Both trends
