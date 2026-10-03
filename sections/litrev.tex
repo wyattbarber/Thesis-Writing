@@ -67,7 +67,7 @@ manually placing a drone on a simulated perch \cite{kitchen_design_2020}.
 
 Forest canopies contain highly varied microclimates, which support diverse ecosystems and may provide additional resilience to climate change.
 These systems are poorly understood, primarily due to the difficulty of observation and data collection. Often canopy cranes are used for
-forest observation, however these are costly and not suitable for data collection over a broad area. 
+forest observation, however these are costly and not suitable for data collection over a broad area. An example of such a crane is shown in Fig. \ref{fig:canopy-crane}.
 They are also very large, and can themselves cause disruption to the system being studied \cite{nakamura_forests_2017}.
 Other methods for tree canopy access include constructing towers, scaffolds, or aerial walkways through the tree canopy, 
 though these methods are also inflexible, and they do not permit access to all levels of the canopy. Climbing can also 
@@ -97,19 +97,29 @@ to be comfortable leaving it unattended in a tree \cite{dohm_notitle_2024, ostas
 forests of Michigan may provide a very different set of challenges for data collection than a tropical rainforest, and 
 perching drones may still have use in specific environments.
 
-Where perching an entire drone may be undesirable, a device such as that designed by Geckeler et al. could be used
-to attach only a small and low-cost sensor payload, with the drone acting only as a delivery and retrieval mechanism.
+Where perching an entire drone may be undesirable, using a drone as a deployment mechanism that places a sensor payload and leaves 
+could be useful \cite{dohm_notitle_2024}. A device such as that designed by Geckeler et al., shown in Fig. \ref{fig:bistable-coil} could be used
+to attach only a small sensor payload, with the drone acting only as a delivery and retrieval mechanism.
 Their design is passively actuated, using an elastic coil to wrap around a perch once the device is pressed against the
 perch by a drone \cite{geckeler_bistable_2022}. 
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{screenshots/bistable_coil.png}
+    \caption{Example of how a small, passively actuated grasper can be used to mount sensors that are 
+    deployed and retrieved by a drone. Adapted from \cite{geckeler_bistable_2022}.}
+    \label{fig:bistable-coil}
+\end{figure}
 
-\subsubsection{Networking}
+
+\subsubsection{Disaster Response}
 
 Another application of drone perching is to establish temporary sensor networks using drone swarms. Seiber et al. propose using
 swarms of drones equipped with air quality sensors to monitor the perimeter of hazardous gas plumes, such as might be 
 released from a toxic material spill. This provides two benefits compared to manual data collection: removing humans
 from identification of the plume boundaries reduces risk that humans will be exposed to toxins, and a network connected
 drone swarm can provide lower latency than manual data collection \cite{seiber_tracking_2018}.
+Perching drones could also be used to deploy networks for emergency communication purposes.
 
 Seiber et al. propose a drone design that is constantly in flight, providing a visual cue to the perimeter of a plume
 that first responders can use; since the drones are programmed to fly towards the outer edge of the gas cloud,
@@ -118,6 +128,7 @@ that the short battery life of most drones is a limiting factor to this approach
 establishing sensor and communication networks. Using drones with perching abilities provides the benefit of quickly deploying
 a network in hazardous or hard to reach areas, while extending mission time by shutting down flight systems once a perching 
 location has been found \cite{liu_perching_2022}.
+
 
 
 \subsection{Modes of Perching}
