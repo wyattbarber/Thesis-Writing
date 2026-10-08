@@ -1,13 +1,11 @@
 \subsection{Perch Detection Success Rate} \label{sec:results:perch-rate}
 
-\subsubsection{Success Rate with Single Object}
 For each test trial in table \ref{tab:vision-test-cases}, table \ref{tab:success-rates} shows
 the percentage of samples in which the object was correctly detected. Table \ref{tab:success-rates-dist}
 shows the same data, but with success rates reported for each distance between camera and object that 
 was tested. Each success rate in table \ref{tab:success-rates-dist} are the percent of the 20 total
 samples for that background and distance that were marked as valid, using the procedure described in 
 Section \ref{sec:methods:analysis-success-rate}.
-
 
 \begin{table}[H]
     \centering
@@ -45,9 +43,6 @@ Section \ref{sec:methods:analysis-success-rate}.
     \end{tabular}
 \end{table}
 
-
-\subsubsection{Success Rate with Additional Object}
-
 Table \ref{tab:success-rates-multi} shows the success rate for each background when a second object was added behind the intended target.
 Table \ref{tab:success-rates-dist-multi} shows the success rates for the same tests but split out by individual distances.
 
@@ -80,6 +75,26 @@ Table \ref{tab:success-rates-dist-multi} shows the success rates for the same te
         Zigzag & 2000 & 80.0 \\
         Checker & 1000 & 0.0 \\
         Checker & 2000 & 0.0 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+For the tests performed at smaller distances, the overall detection success rate was 
+98.3\%/ Table \ref{tab:success-rates-near-dist} shows the success rate at each distance
+tested.
+
+\begin{table}[H]
+    \centering
+    \caption{Detection success rate for each background and distance in table \ref{tab:vision-test-cases}}
+    \label{tab:success-rates-near-dist}
+    \begin{tabular}{|c||c|}
+        \hline
+        Distance to Object [mm] & Success Rate [\%] \\
+        \hline
+        40 & 100.0 \\
+        80 & 100.0 \\
+        160 & 95.0 \\
         \hline
     \end{tabular}
 \end{table}
@@ -183,4 +198,91 @@ values.
     The error bars at 2000mm distance do show 0 standard deviation; all measurements there
     were indeed identical due to the large quantization step size of depth values at large distances.}
     \label{fig:elev-error}
+\end{figure}
+
+
+The accuracy and precision results calculated for the small distance tests are shown in tables \ref{tab:dist-error-near},\ref{tab:elev-error-near}, and \ref{tab:azim-error-near},
+and Fig. \ref{fig:dist-error-near}, \ref{fig:elev-error-near}, and \ref{fig:azim-error-near}. 
+They are separated from the results above because they were collected after the camera positioning had been changed, and only were collected for the white background.
+
+
+\begin{table}[H]
+    \centering
+    \caption{Distance measurement errors vs object distance.}
+    \label{tab:error-sample-counts-near}
+    \begin{tabular}{|c||c|c|}
+        \hline
+        True Distance [mm] & Valid Sample Count\\
+        \hline
+        40 & 20 \\
+        80 & 20 \\
+        160 & 19 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Distance measurement errors vs object distance.}
+    \label{tab:dist-error-near}
+    \begin{tabular}{|c||c|c|}
+        \hline
+        True Distance $d$ [mm] & Average Error $\mu_{\Delta d}$ [mm] & Error Standard Deviation $\sigma_{\Delta d}$ [mm]\\
+        \hline
+        40 & -9.7 & 2.0 \\
+        80 & -32.9 & 4.9 \\
+        160 & -73.4 & 0.0 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Azimuth angle measurement errors vs object distance.}
+    \label{tab:azim-error-near}
+    \begin{tabular}{|c||c|c|}
+        \hline
+        True Distance $d$ [mm] & Average Error $\mu_{\Delta \alpha}$ [deg] & Error Standard Deviation $\sigma_{\Delta \alpha}$ [deg]\\
+        \hline
+        40 & -9.7 & 2.0 \\
+        80 & -32.9 & 4.9 \\
+        160 & -73.4 & 0.0 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Elevation angle measurement errors vs object distance.}
+    \label{tab:elev-error-near}
+    \begin{tabular}{|c||c|c|}
+        \hline
+        True Distance $d$ [mm] & Average Error $\mu_{\Delta \theta}$ [deg] & Error Standard Deviation $\sigma_{\Delta \theta}$ [deg]\\
+        \hline
+        40 & -9.7 & 2.0 \\
+        80 & -32.9 & 4.9 \\
+        160 & -73.4 & 0.0 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{sections/results/dist-error-near.png}
+    \caption{Distance measurement errors versus actual distance to object for all small distance tests.}
+    \label{fig:dist-error-near}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{sections/results/azimuth-error-near.png}
+    \caption{Azimuth angle measurement errors versus distance to object for all small distance tests.}
+    \label{fig:azim-error-near}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{sections/results/elevation-error-near.png}
+    \caption{Elevation angle measurement errors versus distance to object for all small distance tests.}
+    \label{fig:elev-error-near}
 \end{figure}
