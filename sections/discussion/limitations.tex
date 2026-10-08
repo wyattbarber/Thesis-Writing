@@ -1,1 +1,67 @@
-\subsection{Limitations}
+\subsection{Limitations and Future Works}
+
+\subsubsection{Limited Perch Shapes}
+
+The testing in this thesis only focused on detecting long, cylindrical perches without bends or branches.
+Since the Hough transform used to detect possible perches is made to detect such shapes, it is likely to
+perform poorly if a different shape of perch is introduced, for example a crooked or Y-shaped branch.   
+
+The testing performed on straight perches only is still believed to be a valid proof of concept. For the 
+perching mechanism to attach to a perch the drone has to approach a straight segment of the perch, at which
+point the visible portion of the perch will appear as a straight object without bends or branches. 
+
+\subsubsection{Limited Field of View}
+
+The cameras used in this device, as positioned in the proposed design, struggle to detect small distances. 
+Even after moving the cameras closer together, the device cannot detect distances smaller than roughly 40mm
+without the \texttt{StereoSGBM} block matcher cutting off half of the image. 
+
+Refining the circuit layout of the device to integrate the camera sensors on the same PCB as the CPU,
+rather than placing them on separate modules, could alleviate this issue by placing the cameras closer 
+together. This could also help reduce weight by reducing the number of PCBs and connectors needed. 
+
+Another way to solve this could be to dynamically reconfigure the \texttt{StereoSGBM} parameters in 
+a staged process as the perch gets closer to the cameras. When a perch has not been found, or one is found but far away, 
+the fullest field of view is needed to find perches in the largest possible area. But once a perch is identified and the 
+drone has moved near it, it is known to be near the center of the frame. In this it may be acceptable to discard
+many pixels in the margin, since only the center part of the image is needed to detect precise positioning of
+the perch. So the detection software could adjust the range of disparities that are measured to track only a window of depth
+around where a perch was last detected. This approach could harm runtime performance due to the cost of reconfiguring the 
+stereo matchers, though some gains could also be realized by limiting the number of disparities that need to be measured 
+in each update.
+
+\subsubsection{Poor Background Separation}
+
+The separation of background pixels performed in this thesis is based on the assumption that 
+perches will always be darker than the background. This may not always hold up in reality, 
+and in many scenes background points are incorrectly detected as foreground (this can 
+be seen in Fig. \ref{fig:bad-downsample:fixed}). Improving the reliability of this method
+across a wider range of backgrounds, or enabling it to work in a more cluttered scene,
+requires a better method of background removal.
+
+Machine learning based methods could be used to more precisely separate pixels that are 
+background, if sufficient data were available. Alternatively, better means of estimating the 
+accuracy of disparity data could be used to reject low confidence pixels (since rejection of 
+low-quality data is what the background removal achieved). One method to do this could be
+to compare the disparity data against time series data across consecutive image frames, 
+such as optical flow. Optical flow, paired with IMU data encoding the drones orientation 
+and motion, could provide additional depth estimation data to separate out the highest quality
+foreground pixels.
+
+\subsubsection{Poor Separation of Lines from Other Shapes}
+
+The Hough transform used has a critical shortcoming, which is that it does not 
+distinguish lines from other shapes; it generally works with the assumption that 
+any region containing many points is a line. The check added in this proposed workflow which requires 
+a line's ratio of length to width be above a parameterized value was not effective in solving this 
+issue. This can be seen in Fig. \ref{fig:filter-compare}
+and \ref{fig:bad-downsample}, where in both examples a flat background plane has many 
+lines drawn through it by the Hough transform. This would need to be fixed for the proposed 
+method to work in more cluttered environments.
+
+One method to solve this could be to add a minimum uniqueness limit to the Hough transform 
+result filtering. This would involve checking, for each detected line, how many votes are
+lost if its anchor point or direction were shifted by a small step, and rejecting any line 
+that does not lose a minimum number of votes. This would work to pass shapes that are truly 
+long thin lines, and reject other shapes like planes, boxes, or spheres that would still 
+have a high number of votes if the line drawn through them were shifted or turned slightly.
