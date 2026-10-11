@@ -1,37 +1,83 @@
-\subsection{End to End Device Test}
+\subsection{Device Demonstration}
 
-The test showed that, with the increased Hough space resolution, the device was 
-able to detect when the perch came in range and close around it. A video of the 
-process was captured, screenshots from it are shown in Fig. \ref{fig:e2e-vid}.
+The demonstration was successful, with the device successfully triggering the grasping mechanism to close 
+after a perch came into range. The delay between the perch coming into grasping range and the 
+grasper being closed was approximately 10 seconds, based on timestamps of the corresponding video frames.
+Images of the drones position at key stages in the process are show in 
+Fig. \ref{fig:e2e-vid}.
 
-The device was very slow to detect the perch, with a delay of 93 seconds % in range at 0:07, closed at 1:40
-between the perch being moved into range and the device detecting it and closing the grasper over it. 
 
 \begin{figure}[H]
     \centering
-    % Generated from "C:\Users\wyatt\Documents\GVSU\Thesis\prototype testing\test bin files\test_7"
     \begin{subfigure}[b]{\textwidth}        
-        \begin{subfigure}[b]{\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{sections/results/e2e-vid-1.png}
-            \caption{The start of the test, with the perch out of range.}
-            \label{fig:e2e-vid:1}
+        \begin{subfigure}[b]{\textwidth}        
+            \begin{subfigure}[b]{0.33\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{sections/results/demo-approach-side.jpg}
+                \caption{Side view of the approach.}
+                \label{fig:e2e-vid:1:s}
+            \end{subfigure}
+            \begin{subfigure}[b]{0.33\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{sections/results/demo-approach-top.jpg}
+                \caption{Top view of the approach.}
+                \label{fig:e2e-vid:1:t}
+            \end{subfigure}
+            \begin{subfigure}[b]{0.33\textwidth}
+                \centering
+                \caption{Devices view of the approach.}
+                \label{fig:e2e-vid:1:pc}
+            \end{subfigure}
         \end{subfigure}
         \vfill
-        \begin{subfigure}[b]{\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{sections/results/e2e-vid-2.png}
-            \caption{The middle of the test, with the perch moved into range.}
-            \label{fig:e2e-vid:2}
+        \begin{subfigure}[b]{\textwidth}        
+            \begin{subfigure}[b]{0.33\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{sections/results/demo-inpos-side.jpg}
+                \caption{Side view when in position.}
+                \label{fig:e2e-vid:2:s}
+            \end{subfigure}
+            \begin{subfigure}[b]{0.33\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{sections/results/demo-inpos-top.jpg}
+                \caption{Top view when in position.}
+                \label{fig:e2e-vid:2:t}
+            \end{subfigure}
+            \begin{subfigure}[b]{0.33\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{sections/results/demo-inpos-detect.png}
+                \caption{Devices view when in position.}
+                \label{fig:e2e-vid:2:pc}
+            \end{subfigure}
         \end{subfigure}
         \vfill
-        \begin{subfigure}[b]{\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{sections/results/e2e-vid-3.png}
-            \caption{The end of the test, with the perch in range and the grasper closed over it.}
-            \label{fig:e2e-vid:3}
+        \begin{subfigure}[b]{\textwidth}        
+            \begin{subfigure}[b]{0.33\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{sections/results/demo-perched-side.jpg}
+                \caption{Side view after perching.}
+                \label{fig:e2e-vid:3:s}
+            \end{subfigure}
+            \begin{subfigure}[b]{0.33\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{sections/results/demo-perched-top.jpg}
+                \caption{Top view of after perching.}
+                \label{fig:e2e-vid:3:t}
+            \end{subfigure}
+            \begin{subfigure}[b]{0.33\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{sections/results/demo-perched-detect.png}
+                \caption{Devices view after perching.}
+                \label{fig:e2e-vid:3:pc}
+            \end{subfigure}
         \end{subfigure}
     \end{subfigure}
-    \caption{Screenshots from the video of the device successfully detecting and grasping around a perch.}
+    \caption{Images of the 3 main stages of device operation during the demo: approaching the perch 
+    (\ref{fig:e2e-vid:1:s}, \ref{fig:e2e-vid:1:t}, and \ref{fig:e2e-vid:1:pc}), in position and ready to 
+    grasp (\ref{fig:e2e-vid:2:s}, \ref{fig:e2e-vid:2:t}, and \ref{fig:e2e-vid:2:pc}), and after grasping the 
+    perch (\ref{fig:e2e-vid:3:s}, \ref{fig:e2e-vid:3:t}, and \ref{fig:e2e-vid:3:pc}). Point cloud data in 
+    \ref{fig:e2e-vid:1:pc}, \ref{fig:e2e-vid:2:pc}, and \ref{fig:e2e-vid:3:pc} is displayed as described 
+    in Section \ref{sec:conv:ptcld}.
+    }
     \label{fig:e2e-vid}
 \end{figure}

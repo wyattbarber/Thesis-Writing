@@ -1,8 +1,12 @@
-\subsection{End to End Device Test}
+\subsection{Device Demonstration}
 
-One verification that all components of the proposed device work together was performed. A cylindrical rod was placed between the assembled devices
-graspers at approximately 5cm distance from the camera and the detection program activated. If the device logged that the rod was detected 
-at the expected position, and the graspers then closed, the test passed.
+To demonstrate that the completed system functions as intended, an end-to-end test of the perching process was performed.
+The device was attached to the top of a drone airframe, which was then suspended from ropes beneath a target perch
+(this setup was used due to restrictions on the operation of drones in research projects). The drone was manually raised from
+its starting pose beneath the perch, to a point where the perch was positioned within the grasping mechanism. The expectation
+was that at this point, if the system functions correctly, the grasper will close around the perch within the delay of one 
+processing cycle of the perch detection. A video was recorded of this process, and still images depicting key stages
+of the demonstration are shown in Fig. \ref{fig:e2e-vid}.
 
 One mechanical alteration had to be made to the device for this test to be performed. As mentioned in Section \ref{sec:methods:collection-single},
 small distances, less than a 2 to 3 hundred mm, cannot be detected by the device as originally designed due to the large stereo camera baseline.
