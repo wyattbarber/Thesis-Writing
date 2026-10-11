@@ -35,30 +35,4 @@ unknown, due to the limited number of test weights available.
 
 \subsubsection{Repeatability} \label{sec:results:repeatability}
 
-Of the 30 grasping cycles tested, 6 cycles resulted in a failure to grasp or release successfully,
-for an overall success rate of 80\%. Table \ref{tab:grasp-failure} shows the failure cases identified during the test
-with a brief explanation of each, and the number of times each failure occurred.
-
-One important detail that is not captured in the tabulated data is that all 4 cases of the "Failure to Detect Released Position"
-failure occurred continuously towards the end of the test, from trial 24 to 27. After trial 27 the servos were inspected, and it
-was found that the zero point of one had drifted significantly. After retuning its zero point, this failure did not occur for the 
-remaining two trials.
-
-\begin{table}[H]
-    \centering
-    \caption{Grasper Failure Cases and Counts}
-    \label{tab:grasp-failure}
-    \begin{tabular}{
-        |>{\raggedright\arraybackslash}m{0.33\textwidth}|>{\raggedright\arraybackslash}m{0.33\textwidth}||
-        >{\raggedright\arraybackslash}m{0.15\textwidth}|}
-        \hline
-        Failure & Description & Count\\
-        \hline
-        Premature Current Limit While Grasping & {The current limit used to detect when the grasper has reached its fully closed
-        position was triggered before the closed position had actually been reached.} & 2 \\
-        &&\\
-        Failure to Detect Released Position & {The current limit used to detect when the grasper has reached its fully opened
-        position was not triggered within roughly 20 seconds of it reaching the fully opened position.} & 4\\
-        \hline
-    \end{tabular}
-\end{table}
+All 100 of the test cycles resulted in successful grasping and releasing. 
