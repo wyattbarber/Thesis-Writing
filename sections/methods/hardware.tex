@@ -36,14 +36,35 @@ An illustration of how this device is intended to attach a drone to a perch is s
 
 \subsubsection{Latch Mechanism}
 
-Two concepts were initially explored, but rejected for various reasons. The first concept was a shape-memory-allow loop
-that could be moved over a perch and into a lock that would hold it in place. The concept is illustrated in Fig. \ref{fig:latch-sma}.
+Two concepts were initially explored, but rejected for various reasons. The first concept was a shape-memory-alloy actuator
+that could be moved over a perch and into a lock that would hold it in place. The actuator would consist of 3 individual SMA wires
+that could each move the device into a home, reaching, and latched position. The concept is illustrated in Fig. \ref{fig:latch-sma}.
 This concept was rejected due to concerns over available time and the author's lack of familiarity with SMA materials.
 
 \begin{figure}[H]
     \centering
-    \large{To-Do: Make CAD sketch of this concept.}
-    \caption{Rendered sketch of the shape-memory-alloy based grasper concept.}
+    \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.32\textwidth}
+            \includegraphics[width=\textwidth]{sections/methods/sma-concept-home.png}
+            \caption{The device in its home position, with the SMA bundle coiled out of the camera's view.}
+            \label{fig:latch-sma:home}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \includegraphics[width=\textwidth]{sections/methods/sma-concept-raised.png}
+            \caption{The device with the SMA bundle extended, ready to grasp a perch.}
+            \label{fig:latch-sma:raised}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \includegraphics[width=\textwidth]{sections/methods/sma-concept-latched.png}
+            \caption{The device with the SMA bundle wrapped over a perch, and the latch engaged.}
+            \label{fig:latch-sma:latched}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{Rendered sketch of the shape-memory-alloy based grasper concept in 3 stages of grasping. The base or drone airframe is shown 
+    in yellow, camera locations in green, and the target perch is shown in red. In blue is the grasping mechanism, consisting of a bundle of 
+    SMA wire actuators and a loop on the right, and on the left a latch mechanism that holds the SMA in place once it is grasped.}
     \label{fig:latch-sma}
 \end{figure}
 
