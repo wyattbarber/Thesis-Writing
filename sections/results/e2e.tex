@@ -4,7 +4,8 @@ The demonstration was successful, with the device successfully triggering the gr
 after a perch came into range. The delay between the perch coming into grasping range and the 
 grasper being closed was approximately 10 seconds, based on timestamps of the corresponding video frames.
 Images of the drones position at key stages in the process are show in 
-Fig. \ref{fig:e2e-vid}.
+Fig. \ref{fig:e2e-vid}. The initial detection in Fig. \ref{fig:e2e-vid:1:pc} does show that the perch was not actually 
+detected correctly at the start of the test, but was later on when the perch was closer.
 
 
 \begin{figure}[H]
@@ -25,6 +26,7 @@ Fig. \ref{fig:e2e-vid}.
             \end{subfigure}
             \begin{subfigure}[b]{0.33\textwidth}
                 \centering
+                \includegraphics[width=\textwidth]{sections/results/demo-approach-detect.png}
                 \caption{Devices view of the approach.}
                 \label{fig:e2e-vid:1:pc}
             \end{subfigure}
@@ -77,7 +79,8 @@ Fig. \ref{fig:e2e-vid}.
     grasp (\ref{fig:e2e-vid:2:s}, \ref{fig:e2e-vid:2:t}, and \ref{fig:e2e-vid:2:pc}), and after grasping the 
     perch (\ref{fig:e2e-vid:3:s}, \ref{fig:e2e-vid:3:t}, and \ref{fig:e2e-vid:3:pc}). Point cloud data in 
     \ref{fig:e2e-vid:1:pc}, \ref{fig:e2e-vid:2:pc}, and \ref{fig:e2e-vid:3:pc} is displayed as described 
-    in Section \ref{sec:conv:ptcld}.
+    in Section \ref{sec:conv:ptcld}. Note that the initial detection in \ref{fig:e2e-vid:1:pc} is in fact 
+    invalid.
     }
     \label{fig:e2e-vid}
 \end{figure}
