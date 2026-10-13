@@ -1,6 +1,25 @@
 \subsection{Perch Detection Software Design}
 
-The image processing software used to validate the perch detection concept was implemented in C++, compiled with GCC 14.2.0 for Debian 13.2,
+To perform perch detection, an approach similar to that used by Kominami et al, which uses a Hough transform to detect lines in an 
+image corresponding to the edges of a perch, then calculates a depth profile perpendicular to those two edges to identify 
+the shape and position of the object \cite{kominami_detection_2023}. However this approach presented two primary challenges
+for this thesis:
+\begin{itemize}
+    \item When detecting less straight and smooth shapes, such as branches, the Hough transform struggles to detect 
+        two opposite edges of the perch device due to the uneven edges that such a perch has. 
+    \item The method of computing a depth profile between the two edges struggled with the relatively low-quality 
+        depth data produced by Raspberry Pi cameras and \texttt{OpenCV}'s stereo block matcher; the clean and sharp
+        edges that Kominami et al. use to detect object boundaries and shape are not present, instead this depth data
+        contains many artifacts and inaccuracies near object boundaries.
+\end{itemize}
+
+For these reasons, the method of Kominami et al. was not pursued further. A method inspired by von Frankenberg and Nokleby,
+in which perches are detected directly in the point cloud, was pursued instead.
+In order to avoid the issue observed by von Frankenberg and Nokleby in which the perch is sometimes not detected simply
+because the RANSAC method did not happen to randomly sample enough points from the perch \cite{von_frankenberg_detection_2020},
+the 3D Hough transform algorithm proposed by Dalitz et al. \cite{dalitz_iterative_2017} was used for detecting candidate lines.
+
+The final perch detection concept was implemented in C++, compiled with GCC 14.2.0 for Debian 13.2,
 and executed on a Raspberry Pi Compute Module 4. The graph in figure \ref{fig:sw-flow} provides a high-level illustration of the steps in the 
 image processing pipeline and how data flows between them.
 
