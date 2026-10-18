@@ -1,0 +1,68 @@
+\RequirePackage{tikz}
+\RequirePackage{graphicx}
+
+
+\setbeamertemplate{background}{
+    \ifnum\thepage>1\relax%
+        \begin{beamercolorbox}[wd=\the\paperwidth,ht=\the\paperheight]{background canvas}
+        \end{beamercolorbox}
+    \else     
+        \hbox to \paperwidth{
+        \hfil 
+        \includegraphics[width=0.5\textwidth,height=0.25\paperheight]{beamer theme/gvsu.png}
+        \hfil
+        }
+    \fi
+}
+
+\setbeamertemplate{footline}{
+    \hbox {%
+        \begin{beamercolorbox}[wd=0.9\paperwidth,ht=1em]{footline}%
+            \today, \insertinstitute
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=0.1\paperwidth,ht=1em]{footline}%
+            \centering%
+            \insertframenumber / \inserttotalframenumber
+        \end{beamercolorbox}%
+    }
+}
+
+
+\setbeamertemplate{navigation symbols}{}
+
+
+\setbeamertemplate{title page}{
+\begin{beamercolorbox}[wd=\the\paperwidth]{title page header}
+    \centering
+    \vfil
+    \usebeamerfont{title}\inserttitle
+    \vfil
+\end{beamercolorbox}
+}
+
+\AtBeginSection[]{
+    \begin{frame}[plain]{}
+        \makebox[\linewidth][c]{%
+            \begin{minipage}{\dimexpr\paperwidth\relax}
+                \raggedright
+                \vbox { %
+                    \hbox {
+                    \begin{beamercolorbox}[wd=0.85\paperwidth,ht=3em,dp=1em]{title page header}%
+                        \usebeamerfont{title}\insertsectionhead%
+                    \end{beamercolorbox}%
+                    \includegraphics[width=0.15\paperwidth,height=3em]{beamer theme/logo.jpg}%
+                    }%
+                    \begin{beamercolorbox}[wd=\the\paperwidth,ht=0.5ex]{subtitle} %
+                    \end{beamercolorbox} %
+                } %
+            \end{minipage}%
+        }%
+    \end{frame}
+}
+
+
+\setbeamertemplate{frametitle}{
+\usebeamerfont{frametitle}\insertframetitle\\
+\begin{beamercolorbox}[wd=\the\paperwidth,ht=0.2ex]{frametitle}
+\end{beamercolorbox}
+}
