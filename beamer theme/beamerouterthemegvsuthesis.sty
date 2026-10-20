@@ -31,13 +31,22 @@
 \setbeamertemplate{navigation symbols}{}
 
 
-\setbeamertemplate{title page}{
+\setbeamertemplate{title page}{    
+\vfill
 \begin{beamercolorbox}[wd=\the\paperwidth]{title page header}
     \centering
-    \vfil
-    \usebeamerfont{title}\inserttitle
-    \vfil
+    \vbox{
+        \vfil
+        \usebeamerfont{title}\inserttitle
+        \vfil
+    }
 \end{beamercolorbox}
+    \begin{center}
+    \vspace{2em}
+    \insertauthor\\
+    \vspace{1em}
+    \insertdate\\
+\end{center}
 }
 
 \AtBeginSection[]{
@@ -47,11 +56,15 @@
                 \raggedright
                 \vbox { %
                     \hbox {
-                    \begin{beamercolorbox}[wd=0.85\paperwidth,ht=3em,dp=1em]{title page header}%
-                        \usebeamerfont{title}\insertsectionhead%
+                    \begin{beamercolorbox}[wd=0.85\paperwidth,ht=0.15\paperwidth]{title page header}%
+                        \vbox to 0.15\paperwidth{
+                            \vfil
+                            \usebeamerfont{title}\space\insertsectionhead%
+                            \vfil
+                        }
                     \end{beamercolorbox}%
-                    \includegraphics[width=0.15\paperwidth,height=3em]{beamer theme/logo.jpg}%
-                    }%
+                    \includegraphics[width=0.15\paperwidth,height=0.15\paperwidth]{beamer theme/logo.jpg}%
+                    }\nointerlineskip%
                     \begin{beamercolorbox}[wd=\the\paperwidth,ht=0.5ex]{subtitle} %
                     \end{beamercolorbox} %
                 } %
