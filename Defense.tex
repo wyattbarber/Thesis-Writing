@@ -1,6 +1,6 @@
 \documentclass{beamer}
 \usetheme{gvsuthesis}
-\usepackage[style=ieee,backend=bibtex]{biblatex}
+\usepackage[style=ieee,backend=bibtex,url=false]{biblatex}
 \addbibresource{references.bib}
 
 
@@ -21,11 +21,56 @@
 
 \section{Introduction}
 
+\begin{frame}{Background}
+    \begin{columns}[T]        
+        \begin{column}{0.49\textwidth}
+            Drone Perching:
+            \begin{itemize}
+                \item Form of multi-modal locomotion \cite{meng_aerial_2022}.
+                \item Mixes powered flight with unpowered and stationary rest \cite{meng_aerial_2022}.
+            \end{itemize}
+        \end{column}
+        
+        \begin{column}{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{screenshots/claw.jpg}
+            {\small Adapted from \cite{chi_optimized_2014}.}
+        \end{column}
+    \end{columns}    
+\end{frame}
+
+\begin{frame}{Significance}
+    \begin{itemize}
+        \item Perching has applications in data collection and environmental monitoring, infrastructure inspection, and disaster response
+        \cite{liu_perching_2022,kirchgeorg_hedgehog_2022,hoang_autonomous_2024,kitchen_design_2020,liu_mini-drone_2023,seiber_tracking_2018}.
+        \item Few real-world implementations found.
+        \item Methods of detecting and grasping perches that are affordable and easy to implement make perching behaviors more accessible to researchers.
+        \item Affordability and accessibility accelerate implementation of new perching applications. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Objectives}
+    \begin{itemize}
+        \item Design a perch detection method using low-cost and open-source components.
+        \item Design a low-cost, simple to fabricate grasping device.
+        \item Verify the reliability and accuracy of the design.
+    \end{itemize}
+\end{frame}
+
 
 \section{Review of Literature}
 
+\begin{frame}{Modes of Perching}
 
-\section{Objectives}
+\end{frame}
+
+\begin{frame}{Applications of Perching}
+
+\end{frame}
+
+\begin{frame}{Methods of Perch Detection}
+
+\end{frame}
 
 
 \section{Methods}
@@ -39,6 +84,7 @@
 
 
 \begin{frame}[allowframebreaks]{References}
+    \renewcommand*{\bibfont}{\small}
     \printbibliography[heading=none]
 \end{frame}
 
