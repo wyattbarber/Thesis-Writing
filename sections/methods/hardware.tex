@@ -36,9 +36,9 @@ An illustration of how this device is intended to attach a drone to a perch is s
 
 \subsubsection{Latch Mechanism}
 
-Two concepts were initially explored, but rejected for various reasons. The first concept was a shape-memory-alloy actuator
+Two concepts were initially explored, but rejected for various reasons. The first concept was a shape-memory-alloy (SMA) actuator
 that could be moved over a perch and into a lock that would hold it in place. The actuator would consist of 3 individual SMA wires
-that could each move the device into a home, reaching, and latched position. The concept is illustrated in Fig. \ref{fig:latch-sma}.
+that could each move the device into a home, reaching, or latched position. The concept is illustrated in Fig. \ref{fig:latch-sma}.
 This concept was rejected due to concerns over available time and the author's lack of familiarity with SMA materials.
 
 \begin{figure}[H]
@@ -68,9 +68,10 @@ This concept was rejected due to concerns over available time and the author's l
     \label{fig:latch-sma}
 \end{figure}
 
-A similar concept that replaced the SMA mechanism with a cable-actuated flexible grasper, that would wrap over a perch
-and into a latch similarly to the SMA device. This design was rejected because the hobby servos used could not provide enough torque 
-to bend the grasper as needed, and the flexibility combined with the elasticity of the cable drive prevented the device
+A similar concept that replaced the SMA mechanism with a cable-actuated flexible grasper was prototyped. The intent was that
+the grasper would wrap over a perch and into a latch similarly to the SMA device. This design was rejected because the hobby 
+servos used could not provide enough torque to bend the grasper as needed, 
+and the flexibility combined with the elasticity of the cable drive prevented the device
 from achieving sufficient repeatability in position control. Fig. \ref{fig:latch-cable} shows this prototype device.
 
 \begin{figure}[H]
@@ -108,7 +109,7 @@ The \texttt{BOSL2} library \cite{belfryscad_bosl2_nodate} was used to create the
     \label{fig:clasp-design}
 \end{figure}
 
-The device used here has an inner radius of 35mm, which results in it being able to accept a perch of up to 
+The device in Fig. \ref{fig:clasp-design} here has an inner radius of 35mm, which results in it being able to accept a perch of up to 
 50mm diameter. The outer radius of the device is 50mm. The latch component (green object in Fig. \ref{fig:clasp-design})
 has a radial width of 7.4mm. The code in appendix \ref{app:grasper-scad} is parameterized such that the grasper can easily
 be modified to grow to accommodate larger perches, or be shrunk to work with smaller perches while saving weight and space.
@@ -116,7 +117,8 @@ be modified to grow to accommodate larger perches, or be shrunk to work with sma
 It is worth noting that this device will not prevent the device from swinging, that is it provides no means 
 to prevent the drone from rotating about the y-axis once the drone is perched. This thesis assumes that the 
 application of this device does not require the drone to remain totally stationary, only that it be supported 
-so that it can power off its motors without falling.  
+so that it can power off its motors without falling. This is different from some other grasping designs, which 
+apply pressure to the perch to prevent rotation.
 
 \subsubsection{Controller}
 
@@ -137,7 +139,7 @@ Fig. \ref{fig:cpu-module}.
 \subsubsection{Holding Capacity}
 
 The specifications of popular commercial drones were assessed to determine common weights of drones,
-to determine weight that this drone might need to support.
+in order to determine weight that this drone might need to support.
 Table \ref{tab:drone-weights} shows the assessed models and their weights.
 
 \begin{table}[H]
@@ -168,7 +170,7 @@ There appear to be a few classes of drones represented:
 \end{itemize}
 
 
-The device must also allow for some dynamic load, to allow for force introduced by motion of the perch such as a swaying tree branch.
+The device must also allow for some dynamic load, particularly force introduced by motion of the perch such as a swaying tree branch.
 Assuming that the drone is perched in a tree and subject to sinusoidal motion, its maximum acceleration is estimated at $63.17 m/s^2$ 
 based on data provided by Kamimura et al. (0.4 m max displacement with a frequency of 2 Hz) \cite{kamimura_energy_2024}.  
 The referenced study did use only Japanese Cedar, which may not
@@ -178,16 +180,15 @@ Equation \ref{eqn:load-lim} gives a formula for a total test mass that the devic
 to match the mass of a drone and its maximum dynamic load.
 
 \begin{formula}[H]
-    \centering
-    \begin{math}
+    \begin{equation}
         m_t = m_d (1 + \frac{a}{g}) = 7.44 m_d
-    \end{math}\\
+    \end{equation}\\
     Where:
     \begin{itemize}
-        \item $m_d$: Mass of the drone.
         \item $m_t$: Test mass to mimic the drone and its dynamic load.
-        \item $g$: Gravitational acceleration, $9.81 m/s^2$.
+        \item $m_d$: Mass of the drone.
         \item $a$: Maximum acceleration experienced by a perched drone, estimated at $63.17 m/s^2$.
+        \item $g$: Gravitational acceleration, $9.81 m/s^2$.
     \end{itemize}
     \caption{Test load mass that mimics a given drone mass under acceleration.}
     \label{eqn:load-lim}
@@ -201,13 +202,13 @@ manageable for the device to hold. The other reasons are cost and risk. The medi
 more expensive, and are used to carry higher quality cameras. Leaving a drone perched in a tree or other location leaves
 it exposed to risk of damage, which makes using a larger drone for this particularly unappealing to the drone's owner.
 
-The achieved holding capacity of the device was achieved with the following test process:
+The achieved holding capacity of the device was verified with the following test process:
 \begin{enumerate}
     \item The grasper was closed around a test perch, suspended above the ground.
     \item A bag was attached to the underside of the grasper, close to the center of its baseplate in the x-y plane.
     \item Weights were added to the bag incrementally, with a 5-minute period between each addition.
-    \item Once the device breaks before the 5-minute period has expired after the most recent addition, the holding capacity
-        is determined to be the load weight at the previous successful weight addition.
+    \item Once the device breaks before the 5-minute period has expired after the most recent addition, or the maximum available weight of
+        8.83kg is reached, the holding capacity is determined to be the load weight at the previous successful weight addition.
 \end{enumerate}
 
 To avoid damaging the electronic components when the device failed, all except the servos were removed for the duration of this test. 
@@ -226,7 +227,7 @@ and the results are summarized in Section \ref{sec:results:capacity}.
 
 \subsubsection{Weight}
 
-Table \ref{tab:payload} shows rated payload for various drones, which were used 
+Table \ref{tab:payload} shows rated payload for various drones.
 The rated payload was calculated as the rated maximum total takeoff weight minus the drones specified weight. 
 The DJI Mavic products as well as the FLIR SIRAS had no maximum takeoff weight aside from the products weight, 
 so no maximum payload is listed for them. Most without a rated payload are assumed to still have some
@@ -253,19 +254,16 @@ thermal camera attachment, meaning it must have additional payload capacity.
     \label{tab:payload}
 \end{table}
 
-In the sub 500g category, only the Parrot ANAFI has a rated payload. This will be assumed as a reasonable estimate for the
+In the sub 500g category, only the Parrot ANAFI has a rated payload. This was assumed as a reasonable estimate for the
 payload capacity of similarly sized drones. In order to leave some margin for safety, and possible additional task-specific
-modifications, this devices weight shall be no more than 33\% of that capacity, or 47.5g. This target weight will also 
+modifications, a target of no more than 33\% of that capacity, or 47.5g, was used. This target weight would also 
 provide improvements over similar existing designs \cite{chi_optimized_2014,nguyen_passively_2019}.
-
 The overall weight and weight of individual components of the device were measured and recorded in table \ref{tab:weights}.
 
 \subsubsection{Repeatability}
 
 To verify that the proposed design can open and close reliably, the opening and closing process was manually 
 repeated 100 times. Each time after closing the grasper or opening it again, the device was 
-visually inspected to ensure that the latch did reach its fully closed and opened positions in each
-test cycle.
-
+visually inspected to ensure that the latch did reach its fully closed and opened positions.
 If opening or closing was not successful, then that test was marked as a failure, and the specific reason recorded.
 The success rate and failure causes are shown in Section \ref{sec:results:repeatability}.

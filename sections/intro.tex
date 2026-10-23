@@ -19,9 +19,9 @@ perch to attach \cite{nguyen_passively_2019}.
 
 Each of the varied mechanisms has different benefits and drawbacks. Electrostatic and electromagnetic based devices
 only work on specific materials, though they can be used to attach a drone to a vertical surface instead of only above 
-or beneath a perch \cite{meng_aerial_2022,liu_perching_2022,graule_perching_2016}. Claw like designs can attach to a wider 
+or beneath a perch \cite{meng_aerial_2022,liu_perching_2022,graule_perching_2016}. Claw-like designs can attach to a wider 
 variety of surfaces, though typically only from a specific orientation, and they have limits on the size and shape of perch they can grasp. 
-If designed correctly, a claw like perching mechanism can double as a manipulator to carry 
+If designed correctly, a claw-like perching mechanism can double as a manipulator to carry 
 and release additional payloads \cite{meng_aerial_2022,roderick_bird-inspired_2021}.
 
 The form of grasping mechanism can influence the complexity of control algorithms required to perform perching. 
@@ -37,7 +37,7 @@ large and not provide a good viewing angle for gauging drone orientation and dis
 Most proposed methods use stereo cameras to detect specific geometries such as thin boards or cylinders. These methods depend on relatively 
 expensive stereo cameras to measure quality depth data \cite{kominami_detection_2023,von_frankenberg_detection_2020}.
 
-Despite the research interest in creating perching drones, little evidence of these designed being put to practical use could be found. 
+Despite current research interest in creating perching drones, little evidence of these designs being put to practical use could be found. 
 It may be that the proposed designs are complex and inaccessible to researchers who would put them to use in ecology, infrastructure inspection,
 disaster response, or any of the other fields where such devices have been suggested to provide value. 
 Design of perching mechanisms that are simple to fabricate, allow for simple flight controllers to execute the approach to a perch, 
@@ -72,17 +72,17 @@ trees \cite{kamimura_energy_2024} was used. This assumes that the motion experie
 different in different forest types or on a different perch altogether. This likely is not accurate, however similar 
 data encompassing a wider variety of tree types could not be found.
 
-Assumptions are also made about the payload capacity of a small drone. Many commercial products do not specify a payload
+Assumptions were also made about the payload capacity of a small drone. Many commercial products do not specify a payload
 capacity or maximum takeoff weight separate from the device weight. Additionally, a small drone that is purpose built for 
 a role may have a higher payload than commercial products of similar size, due to the custom design allowing for more 
-optimization. In tables \ref{tab:weights} and \ref{tab:payload}, where a number of commercial drones were assessed 
+optimization. In tables \ref{tab:drone-weights} \ref{tab:payload}, where a number of commercial drones were assessed 
 to identify typical weights and payload capacities, only one model in the sub 500g group had a payload capacity. 
 This value was assumed to be representative of the payload capacity of other drones in the same size group.
 
 In developing the perch detection process, a method was needed to remove low confidence background pixels from 
 an image. This thesis used binary thresholding to accomplish this, under the assumption that most backgrounds 
-seen in drone perching will consist of higher intensity pixels with a low intensity perch. For example a gray 
-power line against the sky, or a brown tree branch against a sunlit forest canopy.
+seen in drone perching will consist of higher intensity pixels with a low intensity perch. A gray 
+power line against the sky, or a brown tree branch against a sunlit forest canopy, would fit within this assumption.
 
 \subsection{Significance}
 

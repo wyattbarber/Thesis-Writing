@@ -119,6 +119,18 @@
     \section{Schematics}
     \label{app:schematics}
 
+    \subsection{Servo Controller}
+ 
+    \begin{sidewaysfigure}[p]
+        \centering
+        \includegraphics[width=\textwidth]{appendices/grasper-ctl.pdf}
+        \caption{Servo control module used for this grasper design, consisting of a 5V regulator
+        that can be enabled or disabled digitally, three level shifters for servo PWM signals,
+        and an Adafruit ADS1015 analog-digital converter for current measurement.}
+        \label{fig:clasp-ctl}
+    \end{sidewaysfigure}
+    \FloatBarrier
+
     \subsection{CPU Module and Camera Interface}
     \pagebreak
     \begin{sidewaysfigure}[p]
@@ -130,19 +142,6 @@
         lidar sensor that was tested but ultimately not used due to poor performance in sunlight. U1 is the CPU,
         and across the bottom of the schematic are power supply components.}
         \label{fig:cpu-module}
-    \end{sidewaysfigure}
-    \FloatBarrier
-
-
-    \subsection{Servo Controller}
- 
-    \begin{sidewaysfigure}[p]
-        \centering
-        \includegraphics[width=\textwidth]{appendices/grasper-ctl.pdf}
-        \caption{Servo control module used for this grasper design, consisting of a 5V regulator
-        that can be enabled or disabled digitally, three level shifters for servo PWM signals,
-        and an Adafruit ADS1015 analog-digital converter for current measurement.}
-        \label{fig:clasp-ctl}
     \end{sidewaysfigure}
     \FloatBarrier
 

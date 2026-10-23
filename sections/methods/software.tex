@@ -1,26 +1,26 @@
 \subsection{Perch Detection Software Design}
 
-To perform perch detection, an approach similar to that used by Kominami et al, which uses a Hough transform to detect lines in an 
+To perform perch detection, an approach similar to that used by Kominami et al., which uses a Hough transform to detect lines in an 
 image corresponding to the edges of a perch, then calculates a depth profile perpendicular to those two edges to identify 
-the shape and position of the object \cite{kominami_detection_2023}. However this approach presented two primary challenges
+the shape and position of the object \cite{kominami_detection_2023}, was tested. However this approach presented two primary challenges
 for this thesis:
 \begin{itemize}
-    \item When detecting less straight and smooth shapes, such as branches, the Hough transform struggles to detect 
-        two opposite edges of the perch device due to the uneven edges that such a perch has. 
+    \item When detecting less straight and smooth shapes, such as branches, the Hough transform struggled to detect 
+        two opposite edges of the perch due to the uneven edges that such a perch has. 
     \item The method of computing a depth profile between the two edges struggled with the relatively low-quality 
         depth data produced by Raspberry Pi cameras and \texttt{OpenCV}'s stereo block matcher; the clean and sharp
-        edges that Kominami et al. use to detect object boundaries and shape are not present, instead this depth data
+        edges that Kominami et al. used to detect object boundaries and shape are not present, instead this depth data
         contains many artifacts and inaccuracies near object boundaries.
 \end{itemize}
 
-For these reasons, the method of Kominami et al. was not pursued further. A method inspired by von Frankenberg and Nokleby,
-in which perches are detected directly in the point cloud, was pursued instead.
+For these reasons, the method of Kominami et al. was not pursued further. Instead, a method inspired by von Frankenberg and Nokleby,
+in which perches are detected directly in the point cloud, was pursued.
 In order to avoid the issue observed by von Frankenberg and Nokleby in which the perch is sometimes not detected simply
 because the RANSAC method did not happen to randomly sample enough points from the perch \cite{von_frankenberg_detection_2020},
 the 3D Hough transform algorithm proposed by Dalitz et al. \cite{dalitz_iterative_2017} was used for detecting candidate lines.
 
 The final perch detection concept was implemented in C++, compiled with GCC 14.2.0 for Debian 13.2,
-and executed on a Raspberry Pi Compute Module 4. The graph in figure \ref{fig:sw-flow} provides a high-level illustration of the steps in the 
+and executed on a Raspberry Pi Compute Module 4. The diagram in figure \ref{fig:sw-flow} provides a high-level illustration of the steps in the 
 image processing pipeline and how data flows between them.
 
 The schematic of the device used to perform detection is shown in appendix \ref{app:schematics}, Fig. \ref{fig:cpu-module}.
@@ -74,7 +74,7 @@ Steps 2a and 2b, "Left Stereo Block Matching" and "Right Stereo Block Matching" 
 the \texttt{StereoSGBM} class from OpenCV \cite{bradski_opencv_2000}. The left matcher was constructed with the arguments 
 shown in table \ref{tab:stereo-args} and \texttt{OpenCV}s \texttt{createRightMatcher} function was used to create a right matcher 
 with corresponding parameters. The "minDisparity" and "numDisparities" parameters in table \ref{tab:stereo-args} were calculated
-based on the calibration data to give a detection distance range of approximately 0.2m to 3.0m.
+based on the calibration data to give a detection distance range of approximately 0.2 m to 3.0 m.
 
 The left and right matchers were used, instead of only one matcher, to support the next WLS filtering step. The left and right
 matcher compute disparity values from left to right and right to left, respectively. These two disparity maps can then be cross-checked 
@@ -104,13 +104,14 @@ to remove invalid disparity values, for example incorrect disparity values resul
 
 \subsubsection{WLS Filtering}
 
-Step 4 in Fig. \ref{fig:sw-flow}, "Weighted Least Squares Filtering", used \texttt{OpenCV}s \texttt{DisparityWLSFilter} class \cite{bradski_opencv_2000} to improve the quality of the disparity data.
-This filter uses the left and right disparity to remove low quality point. It also uses the left grayscale image as a guide to fill in missing disparity values, under 
+Step 3 in Fig. \ref{fig:sw-flow}, "Weighted Least Squares Filtering" (WLS Filtering), used \texttt{OpenCV}s \texttt{DisparityWLSFilter} class \cite{bradski_opencv_2000} 
+to improve the quality of the disparity data.
+This filter uses the left and right disparity to remove low quality points. It also uses the left grayscale image as a guide to fill in missing disparity values, under 
 the assumption that edges in the grayscale image should correspond to the edges in the disparity map. The filter produces two outputs: a filtered disparity map, and a
 confidence map reflecting the approximate confidence that each disparity is correct.
 
 The \texttt{DisparityWLSFilter} class has 4 arguments that influence how much smoothing it applies and how much the produced disparity follows edges
-in the guide image. The names of those arguments and the values used here are listed in table \ref{tab:wls-filter-args}.
+in the guide image. The names of those arguments and the values used are listed in table \ref{tab:wls-filter-args}.
 
 \begin{table}[H]
     \centering
@@ -133,10 +134,10 @@ in the guide image. The names of those arguments and the values used here are li
 Step 4 "Background Separation" in Fig. \ref{fig:sw-flow} was intended to help filter out background objects that were not suitable perches and 
 were likely to contribute false positive images. In the laboratory test setup this background was a painted wall,
 which was relatively textureless, difficult for the block matching algorithm to process correctly, 
-and tends to introduce artifacts into the point cloud that get mistakenly identified as perches. 
+and tended to introduce artifacts into the point cloud that were mistakenly identified as perches. 
 Fig. \ref{fig:filter-compare} illustrates the poor performance of block matching against a featureless background.
 In a real world scenario this background would more likely be open sky or a tree canopy, which may not be so featureless as a wall
-but may still introduce its own challenges for the block matching algorithm.
+but may still introduce its own challenges for the block matching~algorithm.
 
 \begin{figure}[H]
     \centering
@@ -170,7 +171,7 @@ but may still introduce its own challenges for the block matching algorithm.
     \label{fig:filter-compare}
 \end{figure}
 
-To remove background points from consideration, image thresholding using Otsu's method \cite{otsu_threshold_1979} is performed. 
+To remove background points from consideration, image thresholding using Otsu's method \cite{otsu_threshold_1979} was performed. 
 Otsu's method automatically determines a threshold value based on the distribution of light and dark pixels in the image. 
 The process used here was:
 \begin{enumerate}
@@ -187,7 +188,7 @@ This process does make two critical assumptions about the images that will be en
 
 
 Table \ref{tab:background-removal} shows preliminary test results comparing the success rate, determined as described in Section \ref{sec:methods:analysis-success-rate},
-for a flat white background and a zigzag patterned background. Sample counts are also listed, since the test was run for a fixed 2m interval per distance tested,
+for a flat white background and a zigzag patterned background. Sample counts are also listed, since the test was run for a fixed 2-minute interval per distance tested,
 rather than for a fixed number of samples. The table compares success rate with and without background removal for each
 background type. The results show that this step does improve performance against a featureless background, but may have a small
 negative effect against patterned backgrounds.
@@ -218,13 +219,13 @@ to a point cloud with \texttt{OpenCV}s \texttt{reprojectImageTo3D} function \cit
 
 Four criteria were applied to all points in the point cloud to determine validity. They are:
 \begin{enumerate}
-    \item The points z-coordinate is greater than 0.2m. 
-    \item The points z-coordinate is less than 3.0m. 
-    \item The points x-coordinate, in image pixel units, is more than 75 px away from either left or right edge of the image.
-    \item The points y-coordinate, in image pixel units, is more than 75 px away from either top or bottom edge of the image.
+    \item The point's z-coordinate is greater than 0.2m. 
+    \item The point's z-coordinate is less than 3.0m. 
+    \item The point's x-coordinate, in image pixel units, is more than 75 px away from either left or right edge of the image.
+    \item The point's y-coordinate, in image pixel units, is more than 75 px away from either top or bottom edge of the image.
 \end{enumerate}
 
-Criteria 1 and 2 corresponds to the min and max distances used when calculating disparity ranges for the stereo matchers. Values outside
+Criteria 1 and 2 corresponds to the minimum and maximum distances used when calculating disparity ranges for the stereo matchers. Values outside
 that range indicate invalid disparities. Criteria 3 and 4 serve to remove points that were more likely to be calibration error. Calibration 
 error often appears worst at the edges of an image, and such artifacts were seen in some of the test data. It was not deemed likely that a 
 calibration of sufficient quality and stability could be obtained with the device used to completely avoid the presence of such artifacts, 
@@ -294,11 +295,11 @@ on point cloud quality, as shown in Fig. \ref{fig:bad-downsample}.
 
 The "3D Hough Transform" in step 6 of Fig. \ref{fig:sw-flow} applied the algorithm proposed by Dalitz et al. \cite{dalitz_iterative_2017} 
 to the downsampled point cloud. In the Hough transform each point "votes" on possible lines in the cloud. 
-Each point represents 1 vote for all possible lines it could exist on. After the entire point cloud "voted" 
+Each point represents 1 vote for all possible lines it could exist on. After the entire point cloud "voted",
 the iterative process summarized below was followed to produce candidates:
 \begin{enumerate}
     \item The line parameters with the highest vote count is selected.
-    \item The line is refined by performing PCA on all points that are close to it.
+    \item The line is refined by performing principal component analysis (PCA) on all points that are close to it.
     \item All points that are still close to the line after PCA refinement are removed from the point cloud and
         their votes are removed from the Hough accumulator.
     \item The next highest voted line is identified starting from step 1 until there are no line parameters left that
@@ -324,7 +325,7 @@ The iterative process, with these modifications, is summarized as follows:
 \begin{enumerate}
     \item The line parameters with the highest vote count is selected.
     \item The line is refined by performing PCA on all points that are close to it.
-    \item The length and width of the line are calculated by projecting all point close to the line onto 
+    \item The length and width of the line are calculated by projecting all points close to the line onto 
         the first and second principal component vectors and finding the largest magnitude of these projections.
     \item The direction of the line (first principal component) is used to estimate the angle of the line to 
         the cameras x-y plane.
@@ -366,7 +367,7 @@ in this thesis are listed in table \ref{tab:hough-args}.
 
 Preliminary tests showed that the success rate was sensitive to the vote threshold parameter. 
 Table \ref{tab:hough-votes} shows success rates for a set of early test images with the vote 
-threshold set to 100 and 200. At the higher value success rate drops, because the 
+threshold set to 100 and 200. At the higher value success rate drops because the 
 test object does not produce enough points to reach the threshold. 
 
 \begin{table}[H]
@@ -392,13 +393,13 @@ the smallest Z-coordinate). This closes line is the final output of the detectio
 
 \subsection{Stereo Camera Calibration} \label{sec:methods:calibration}
 
-A camera calibration script was creates using the functions available in OpenCV \cite{bradski_opencv_2000}. The script can be read in appendix \ref{app:cal-code}.
+A camera calibration script was created using the functions available in OpenCV \cite{bradski_opencv_2000}. The script can be read in appendix \ref{app:cal-code}.
 232 total calibration image pairs were captured. The calibration pattern used was an 8 marker by 11 marker ChArUco board with 20mm checkers and 15mm markers, and a 4x4 AruCo dictionary.
 
 To perform individual camera intrinsic and distortion parameter calibrations, each image was loaded then the pattern corners were detected and matched to the expected board layout.
 Any image in which fewer than 10 corner points were detected was discarded, as low point counts can result in bad calibration parameters. For accepted images, the identified calibration
-pattern corner locations in the image coordinates are saved, as well as the estimated position and orientation of the calibration board. The accepted points were then used to calculate 
-an initial estimate of the cameras intrinsic matrix and distortion coefficients. The calibration at this point is still low quality, so an iterative refinement is now applied. For each image
+pattern corner locations in the image coordinates were saved, as well as the estimated position and orientation of the calibration board. The accepted points were then used to calculate 
+an initial estimate of the camera's intrinsic matrix and distortion coefficients. The calibration at this point was low quality, so an iterative refinement was applied. For each image
 that was not rejected, the calibration pattern points were projected into image coordinates using the saved position and orientation estimates of the calibration board. Then the error between these 
 projected points and the positions of the previously detected points in that image were calculated. Once these errors were calculated for all images, any point in an image that had a reprojection error 
 greater than 3 standard deviations of the reprojection error for all points in all images was discarded, under the assumption that this high error was due to a bad detection of that corner. If any image 
@@ -509,14 +510,14 @@ Fig. \ref{fig:cal-left}, \ref{fig:cal-right}, and \ref{fig:cal-stereo} show the 
 
 To determine the success rate of perch detection, samples were manually labelled as valid or invalid detections
 using the script in appendix \ref{app:label-code}.
-The script uses binary files saved in the data collection process display the left camera image from each file and overlays the selected line candidate, alongside colored dots 
+The script uses binary files saved in the data collection process to display the left camera image from each file and overlay the selected line candidate, alongside colored dots 
 indicating all points that are part of a candidate line. This allows the user to accept an image as a valid detection, or
 reject it if something appears to have gone wrong in the processing. The script then saves a JSON file containing the 
 overall success rate as a percentage of the files that were accepted by the user, as well as a boolean flag for each file
 indicating if the user accepted or rejected it. Fig. \ref{fig:label-gui} shows an example of what the script displays to the
 user to label samples.
 
-When labelling samples as valid or in valid, the following two criteria were used for determining if a detection was valid:
+When labelling samples as valid or invalid, the following two criteria were used for determining if a detection was valid:
 \begin{itemize}
     \item The line drawn to show the detected object must intersect somewhere with the real object.
     \item The line drawn to show the detected object must be approximately $10^\circ$ or less away from parallel to the real object.
@@ -582,42 +583,43 @@ respectively. For clarification of how to interpret the displayed point cloud da
 \subsubsection{Accuracy} \label{sec:methods:analysis-accuracy}
 
 When calculating the accuracy of perch detection, the measurement definitions in Section \ref{sec:conv:meas}
-are used. Additionally, the following values are defined for distinguishing values measured by the perch
-detection device from the true values configured in the test:
-\begin{itemize}
-    \item $\hat{d}$: The estimated value of $d$, or the distance to the perch that was measured by the device.
-    \item $\hat{\alpha}$: The estimated value of $\alpha$, or the angle between perch and the y-axis that was measured by the device.
-    \item $\hat{\theta}$: The estimated value of $\theta$, or the angle between perch and the x-y plane that was measured by the device.
-\end{itemize}
-
-The error in each measured value is calculated with equations \ref{eqn:dd}, \ref{eqn:da}, and \ref{eqn:dt}.
+are used. The error in each measured value is calculated with equations \ref{eqn:dd}, \ref{eqn:da}, and \ref{eqn:dt}.
 
 \begin{formula}[H]
-    \centering
-    \begin{math}
+    \begin{equation}
         \Delta d = \hat{d} - d
-    \end{math}
+    \end{equation}
+    Where:
+    \begin{itemize}
+        \item $\hat{d}$: The estimated value of $d$, or the distance to the perch that was measured by the device.
+    \end{itemize}
     \caption{Definition of error value for distance measurements.}
     \label{eqn:dd}
 \end{formula}
 
 \begin{formula}[H]
-    \centering
-    \begin{math}
+    \begin{equation}
         \Delta \alpha = \begin{cases}
         \hat{\alpha} - \alpha & \hat{\alpha} \leq 90 \\
         (180 - \hat{\alpha}) - \alpha & \hat{\alpha} > 90 \\
     \end{cases}
-    \end{math}
+    \end{equation}
+    Where:
+    \begin{itemize}
+        \item $\hat{\alpha}$: The estimated value of $\alpha$, or the angle between perch and the y-axis that was measured by the device.
+    \end{itemize}
     \caption{Definition of error value for azimuth measurements.}
     \label{eqn:da}
 \end{formula}
 
 \begin{formula}[H]
-    \centering
-    \begin{math}
+    \begin{equation}
         \Delta \theta = \hat{\theta} - \theta
-    \end{math}
+    \end{equation}
+    Where:
+    \begin{itemize}
+        \item $\hat{\theta}$: The estimated value of $\theta$, or the angle between perch and the x-y plane that was measured by the device.
+    \end{itemize}
     \caption{Definition of error value for elevation measurements.}
     \label{eqn:dt}
 \end{formula}
@@ -629,55 +631,49 @@ values in a group. For a group containing N samples, the formulas in equations
 \ref{eqn:m_dd} to \ref{eqn:s_dt} are used to calculate accuracy and precision.
 
 \begin{formula}[H]
-    \centering
-    \begin{math}
+    \begin{equation}
         \mu_{\Delta d} = \frac{1}{N} \sum_{n=0}^{N-1} \Delta d_n
-    \end{math}
+    \end{equation}
     \caption{Formula for accuracy of distance measurement (average value of error).}
     \label{eqn:m_dd}
 \end{formula}
 
 \begin{formula}[H]
-    \centering
-    \begin{math}
+    \begin{equation}
         \sigma_{\Delta d} = \sqrt{\frac{\sum_{n=0}^{N} (\Delta d_n - \mu_{\Delta d})^2 }{N}}
-    \end{math}
+    \end{equation}
     \caption{Formula for precision of distance measurement (standard deviation of error).}
     \label{eqn:s_dd}
 \end{formula}
 
 \begin{formula}[H]
-    \centering
-    \begin{math}
+    \begin{equation}
         \mu_{\Delta \alpha} = \frac{1}{N} \sum_{n=0}^{N-1} \Delta \alpha_n
-    \end{math}
+    \end{equation}
     \caption{Formula for accuracy of azimuth measurement (average value of error).}
     \label{eqn:m_da}
 \end{formula}
 
 \begin{formula}[H]
-    \centering
-    \begin{math}
+    \begin{equation}
         \sigma_{\Delta \alpha} = \sqrt{\frac{\sum_{n=0}^{N} (\Delta \alpha_n - \mu_{\Delta \alpha})^2 }{N}}
-    \end{math}
+    \end{equation}
     \caption{Formula for precision of azimuth measurement (standard deviation of error).}
     \label{eqn:s_da}
 \end{formula}
 
 \begin{formula}[H]
-    \centering
-    \begin{math}
+    \begin{equation}
         \mu_{\Delta \theta} = \frac{1}{N} \sum_{n=0}^{N-1} \Delta \theta_n
-    \end{math}
+    \end{equation}
     \caption{Formula for accuracy of elevation measurement (average value of error).}
     \label{eqn:m_dt}
 \end{formula}
 
 \begin{formula}[H]
-    \centering
-    \begin{math}
+    \begin{equation}
         \sigma_{\Delta \theta} = \sqrt{\frac{\sum_{n=0}^{N} (\Delta \theta_n - \mu_{\Delta \theta})^2 }{N}}
-    \end{math}
+    \end{equation}
     \caption{Formula for precision of elevation measurement (standard deviation of error).}
     \label{eqn:s_dt}
 \end{formula}
@@ -696,16 +692,12 @@ orientation, and dimensions of the detected object each time a new update was pr
 program to save a binary file containing both left and right images, the calculated disparity and confidence map, the filtered point cloud, and information about the 
 identified line candidates with labels for all points in the point cloud that belong to a line candidate.
 
-This test was performed for the following combinations of object poses. All angles were measured to be within $5^\circ$ of the target value using the "Clinometer" Android app,
+This test was performed for distances $d$ of 500 mm, 1 m, and 2 m. In all tests the values of $\alpha$ and $\theta$ were 0 degrees.
+All angles were measured to be within $5^\circ$ of the target value using the "Clinometer" Android app,
 and the distances measured within $5mm$ via tape measure. Smaller distances were not tested due to limitations of the stereo camera device; smaller distances require a higher number of disparities to detect,
 and higher disparities produce a larger margin on the left side of the image where no depth data is available. At distances much smaller than 500mm the required number of disparities 
 causes nearly half the image to be without depth data.
 
-\begin{itemize}
-    \item $d = 500mm$, $\alpha = 0^\circ$, $\theta = 0^\circ$
-    \item $d = 1000mm$, $\alpha = 0^\circ$, $\theta = 0^\circ$
-    \item $d = 2000mm$, $\alpha = 0^\circ$, $\theta = 0^\circ$
-\end{itemize}
 
 These three trials were repeated with the object in front of 3 different backgrounds:
 \begin{itemize}
