@@ -22,39 +22,12 @@ the 3D Hough transform algorithm proposed by Dalitz et al. \cite{dalitz_iterativ
 The final perch detection concept was implemented in C++, compiled with GCC 14.2.0 for Debian 13.2,
 and executed on a Raspberry Pi Compute Module 4. The diagram in figure \ref{fig:sw-flow} provides a high-level illustration of the steps in the 
 image processing pipeline and how data flows between them.
-
 The schematic of the device used to perform detection is shown in appendix \ref{app:schematics}, Fig. \ref{fig:cpu-module}.
 
 
 \begin{figure}[H]
     \centering
-    \digraph[width=\textwidth]{swflow}{
-        rankdir=TB;
-        graph [splines=ortho];
-
-        lc [label="1a: Left Camera Frame Acquisition" shape=box];
-        rc [label="1b: Right Camera Frame Acquisition" shape=box];
-        ls [label="2a: Left Stereo Block Matching" shape=box];
-        rs [label="2b: Right Stereo Block Matching" shape=box];
-        f [label="3: Weighted Least Squares Filtering" shape=box];
-        bg [label="4: Background Separation" shape=box];
-        pc [label="5: Point Cloud Projection and Downsampling" shape=box];
-        ht [label="6: 3D Hough Transform" shape=box];
-        s [label="7: Best Candidate Selection" shape=box];
-
-        lc -> ls ;%[label="Left Side Image"];
-        lc -> rs ;%[label="Left Side Image"];
-        lc -> bg ;%[label="Left Side Image"];
-        lc -> f ;%[label="Guide For Inpainting"];
-        rc -> ls ;%[label="Right Side Image"];
-        rc -> rs ;%[label="Right Side Image"];
-        ls -> f ;%[label="Left-To-Right Disparity"];
-        rs -> f ;%[label="Right-To-Left Disparity"];
-        f -> pc ;%[label="Filtered Disparity and Confidence Map"];
-        bg -> pc ;%[label="Segmented Foreground"];
-        pc -> ht ;%[label="Down-Sampled Point Cloud"];
-        ht -> s ;%[label="Position, Orientation, and Dimensions of Candidate Lines"];        
-    }
+    \includegraphics[width=\textwidth]{sections/methods/sw-flow.png}
     \caption{Diagram of the data flow for the proposed image processing pipeline, 
         starting from image acquisition on the top to generation of coordinates for 
         the detected perch on the bottom.}
