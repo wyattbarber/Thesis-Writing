@@ -264,3 +264,13 @@ Using an Intel i7-4770 3.40 GHz 4 core processor, their method was able to colle
 points, however processing time quickly increases as the number of point grows or if the point cloud becomes dominated by planar objects (their test 
 scene showed only 2 ladders and a pair of pipes, all of which produce only thin, linear shapes in the point cloud). Additionally, the randomness
 of the RANSAC method they used lead to the target object not being detected in every frame because its points were not selected in every frame \cite{von_frankenberg_detection_2020}.
+
+
+\subsection{Objectives of Current Work}
+
+The primary objective of this thesis is to design and verify a perch detection method 
+that can be used to detect long cylindrical objects, similar to that designed by von Frankenberg and Nokleby \cite{von_frankenberg_detection_2020},
+but using low-cost components and open-sourced software packages, and avoiding the intermittent detection loss 
+that von Frankenburg and Nokleby identified resulting from random sampling based methods \cite{von_frankenberg_detection_2020}.
+The second objective is to design a perching mechanism that can attach to such perches, with a focus on 
+a design that is simple to fabricate and adapt for specific use cases.
