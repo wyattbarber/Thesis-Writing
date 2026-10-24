@@ -142,7 +142,7 @@ There are 3 position measurements relevant for the perch detection in this thesi
 
 \begin{figure}[H]
     \centering
-    \tdplotsetmaincoords{65}{115}
+    \tdplotsetmaincoords{65}{125}
     \begin{tikzpicture}[tdplot_main_coords, scale=1.2, >=Stealth, line join=round] 
     %===================================================
     % Coordinate axes (camera frame: y up, z out of lens).
@@ -158,7 +158,7 @@ There are 3 position measurements relevant for the perch detection in this thesi
     \filldraw[black] (0,0,0) circle (0.02);
 
     \coordinate (O) at (0,0,0);
-    \tdplotsetcoord{P}{3}{25}{135}    
+    \tdplotsetcoord{P}{3}{35}{145}    
     \draw[dashed, red] (O) -- (Pxz);
     \draw[dashed, red] (O) -- (Pz);
     
@@ -168,7 +168,7 @@ There are 3 position measurements relevant for the perch detection in this thesi
     %===================================================
     \pgfmathsetmacro{\rodz}{0}
     \pgfmathsetmacro{\rodl}{3}
-    \tdplotsetrotatedcoords{135}{25}{0}
+    \tdplotsetrotatedcoords{145}{35}{0}
     \begin{scope}[tdplot_rotated_coords]
         \draw[ultra thick, black!60, line cap=round]
             (0,\rodz,-\rodl) -- (0,\rodz,\rodl);
@@ -177,8 +177,13 @@ There are 3 position measurements relevant for the perch detection in this thesi
         \node[anchor=west] at (0,\rodz,\rodl+0.15) {Perch};
     \end{scope}
 
-    \pic[draw=red, text=red, "$\theta$", angle radius=2cm, angle eccentricity=1.3] {angle = P--O--Pxz};
-    \pic[draw=red, text=red, "$\alpha$", angle radius=2.5cm, angle eccentricity=1.3] {angle = Pxz--O--Pz};
+    \pic[draw=red, text=red, "$\theta$", angle radius=1.5cm, angle eccentricity=1.3] {angle = P--O--Pxz};
+    \pic[draw=red, text=red, "$\alpha$", angle radius=2.1cm, angle eccentricity=1.3] {angle = Pxz--O--Pz};
+    
+    \pic[draw=red, angle radius=0.2cm] {right angle = O--Pxz--P};
+    \draw[dashed, red] (Pxz) -- (P);
+    \pic[draw=red, angle radius=0.2cm] {right angle = O--Pz--Pxz};
+    \draw[dashed, red] (Pz) -- (Pxz);
 
     \end{tikzpicture}
     \caption{Illustration of the angle measurements of a perch's orientation: $\alpha$, the angle between the perch
