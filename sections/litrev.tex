@@ -181,6 +181,18 @@ This works similarly to how many insects climb surfaces, by using tiny spikes th
 This method can allow drones to perch on vertical surfaces, though it is not universal to all surface types and 
 can provide less stability than grasping based methods \cite{meng_aerial_2022}. 
 
+Desbiens et al. designed an embedding type device, which is illustrated in Fig. \ref{fig:fixwing-spines}.
+The device was designed for fixed-wing drones to attach to vertical surfaces, and highlights the 
+concept of using microscale spikes to grasp the small textural features of a rough surface \cite{lussier_desbiens_landing_2010}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{screenshots/fixedwing-spines.png}
+    \caption{Example illustration of an embedding-type perching device, intended 
+    for perching on vertical surfaces. Adapted from \cite{lussier_desbiens_landing_2010}.}
+    \label{fig:fixwing-spines}
+\end{figure}
+
 Distinguishing between grasping and embedding mechanisms can be simply a matter of scale, as embedding mechanisms often operate like very small graspers.
 Fig. \ref{fig:gripper} illustrates a device proposed by Roderick et al. which was designed to grip the bark of a tree \cite{roderick_bioinspired_2017}.
 While it does not attach by grasping an actuator around the circumference of a tree like a typical grasping based device would, Fig. \ref{fig:gripper}
@@ -198,10 +210,15 @@ shows that it is still operating by grasping onto smaller scale features.
 
 Attaching based perching devices use adhesives, electromagnetics, electrostatics, or vacuum cups to attach a drone to a surface. Such methods
 can work with both smooth and rough surfaces, unlike grasping or embedding methods, and can attach drones above, below, or to the side of a perch
-object \cite{meng_aerial_2022}.
+object \cite{meng_aerial_2022}. They can also be beneficial when damage to the perch surface must be avoided, as designs 
+that use embedding spines can cause scratches and abrasion \cite{liu_perching_2022}.
 
 One example of such a device is shown in Fig. \ref{fig:electroadhesive}, designed by Gaule et al. It uses electrostatic adhesion to 
-attach an insect inspired micro UAV to the underside of an object \cite{graule_perching_2016}.
+attach an insect inspired micro UAV to the underside of an object \cite{graule_perching_2016}. The device designed by Liu et al.
+for deploying sensor networks is also an example of an attaching based device; it uses an electro-permanent magnet to attach a 
+drone to the underside of a horizontal surface or the face of a vertical surface. Since it uses a magnet
+to provide the attaching force, this device can only attach drones to ferrous surfaces \cite{liu_perching_2022}.
+
 
 \begin{figure}[H]
     \centering
