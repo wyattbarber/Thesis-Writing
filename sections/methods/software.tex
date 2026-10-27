@@ -50,7 +50,7 @@ with corresponding parameters. The "minDisparity" and "numDisparities" parameter
 based on the calibration data to give a detection distance range of approximately 0.2 m to 3.0 m.
 
 The left and right matchers were used, instead of only one matcher, to support the next WLS filtering step. The left and right
-matcher compute disparity values from left to right and right to left, respectively. These two disparity maps can then be cross-checked 
+matchers compute disparity values from left to right and right to left, respectively. These two disparity maps can then be cross-checked 
 to remove invalid disparity values, for example incorrect disparity values resulting from occlusions. 
 
 \begin{table}[H]
@@ -148,7 +148,7 @@ To remove background points from consideration, image thresholding using Otsu's 
 Otsu's method automatically determines a threshold value based on the distribution of light and dark pixels in the image. 
 The process used here was:
 \begin{enumerate}
-    \item A Gaussian blur with a 5x5 kernel is applied to left camera image.
+    \item A Gaussian blur with a 5x5 kernel is applied to the left camera image.
     \item Otsu's method is used to determine the optimal threshold value.
     \item Pixels with values lower than the threshold were assigned as foreground (possible perches). Other pixels were background.
 \end{enumerate}
@@ -199,7 +199,7 @@ Four criteria were applied to all points in the point cloud to determine validit
 \end{enumerate}
 
 Criteria 1 and 2 corresponds to the minimum and maximum distances used when calculating disparity ranges for the stereo matchers. Values outside
-that range indicate invalid disparities. Criteria 3 and 4 serve to remove points that were more likely to be calibration error. Calibration 
+that range indicate invalid disparities. Criteria 3 and 4 serve to remove points that were more likely to be affected by calibration error. Calibration 
 error often appears worst at the edges of an image, and such artifacts were seen in some of the test data. It was not deemed likely that a 
 calibration of sufficient quality and stability could be obtained with the device used to completely avoid the presence of such artifacts, 
 so this margin of ignored points was added to mitigate the impact of calibration errors.
@@ -290,18 +290,18 @@ For this thesis the following modifications were made to the Hough transform use
 \begin{itemize}
     \item Detected lines must have a minimum ratio of length to width in order to be accepted. This helps to remove shapes
         that are not actually lines.
-    \item Detected lines must not be more than a maximum angle away from parallel to the cameras x-y plane. This helps to remove
-        the filtering artifacts that tend to be at steep angles to the cameras x-y plane.
+    \item Detected lines must not be more than a maximum angle away from parallel to the camera's x-y plane. This helps to remove
+        the filtering artifacts that tend to be at steep angles to the camera's x-y plane.
 \end{itemize}
 
 The iterative process, with these modifications, is summarized as follows:
 \begin{enumerate}
-    \item The line parameters with the highest vote count is selected.
+    \item The line parameter set with the highest vote count is selected.
     \item The line is refined by performing PCA on all points that are close to it.
     \item The length and width of the line are calculated by projecting all points close to the line onto 
         the first and second principal component vectors and finding the largest magnitude of these projections.
     \item The direction of the line (first principal component) is used to estimate the angle of the line to 
-        the cameras x-y plane.
+        the camera's x-y plane.
     \item All points that are still close to the line after PCA refinement are removed from the point cloud and
         their votes are removed from the Hough accumulator.
     \item This line is returned as a candidate only if the ratio of length to width is greater than a threshold, and 
@@ -361,7 +361,7 @@ test object does not produce enough points to reach the threshold.
 
 The final step, number 7, in Fig. \ref{fig:sw-flow}, "Best Candidate Selection", checks each candidate line identified
 by the Hough transform and determines which line is the closest to the camera (which lines anchor point has 
-the smallest Z-coordinate). This closes line is the final output of the detection process.
+the smallest Z-coordinate). This closest line is the final output of the detection process.
 
 
 \subsection{Stereo Camera Calibration} \label{sec:methods:calibration}
