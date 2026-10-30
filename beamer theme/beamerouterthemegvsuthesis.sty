@@ -76,6 +76,11 @@
 
 \setbeamertemplate{frametitle}{
 \usebeamerfont{frametitle}\insertframetitle\\
+\ifx\insertframesubtitle\@empty%
+    % No subtitle, pass %
+\else %
+    \usebeamerfont{subtitle}\insertframesubtitle\\%
+\fi%
 \begin{beamercolorbox}[wd=\the\paperwidth,ht=0.2ex]{frametitle}
 \end{beamercolorbox}
 }
