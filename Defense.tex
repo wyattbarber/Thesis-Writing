@@ -172,6 +172,83 @@
 
 \section{Methods}
 
+\begin{frame}{Design Goals}
+    \begin{itemize}
+        \item A grasper that can attach to an overhead cylindrical perch, 
+            is lightweight, and easy to adapt for different drone sizes and use cases.
+        \item A detection method that uses low-cost cameras and avoids the issues observed by von Frankenburg and Nokleby
+            due to random sampling.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Grasper Design}
+    \begin{columns}[T]        
+        \begin{column}{0.49\textwidth}           
+            \begin{itemize}
+                \item Laminated design supports fabrication with laser cutter.
+                \item Passively supports load once in closed position.
+                \item Design is parameterized, simple to change for different perch and drone sizes.
+            \end{itemize}
+        \end{column}
+        
+        \begin{column}{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/grasper-render-open.png}
+            {\small The proposed grasper design.}           
+        \end{column}
+    \end{columns}   
+\end{frame}
+
+\begin{frame}{Grasper Verification}
+    \begin{columns}[T]        
+        \begin{column}{0.49\textwidth}           
+            \begin{itemize}
+                \item Repeatability tested with 100 open/close cycles.
+                \item Weight of grasper and its parts measured.
+                \item Holding capacity tested to failure, or 8.83kg maximum.
+            \end{itemize}
+        \end{column}
+        
+        \begin{column}{0.49\textwidth}
+            \centering
+            \includegraphics[width=0.8\textwidth]{sections/methods/capacity-test.jpg}\\
+            {\small The holding capacity test.}           
+        \end{column}
+    \end{columns}   
+\end{frame}
+
+\begin{frame}{Software Design} 
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{sections/methods/sw-flow.png}\\
+        {\small The proposed image processing signal flow.}  
+    \end{center}
+    \begin{itemize}
+        \item OpenCV \cite{bradski_opencv_2000} for stereo vision.
+        \item Threshold based filtering with Otsu's method \cite{otsu_threshold_1979} to remove background.
+        \item 3D Hough transform designed by Dalitz et al. \cite{dalitz_iterative_2017} to detect lines.
+        \item Closest line to the camera is selected as the most likely perch.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Software Verification}
+    \begin{columns}[T]        
+        \begin{column}{0.49\textwidth}           
+            \begin{itemize}
+                \item Images captured of vertical perch at various distances.
+                \item Repeated with 3 backgrounds: plain wall, zigzag pattern, and checkered pattern.
+                \item Reliability measured by manually labelling each sample as a correct or incorrect detection.
+                \item Accuracy and precision measured with errors in position and orientation of detected perch in each correct sample.
+            \end{itemize}
+        \end{column}
+        
+        \begin{column}{0.49\textwidth}
+            \centering
+            \includegraphics[width=0.8\textwidth]{sections/methods/setup_blanket.jpg}\\
+            {\small Test setup for perch detection data collection.}           
+        \end{column}
+    \end{columns}   
+\end{frame}
+
 
 \section{Results}
 
