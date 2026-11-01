@@ -4,6 +4,9 @@
 \addbibresource{references.bib}
 \usepackage{array}
 \usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usetikzlibrary{arrows.meta,angles,quotes}
 
 
 \title{Design of a UAV Perching Device for Detection and Grasping}
@@ -174,12 +177,82 @@
 
 \section{Methods}
 
-\begin{frame}{Design Goals}
+\begin{frame}{Coordinates and Measurments}
+    \begin{columns}[T]        
+        \begin{column}{0.49\textwidth}           
+            \tdplotsetmaincoords{65}{115}
+            \begin{tikzpicture}[tdplot_main_coords, scale=1.0, >=Stealth, line join=round] 
+                \draw[thick,-{Stealth[length=3mm]}] (0,0,0) -- (-1.5,0,0) node[above right]{$x$};
+                \draw[thick,-{Stealth[length=3mm]}] (0,0,0) -- (0,0,1.5) node[above]{$y$};
+                \draw[thick,-{Stealth[length=3mm]}] (0,0,0) -- (0,1.5,0) node[below right]{$z$};
+                \filldraw[black] (0,0,0) circle (0.02);
+                \pgfmathsetmacro{\rodz}{2.6}
+                \draw[ultra thick, black!60, line cap=round]
+                    (0,\rodz,-1.4) -- (0,\rodz,1.4);
+                \filldraw[black!60] (0,\rodz,-1.4) circle (0.03);
+                \filldraw[black!60] (0,\rodz, 1.4) circle (0.03);
+                % \node[anchor=west] at (0,\rodz,1.55) {Perch};
+                \pgfmathsetmacro{\camz}{-1.8}
+                \draw[fill=black!75, draw=black]
+                    (-0.75,\camz,-0.3) -- (0.75,\camz,-0.3) --
+                    (0.75, \camz, 0.3) -- (-0.75, \camz, 0.3) -- cycle;
+                \begin{scope}[canvas is xz plane at y=\camz]
+                    \filldraw[fill=black!40, draw=black] (-0.38,0) circle (0.2);
+                    \filldraw[fill=black!40, draw=black] ( 0.38,0) circle (0.2);
+                    \filldraw[fill=black]                (-0.38,0) circle (0.07);
+                    \filldraw[fill=black]                ( 0.38,0) circle (0.07);
+                \end{scope}
+                \draw[dashed, gray] (0,\camz,0) -- (0,0,0);
+                \draw[dashed, red] (0,\camz,-1) -- (0,\rodz,-1) node[midway,below,red]{d};            
+                % \node[anchor=north] at (0,\camz,-0.45) {Stereo Camera};
+            \end{tikzpicture}
+        \end{column}
+        
+        \begin{column}{0.49\textwidth}
+            \tdplotsetmaincoords{65}{125}
+            \begin{tikzpicture}[tdplot_main_coords, scale=1.0, >=Stealth, line join=round] 
+                \draw[thick,-{Stealth[length=3mm]}] (0,0,0) -- (-1.5,0,0) node[above right]{$x$};
+                \draw[thick,-{Stealth[length=3mm]}] (0,0,0) -- (0,0,1.5) node[above]{$y$};
+                \draw[thick,-{Stealth[length=3mm]}] (0,0,0) -- (0,1.5,0) node[below right]{$z$};
+                \filldraw[black] (0,0,0) circle (0.02);
+                \coordinate (O) at (0,0,0);
+                \tdplotsetcoord{P}{3}{35}{145}    
+                \draw[dashed, red] (O) -- (Pxz);
+                \draw[dashed, red] (O) -- (Pz);
+                \pgfmathsetmacro{\rodz}{0}
+                \pgfmathsetmacro{\rodl}{3}
+                \tdplotsetrotatedcoords{145}{35}{0}
+                \begin{scope}[tdplot_rotated_coords]
+                    \draw[ultra thick, black!60, line cap=round]
+                        (0,\rodz,-\rodl) -- (0,\rodz,\rodl);
+                    \filldraw[black!60] (0,\rodz,-\rodl) circle (0.03);
+                    \filldraw[black!60] (0,\rodz, \rodl) circle (0.03);
+                    % \node[anchor=west] at (0,\rodz,\rodl+0.15) {Perch};
+                \end{scope}
+                \pic[draw=red, text=red, "$\theta$", angle radius=1.5cm, angle eccentricity=1.3] {angle = P--O--Pxz};
+                \pic[draw=red, text=red, "$\alpha$", angle radius=2.1cm, angle eccentricity=1.3] {angle = Pxz--O--Pz};            
+                \pic[draw=red, angle radius=0.2cm] {right angle = O--Pxz--P};
+                \draw[dashed, red] (Pxz) -- (P);
+                \pic[draw=red, angle radius=0.2cm] {right angle = O--Pz--Pxz};
+                \draw[dashed, red] (Pz) -- (Pxz);
+            \end{tikzpicture}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Grasper Design Goals}
     \begin{itemize}
-        \item A grasper that can attach to an overhead cylindrical perch, 
-            is lightweight, and easy to adapt for different drone sizes and use cases.
-        \item A detection method that uses low-cost cameras and avoids the issues observed by von Frankenburg and Nokleby
-            due to random sampling.
+        \item Can attach to an overhead cylindrical perch.
+        \item Able to support drone of 500g with up to $63.17\frac{mm}{s^2}$ acceleration
+            (based on assumed sinusoid motion at 2Hz with 0.4m displacement in a tree \cite{kamimura_energy_2024}).
+        \item Mass under 47.5g, or 0.33\% of the estimated payload capacity for 500g drones.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Software Design Goals}
+    \begin{itemize}
+        \item Method that can work with low-cost cameras.
+        \item Avoids the issues observed by von Frankenburg and Nokleby due to random sampling.
     \end{itemize}
 \end{frame}
 
@@ -233,24 +306,39 @@
 \end{frame}
 
 \begin{frame}{Software Verification}
-    \begin{columns}[T]        
-        \begin{column}{0.49\textwidth}           
-            \begin{itemize}
-                \item Images captured of vertical perch at various distances.
-                \item Repeated with 3 backgrounds: plain wall, zigzag pattern, and checkered pattern.
-                \item Reliability measured by manually labelling each sample as a correct or incorrect detection.
-                \item Accuracy and precision measured with errors in position and orientation of detected perch in each correct sample.
-            \end{itemize}
-        \end{column}
-        
-        \begin{column}{0.49\textwidth}
-            \centering
-            \includegraphics[width=0.8\textwidth]{sections/methods/setup_blanket.jpg}\\
-            {\small Test setup for perch detection data collection.}           
-        \end{column}
-    \end{columns}   
+    \only<1>{           
+        \begin{itemize}
+            \item Images captured of vertical perch at distances $d$ of 2m, 1m, and 500mm.
+            \item Repeated with 3 backgrounds: plain wall, zigzag pattern, and checkered pattern.
+            \item Reliability measured by manually labelling each sample as a correct or incorrect detection.
+            \item Accuracy and precision measured with errors in position and orientation of detected perch in each correct sample.
+        \end{itemize}
+    }
+    \only<2>{
+        \begin{columns}[T]   
+            \begin{column}{0.49\textwidth}
+                \centering
+                \includegraphics[width=0.8\textwidth]{sections/methods/setup_wall_side.jpg}
+            \end{column}  
+            \begin{column}{0.49\textwidth}
+                \centering
+                \includegraphics[width=0.8\textwidth]{sections/methods/setup_blanket.jpg}
+            \end{column}
+        \end{columns}   
+        \begin{center}
+            {\small Test setup for perch detection data collection.}     
+        \end{center}      
+    }
 \end{frame}
 
+\begin{frame}{End-to-End Demonstration}       
+    \begin{itemize}
+        \item Performed simulation of grasping process with assembled device to verify complete process.
+        \item Camera baseline had to be reduced to detect perch within range of grasper.
+        \item Additional success rate and accuracy tests performed against plain wall with $d$ of 
+            160mm, 80mm, and 40mm.
+    \end{itemize}
+\end{frame}
 
 \section{Results}
 
