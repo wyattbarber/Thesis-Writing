@@ -3,6 +3,7 @@
 \usepackage[style=ieee,backend=bibtex,url=false]{biblatex}
 \addbibresource{references.bib}
 \usepackage{array}
+\usepackage{hyperref}
 
 
 \title{Design of a UAV Perching Device for Detection and Grasping}
@@ -483,10 +484,117 @@
     }
 \end{frame}
 
+\begin{frame}{Demonstration}
+    \centering
+    \includegraphics[width=0.5\textwidth]{sections/results/demo.png}\\
+    \url{https://photos.app.goo.gl/Yh4eSpUUUpzznfjE9}
+\end{frame}
 
-\section{Conclusions and Future Works}
 
+\section{Discussion and Limitations}
 
+\begin{frame}{Grasper}{Strength and Repeatability}
+    \begin{itemize}
+        \item Verified holding capacity is over the target, could support 
+            at least 1.17kg with dynamic load. 
+        \item Controller demonstrates sufficient reliability for perching and releasing. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Grasper}{Weight}
+    \begin{itemize}
+        \item Weight of a single grasper is over the target.
+        \item Strength is also over the target.
+        \item Could be used for larger drone with more payload, or size and weight could be reduced sacrificing strength.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Perch Detection}{Impact of Distance}
+    \begin{itemize}
+        \item For distance and elevation measurements, mean and variance of errors decrease as distance decreases.
+        \item 0 standard deviation at 2m is a result of stereo matching quantization.
+        \item Azimuth errors show increasing variance at smaller distances.
+        \item Increasing variance could pose problems for feedback controls as drone approaches a perch. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Perch Detection}{Impact of Background}
+    \begin{itemize}
+        \item Background influences stereo matching quality and background filtering success, 
+            with more complicated backgrounds producing lower detection success rates.
+        \item Fine and repeating patterns seem to produce low-quality stereo disparity.
+        \item Dark backgrounds prevent background removal from eliminating low-quality pixels. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Perch Detection}{Impact of Background}
+    \begin{columns}[T]        
+        \begin{column}{0.33\textwidth} \vbox to 0.6\textheight{
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-left-failure.png}
+            \vfill    
+            \includegraphics[width=\textwidth]{sections/discussion/check-left-failure.png}
+        } \end{column}
+        \begin{column}{0.33\textwidth} \vbox to 0.6\textheight{
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-disp-failure.png}
+            \vfill
+            \includegraphics[width=\textwidth]{sections/discussion/check-disp-failure.png}
+        } \end{column}
+        \begin{column}{0.33\textwidth} \vbox to 0.6\textheight{
+            \centering
+            \includegraphics[width=\textwidth]{sections/discussion/zigzag-ptcld-failure.png}
+            \vfill
+            \includegraphics[width=\textwidth]{sections/discussion/check-ptcld-failure.png}
+        } \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Perch Detection}{Line Identification}
+    \begin{columns}[T]        
+        \begin{column}{0.49\textwidth}
+            \begin{itemize}
+                \item 3D Hough transform \cite{dalitz_iterative_2017} struggles to separate lines from non-lines.
+                \item Fixing this would reduce sensitivity to low-quality background points.
+                \item Adjusting the Hough transform to consider uniqueness of a fit may help.
+            \end{itemize}           
+        \end{column}
+        \begin{column}{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/nothresh-ptcloud.png}
+            {Point cloud showing false line detections.}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Perch Detection}{Perch Shapes}
+    \begin{itemize}
+        \item Detection was only tested with straight, unbranching objects.
+        \item May fail to detect an object that is curved or branched but still suitable 
+            to grasp.
+        \item To grasp, the drone would need to approach close enough to only see an unbranched 
+            segment of the perch.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Perch Detection}{Field of View}
+    \begin{itemize}
+        \item Field of view is limited, even after adjusting camera baseline.
+        \item Custom carrier PCB could help place cameras closer, and may reduce weight.
+        \item Multiple stereo matching passes with different parameters could also improve field of view.
+    \end{itemize}
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}{Conclusion}
+    \begin{itemize}
+        \item The grasper design is successful in function, and is simple to adapt to different drone designs.
+        \item Perch detection method shows promise under ideal conditions.
+        \item Future work needed to improve perch detection resilience to varying background scenes, and improve 
+            stability of perch orientation estimation.
+    \end{itemize}
+\end{frame}
 
 \begin{frame}[allowframebreaks]{References}
     \renewcommand*{\bibfont}{\small}
