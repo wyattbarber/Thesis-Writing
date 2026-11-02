@@ -22,31 +22,6 @@ however:
 \end{itemize}
 
 
-\subsection{Grasper Mechanism Controller}
-
-The repeatability tests reveal some issues with the grasper control logic, specifically 
-with detecting when the grasper has reached its limits based on the motor current. The first 
-issue, premature triggering of the current limit, seems simple to solve by raising the threshold
-current. However, when releasing the grasper it was observed that there is typically a 10-15 second
-period after the grasper reaches its fully released position during which the current limit does not
-trigger. Raising the current threshold could extend this period further, increasing wear on the device,
-or prevent it from detecting the open position entirely. 
-
-The second issue, failure to detect the released position, seems to indicate an issue with drifting 
-servo tuning. That the failure did not occur until the end of the test, all instances occurred 
-sequentially, and the failure did not occur again after re-tuning the zero point, all suggest that
-the issue is not due to random errors in the current detection, but rather a systematic flaw in 
-the controller. It may be that repeatedly driving the servo while stalled accelerates drift in the 
-zero point. This could be solved by driving the device directly with DC motors rather than servos,
-which would eliminate the potential for zero point drift entirely. This could also provide opportunities
-for weight reduction. 
-
-Overall the results in Section \ref{sec:results:repeatability} show that thought the grasper concept is functional, 
-it needs work to improve reliability. Swapping the servos for DC motors may provide some improvement, 
-and eliminating the current based limit detection in favor of limit switches or optical 
-sensors to detect the limits of travel may also be needed.
-
-
 \subsection{Perch Detection Background Sensitivity}
 
 
