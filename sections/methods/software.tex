@@ -756,7 +756,7 @@ according to the method in Section \ref{sec:methods:analysis-success-rate}, and 
     \caption{Example photos of the test setup for collecting perch detection data with a plain white background.
     \ref{fig:setup-wall:front} shows the setup from approximately the cameras point of view (the cameras and 
     Raspberry Pi are attached to the green device at the bottom of the frame). \ref{fig:setup-wall:side}
-    shows a side view of the same scene. There the green device can still be seen on the right side of the image.}
+    shows an angled view of the same scene. There, the green device can still be seen on the right side of the image.}
     \label{fig:setup-wall}
 \end{figure}
 
@@ -779,7 +779,7 @@ according to the method in Section \ref{sec:methods:analysis-success-rate}, and 
     \caption{Example photos of the test setup for collecting perch detection data with a zigzag pattern background.
     \ref{fig:setup-zigzag:front} shows the setup from approximately the cameras point of view (the cameras and 
     Raspberry Pi are attached to the green device at the bottom of the frame). \ref{fig:setup-zigzag:side}
-    shows a side view of the same scene. There the green device can still be seen on the right side of the image.}
+    shows an angled view of the same scene. There, the green device can still be seen on the right side of the image.}
     \label{fig:setup-zigzag}
 \end{figure}
 
@@ -821,7 +821,7 @@ Fig. \ref{fig:multi-object} shows the multi-object setup against the white wall 
 
 The tests at 500mm distance were not included in the multi-object tests because at that close distance the second object was 
 close enough to the edge of the picture that it was cropped out of the depth data. Those tests then provided no value in
-determining the effects of multiple objects in the frame, since the second object could not be detected at anyhow.
+determining the effects of multiple objects in the frame, since the second object could not be detected anyhow.
 
 
 \subsubsection{Detection Accuracy}
@@ -831,6 +831,7 @@ of the perch detection. All samples collected for each of the 3 backgrounds were
 then sorted by $d$, the true distance to the test object. The accuracy and precision values $\mu_{\Delta d}$, $\sigma_{\Delta d}$,
 $\mu_{\Delta\alpha}$, $\sigma_{\Delta\alpha}$, $\mu_{\Delta\theta}$, and $\sigma_{\Delta\theta}$ 
 were calculated as defined in Section \ref{sec:methods:analysis-accuracy} for each value of $d$. 
-The results of these calculations are shown in tables \ref{tab:dist-error}, \ref{tab:azim-error}, and \ref{tab:elev-error}.
+The results of these calculations are shown in tables \ref{tab:dist-error}, \ref{tab:azim-error}, and \ref{tab:elev-error}, 
+in Section \ref{sec:results:perch-accuracy}.
 
 

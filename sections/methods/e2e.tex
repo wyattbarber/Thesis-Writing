@@ -1,4 +1,4 @@
-\subsection{Device Demonstration}
+\subsection{Device Demonstration} \label{sec:methods:e2e}
 
 To demonstrate that the completed system functions as intended, an end-to-end test of the perching process was performed.
 The device was attached to the top of a drone airframe, which was then suspended from ropes beneath a target perch
@@ -6,11 +6,11 @@ The device was attached to the top of a drone airframe, which was then suspended
 its starting pose beneath the perch, to a point where the perch was positioned within the grasping mechanism. The expectation
 was that at this point, if the system functions correctly, the grasper will close around the perch within the delay of one 
 processing cycle of the perch detection. A video was recorded of this process, and still images depicting key stages
-of the demonstration are shown in Fig. \ref{fig:e2e-vid}.
+of the demonstration are shown in Fig. \ref{fig:e2e-vid}, in Section \ref{sec:results:e2e}.
 
 One mechanical alteration had to be made to the device for this test to be performed. As mentioned in Section \ref{sec:methods:collection-single},
-small distances, less than a 2 to 3 hundred mm, cannot be detected by the device as originally designed due to the large stereo camera baseline.
-For this test a new camera mount with a narrower baseline was fabricated and new calibration data for this mount was collected following
+small distances, less than 200 to 300 mm, cannot be detected by the device as originally designed due to the large stereo camera baseline.
+For this test, a new camera mount with a narrower baseline was fabricated and new calibration data for this mount was collected following
 the procedure in Section \ref{sec:methods:calibration}. Changing the baseline changes the resolution of the stereo cameras depth measurement,
 and the rate at which resolution changes vs distance, but it does not change the mechanism of detecting perches once a calibrated point cloud is 
 produces. Therefore, the results in Sections \ref{sec:results:perch-rate} and \ref{sec:results:perch-accuracy} are still valid. 

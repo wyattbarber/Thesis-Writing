@@ -1,6 +1,6 @@
 \subsection{Perch Detection Success Rate} \label{sec:results:perch-rate}
 
-For each test trial in table \ref{tab:vision-test-cases}, table \ref{tab:success-rates} shows
+For each test trial in table \ref{tab:vision-test-cases}, in Section \ref{sec:methods:collection-single}, table \ref{tab:success-rates} shows
 the percentage of samples in which the object was correctly detected. Table \ref{tab:success-rates-dist}
 shows the same data, but with success rates reported for each distance between camera and object that 
 was tested. Each success rate in table \ref{tab:success-rates-dist} are the percent of the 20 total
@@ -81,7 +81,7 @@ Table \ref{tab:success-rates-dist-multi} shows the success rates for the same te
 
 
 For the tests performed at smaller distances, the overall detection success rate was 
-98.3\%/ Table \ref{tab:success-rates-near-dist} shows the success rate at each distance
+98.3\%. Table \ref{tab:success-rates-near-dist} shows the success rate at each distance
 tested.
 
 \begin{table}[H]
@@ -104,7 +104,7 @@ tested.
 
 Data for each error metric are shown in the following tables: distance errors in table \ref{tab:dist-error}, azimuth errors 
 in table \ref{tab:azim-error}, and elevation errors in table \ref{tab:elev-error}.
-Violin plots showing the distributions of errors for all samples are also shown: distance errors in Fig. \ref{fig:dist-error}, azimuth errors 
+Violin plots showing the distributions of errors for all samples are also included: distance errors in Fig. \ref{fig:dist-error}, azimuth errors 
 in Fig. \ref{fig:azim-error}, and elevation errors in Fig. \ref{fig:elev-error}.
 
 Since only the valid samples were used to calculate detection errors, the sample count used for error calculations is given in
@@ -201,9 +201,10 @@ values.
 \end{figure}
 
 
-The accuracy and precision results calculated for the small distance tests are shown in tables \ref{tab:dist-error-near},\ref{tab:elev-error-near}, and \ref{tab:azim-error-near},
+The accuracy and precision results calculated for the small distance tests are shown in tables \ref{tab:dist-error-near}, \ref{tab:azim-error-near}, and \ref{tab:elev-error-near},
 and Fig. \ref{fig:dist-error-near}, \ref{fig:elev-error-near}, and \ref{fig:azim-error-near}. 
-They are separated from the results above because they were collected after the camera positioning had been changed, and only were collected for the white background.
+They are separated from the results above because, as described in Section \ref{sec:methods:e2e},
+they were collected after the camera positioning had been changed to allow detection of smaller distances, and only were collected for the white background.
 
 
 \begin{table}[H]
