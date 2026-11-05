@@ -3,7 +3,13 @@ hazardous, or otherwise difficult to reach areas. However, their use is limited 
 consumption and resulting short mission time. One method of extending a drone's mission time is through
 perching behavior, in which a drone is capable of attaching to a stationary object or surface while cutting 
 off power to its motors. Various methods of implementing this behavior have been researched, though many 
-are mechanically complex, require complex controls, or are only suitable for very small drones. This thesis 
-proposes a perch detection mechanism and grasping device that is low cost, simple to fabricate, and can be
-implemented with free, open-sourced software libraries. The perch detection method is demonstrated to function 
-under ideal conditions, with further development needed to increase its reliability across different backgrounds.
+are mechanically complex, require complex controls, or are only suitable for very small drones. 
+Additionally, means to detect a perch are needed as assistance when an operators line-of-sight is limited,
+or to enable full autonomy. Few detection methods were found in the background literature, and those that were 
+often depended on expensive components. 
+This thesis designed a perch grasping and detection mechanism that can be implemented with low-cost components.
+The grasping device was verified to support a mass of at least 1.17kg, and function over at least 100 cycles.
+The detection method was verified, under ideal conditions, to detect perch distance with less than 
+75mm and 25 degrees of error in distance and orientation, respectively. Though additional work is required to
+improve the reliability of perch detection against different background scenes, and improve the stability of 
+perch orientation estimation, the proposed detection method showed promise for use in autonomous drone perching.
