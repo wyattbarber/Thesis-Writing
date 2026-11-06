@@ -4,9 +4,10 @@ The results in Section \ref{sec:results:capacity} show that the device is capabl
 over twice the target weight. Using equation \ref{eqn:load-lim}, the verified 
 limit of 8.7 kg means this device as currently designed can support a drone of up to 1.17 kg.
 
-The total weight of the device is well over the target of 47.5g; the achieved weight of
-236g is almost 5x the target. There are a number of opportunities for improvement on this
-however: 
+Though the weight of a single grasper, 41.5g, is within the 47.5g target, the total weight of the device is well over it; the achieved weight of
+236g is almost 5x the target. However, in a real use case the device is likely to be more tightly integrated with the drone airframe. 
+This means that much of the added weight of the base and isolated electronic components would be reduced if they are not designed as
+standalone components. There are a number of additional opportunities for improvement on the weight: 
 
 \begin{itemize}
     \item The results in Section \ref{sec:results:capacity} show that the holding capacity 
@@ -14,11 +15,11 @@ however:
         more payload capacity.
     \item Based on the results in Section \ref{sec:results:capacity}, the device could also be made
         smaller and lighter, though weaker, to only support a 500g drone.
-    \item The device is currently designed as an isolated component. If it were integrated more tightly
-        into a drone's airframe, the weight of the baseplate could be eliminated.
     \item Similarly, the electronics could be more tightly integrated to reduce the number and size of
         PCBs and connectors used. The Raspberry Pi used for image processing may also perform some flight
         control functions, reducing the electronics weight needed for the drone.
+    \item Lighter materials could be used to construct the device, though using materials that cannot be laser 
+        cut would sacrifice some of the ease of fabrication.
 \end{itemize}
 
 

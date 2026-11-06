@@ -1,6 +1,6 @@
 \subsection{Limitations and Future Works}
 
-\subsubsection{Limited Perch Shapes}
+\subsubsection{Perch Shapes}
 
 The testing in this thesis only focused on detecting long, cylindrical perches without bends or branches.
 Since the Hough transform used to detect possible perches is made to detect such shapes, it is likely to
@@ -10,7 +10,7 @@ The testing performed on straight perches only is still believed to be a valid p
 perching mechanism to attach to a perch the drone has to approach a straight segment of the perch, at which
 point the visible portion of the perch will appear as a straight object without bends or branches. 
 
-\subsubsection{Limited Field of View}
+\subsubsection{Field of View}
 
 The cameras used in this device, as positioned in the proposed design, struggle to detect small distances. 
 Even after moving the cameras closer together, the device cannot detect distances smaller than roughly 40mm
@@ -28,9 +28,11 @@ many pixels in the margin, since only the center part of the image is needed to 
 the perch. So the detection software could adjust the range of disparities that are measured to track only a window of depth
 around where a perch was last detected. This approach could harm runtime performance due to the cost of reconfiguring the 
 stereo matchers, though some gains could also be realized by limiting the number of disparities that need to be measured 
-in each update.
+in each update. A similar solution could be to perform multiple passes of block matching with different disparity ranges
+and fuse each resulting disparity map by taking the highest disparity; this would allow small distances to be detected 
+in the center of the frame while still detecting the large distances closer to the margins.
 
-\subsubsection{Poor Background Separation}
+\subsubsection{Background Separation}
 
 The separation of background pixels performed in this thesis is based on the assumption that 
 perches will always be darker than the background. This may not always hold up in reality, 
@@ -46,9 +48,17 @@ low-quality data is what the background removal achieved). One method to do this
 to compare the disparity data against time series data across consecutive image frames, 
 such as optical flow. Optical flow, paired with IMU data encoding the drones orientation 
 and motion, could provide additional depth estimation data to separate out the highest quality
-foreground pixels.
+foreground pixels. Similarly, tracking detected lines across frames and checking their relative 
+position change against the drones own motion, then rejecting lines that were not detected close enough
+to the expected position in new frames, could help to limit detection to only real objects, rather than 
+noise and background artifacts.
 
-\subsubsection{Poor Separation of Lines from Other Shapes}
+
+Adding color as a parameter to the Hough voting space could also help improve separation of real lines
+from error artifacts. This would limit the Hough transform to detect lines that are voted by many pixels
+with similar color, and prevent lines from being detected in collections of dissimilar pixels. 
+
+\subsubsection{Separation of Lines from Other Shapes}
 
 The Hough transform used has a critical shortcoming, which is that it does not 
 distinguish lines from other shapes; it generally works with the assumption that 
