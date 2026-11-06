@@ -22,6 +22,21 @@ however:
 \end{itemize}
 
 
+\subsection{Grasper Controller Reliability}
+
+Though the grasper controller succeeded over the 100 test cycles it was subject to in isolation
+(as described in Section \ref{sec:results:weight-repeatability}) as well as the 30 performed in 
+combination with perch detection (as described in Section \ref{sec:results:e2e}), the design is 
+rudimentary and would benefit from refinement. 
+
+The time limits on opening and closing the grasper described in Section \ref{sec:methods:controller}
+were successful in preventing zero point drift from rendering the grasper inoperative, however eliminating
+servo motors entirely in favor of simple DC motors would eliminate the possibility of drift entirely. 
+Eliminating the servo mechanism could also reduce weight, though an H-bridge circuit would have to 
+be added to the device to drive the motor, taking back some of the weight benefits and increasing complexity 
+of the circuit. 
+
+
 \subsection{Perch Detection Background Sensitivity}
 
 

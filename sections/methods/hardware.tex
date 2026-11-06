@@ -97,8 +97,8 @@ from achieving sufficient repeatability in position control. Fig. \ref{fig:latch
 \end{figure}
 
 
-The chosen design for the grasper consists of a rotating clasp, driven by a servo motor. A rendering of the design
-is shown in Fig. \ref{fig:clasp-design}, and the OpenSCAD source used to create it can be found in appendix \ref{app:grasper-scad}.
+The chosen design for the grasper consists of a rotating clasp, driven by a continuous rotation, speed-controlled hobby servo motor. 
+A rendering of the design is shown in Fig. \ref{fig:clasp-design}, and the OpenSCAD source used to create it can be found in appendix \ref{app:grasper-scad}.
 The \texttt{BOSL2} library \cite{belfryscad_bosl2_nodate} was used to create the gear components.
 
 \begin{figure}[H]
@@ -135,13 +135,21 @@ application of this device does not require the drone to remain totally stationa
 so that it can power off its motors without falling. This is different from some other grasping designs, which 
 apply pressure to the perch to prevent rotation.
 
-\subsubsection{Controller}
+\subsubsection{Controller} \label{sec:methods:controller}
 
 A Raspberry Pi Compute Module 4 was used to control the servos on the grasper device. To avoid 
-complicating the design with limit switches to detect open and closed states, an Adafruit 
-ADS1015 analog-digital converter was used to measure the current drawn by each servo.
+complicating the mechanical design and adding weight with limit switches to detect open and closed states, 
+an Adafruit ADS1015 analog-digital converter was used to measure the current drawn by each servo.
 The current measurement is used to detect when the servo has stalled, indicating 
 that the limits of travel are reached and the latch has either fully opened or closed.
+
+In addition to current monitoring, time limits are used during opening and closing the grasper to avoid stopping early 
+due to erroneous current measurements, or not stopping after the limit is released due to current measurement
+being erroneously low. Failure to stop after the limit was reached in particular seemed to accelerate drift of 
+the servos zero point. This drift would lead to the grasper becoming unresponsive to commands, or moving in the
+wrong direction, after roughly 20 cycles. Time limits such that the grasper would not stop opening or closing
+until at least 200ms had elapsed, and would automatically stop if 2s had elapsed, were implemented to reduce 
+the rate of zero point drift.
 
 The schematic of the servo control module can be seen in appendix \ref{app:schematics},
 Fig. \ref{fig:clasp-ctl}. The schematic showing the compute module and its interface to the
