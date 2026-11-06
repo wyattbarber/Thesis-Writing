@@ -294,7 +294,8 @@ small quantization step allows the object to be detected tilted across multiple 
 again larger than the measurement noise, so the object is only ever detected in one exactly vertical depth plane.
 
 The azimuth angle errors in table \ref{tab:azim-error} and Fig. \ref{fig:azim-error} show a trend of increasing $\mu_{\Delta \alpha}$ 
-and  $\sigma_{\Delta \alpha}$  as the distance to the object decreases.
+and  $\sigma_{\Delta \alpha}$  as the distance to the object decreases. This trend continues in the results of the small distance tests,
+in table \ref{tab:azim-error-near} and Fig. \ref{fig:azim-error-near}.
 This may be due to how the Hough transform detects line direction: once points are identified that are all close to a highly voted line,
 the line parameters are refined by PCA on the points assigned to that line. When the object is close to the camera, it appears
 wider in the frame than when it is far. This will cause its first principal component, which is used as the refined direction
