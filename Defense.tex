@@ -9,6 +9,11 @@
 \usetikzlibrary{arrows.meta,angles,quotes}
 
 
+%\setbeameroption{hide notes} % Only slides
+%\setbeameroption{show only notes} % Only notes
+\setbeameroption{show notes on second screen=right} % Both
+
+
 \title{Design of a UAV Perching Device for Detection and Grasping}
 \author{Wyatt Barber}
 \institute{Grand Valley State University}
@@ -35,6 +40,12 @@
                 \item Mixes powered flight with unpowered and stationary rest \cite{meng_aerial_2022}.
             \end{itemize}
         \end{column}
+
+        \note[item]{What is drone perching: a form of multi-modal movement in which a drone can switch between two modes:
+            powered flight (the conventional drone motion), and an unpowered, stationary rest mode.}
+        \note[item]{The rest mode is achieved by supporting the drones weight from a fixed object.}
+        \note[item]{Example at right shows one form of perching mechanism, with a drone approching an object, perching on top and grasping,
+            and later releasing and flying away.}
         
         \begin{column}{0.49\textwidth}
             \centering
@@ -46,12 +57,16 @@
 
 \begin{frame}{Significance}
     \begin{itemize}
-        \item Perching has applications in data collection and environmental monitoring, infrastructure inspection, and disaster response
+        \item Hypothetical applications in infrastructure inspection, environmental monitoring, and disaster response
         \cite{liu_perching_2022,kirchgeorg_hedgehog_2022,hoang_autonomous_2024,kitchen_design_2020,liu_mini-drone_2023,seiber_tracking_2018}.
-        \item Few real-world implementations found.
-        \item Methods of detecting and grasping perches that are affordable and easy to implement make perching behaviors more accessible to researchers.
-        \item Affordability and accessibility accelerate implementation of new perching applications. 
+        \item New methods of perching may expand use of perching behaviors in real world.
     \end{itemize}
+
+    \note[item]{Drone perching has possible use for data collection in infrastructure inspection, environmental monitoring, and 
+    disaster response.}
+    \note[item]{Most of the work on drone perching is in labs developing new methods, not in studies putting perching to work.}
+    \note[item]{New methods of perch detection and perching that focus on cost-effectiveness and simplicity of fabrication may help 
+    expand use of drone perching in real world. }
 \end{frame}
 
 \begin{frame}{Objectives}
@@ -60,6 +75,10 @@
         \item Design a low-cost, simple to fabricate grasping device.
         \item Verify the reliability and accuracy of the design.
     \end{itemize}
+
+    \note[item]{Design detection method, low cost and open source.}
+    \note[item]{Design grasper, low cost and simple to fabricate.}
+    \note[item]{Verify reliability and accuracy of both.}
 \end{frame}
 
 
