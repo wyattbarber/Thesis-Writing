@@ -219,12 +219,25 @@
                 \includegraphics[width=\textwidth]{screenshots/kominami-detect.png}
                 {\small Adapted from \cite{kominami_detection_2023}.}
             }
-            \only<2,3> {
+            \only<2> {
                 \includegraphics[width=\textwidth]{screenshots/frankenburg-detect.png}
                 {\small Adapted from \cite{von_frankenberg_detection_2020}.}
             }
+            \only<3> {
+                \includegraphics[width=\textwidth]{screenshots/clasp-2.png}
+                {\small Adapted from \cite{hoang_autonomous_2024}.}
+            }
         \end{column}
     \end{columns}   
+
+    \note[item]{Kominami et al designed a method that first uses a Hough transform to identify edges in an RGB image,
+    then draws a line perpendicular to two edges and computes a depth profile along the line. This profile use used to confirm
+    the location and type (bar, board, rod, etc) of an object.}
+    \note[item]{von Frankenberg and Nokelby used a method based on RANSAC detection of cylindrical object in a point cloud, 
+    then evaluating continuity of detected lines and clearance aroind them to validate "perchability". They noted that this method
+    did result in the detection being lost in some samples, due to RANSAC not randomly choosing enough points from the target object.}
+    \note[item]{Hoang et al. also developed a detection method specifically for power lines. They used a single camera to detect orentation of 
+    lines, and a radar to detect distance.}
 \end{frame}
 
 
