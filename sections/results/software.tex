@@ -9,7 +9,7 @@ Section \ref{sec:methods:analysis-success-rate}.
 
 \begin{table}[H]
     \centering
-    \caption{Detection success rate for each background in table \ref{tab:vision-test-cases}.}
+    \caption{Detection success rate for each background in table \ref{tab:vision-test-cases}. Each row corresponds to 60 samples.}
     \label{tab:success-rates}
     \begin{tabular}{|c||c|}
         \hline
@@ -24,7 +24,7 @@ Section \ref{sec:methods:analysis-success-rate}.
 
 \begin{table}[H]
     \centering
-    \caption{Detection success rate for each background and distance in table \ref{tab:vision-test-cases}}
+    \caption{Detection success rate for each background and distance in table \ref{tab:vision-test-cases}. Each row corresponds to 20 samples.}
     \label{tab:success-rates-dist}
     \begin{tabular}{|c|c||c|}
         \hline
@@ -48,7 +48,7 @@ Table \ref{tab:success-rates-dist-multi} shows the success rates for the same te
 
 \begin{table}[H]
     \centering
-    \caption{Detection success rate for each background tested with two objects.}
+    \caption{Detection success rate for each background tested with two objects. Each row corresponds to 60 samples.}
     \label{tab:success-rates-multi}
     \begin{tabular}{|c||c|}
         \hline
@@ -63,7 +63,7 @@ Table \ref{tab:success-rates-dist-multi} shows the success rates for the same te
 
 \begin{table}[H]
     \centering
-    \caption{Detection success rate for each background and distance tested with two objects.}
+    \caption{Detection success rate for each background and distance tested with two objects. Each row corresponds to 20 samples.}
     \label{tab:success-rates-dist-multi}
     \begin{tabular}{|c|c||c|}
         \hline
@@ -86,7 +86,7 @@ tested.
 
 \begin{table}[H]
     \centering
-    \caption{Detection success rate for each background and distance in table \ref{tab:vision-test-cases}}
+    \caption{Detection success rate for small distances described in Section \ref{sec:methods:e2e}. Each row corresponds to 20 samples.}
     \label{tab:success-rates-near-dist}
     \begin{tabular}{|c||c|}
         \hline
@@ -117,11 +117,11 @@ values.
 
 \begin{table}[H]
     \centering
-    \caption{Distance measurement errors vs object distance.}
+    \caption{Number of valid samples at each distance, for all backgrounds.}
     \label{tab:error-sample-counts}
     \begin{tabular}{|c||c|c|}
         \hline
-        True Distance [mm] & Valid Sample Count\\
+        True Distance [mm] & Number of Valid Samples\\
         \hline
         500 & 58 \\
         1000 & 41 \\
@@ -178,25 +178,28 @@ values.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{sections/results/dist-error.png}
-    \caption{Distance measurement errors versus actual distance to object for all tests.
+    \caption{Distance measurement errors versus actual distance to object, for all background types.
     The error bars at 2000mm distance do show 0 standard deviation; all measurements there
-    were indeed identical due to the large quantization step size of depth values at large distances.}
+    were indeed identical due to the large quantization step size of depth values at large distances.
+    The data shown here is the same data as table \ref{tab:dist-error}.}
     \label{fig:dist-error}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{sections/results/azimuth-error.png}
-    \caption{Azimuth angle measurement errors versus distance to object for all tests.}
+    \caption{Azimuth angle measurement errors versus distance to object, for all background types.
+    The data shown here is the same data as table \ref{tab:azim-error}.}
     \label{fig:azim-error}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{sections/results/elevation-error.png}
-    \caption{Elevation angle measurement errors versus distance to object for all tests.
+    \caption{Elevation angle measurement errors versus distance to object, for all background types.
     The error bars at 2000mm distance do show 0 standard deviation; all measurements there
-    were indeed identical due to the large quantization step size of depth values at large distances.}
+    were indeed identical due to the large quantization step size of depth values at large distances.
+    The data shown here is the same data as table \ref{tab:elev-error}.}
     \label{fig:elev-error}
 \end{figure}
 
@@ -209,7 +212,7 @@ they were collected after the camera positioning had been changed to allow detec
 
 \begin{table}[H]
     \centering
-    \caption{Distance measurement errors vs object distance.}
+    \caption{Number of valid samples at each distance, for white background and small distances.}
     \label{tab:error-sample-counts-near}
     \begin{tabular}{|c||c|c|}
         \hline
@@ -224,7 +227,7 @@ they were collected after the camera positioning had been changed to allow detec
 
 \begin{table}[H]
     \centering
-    \caption{Distance measurement errors vs object distance.}
+    \caption{Distance measurement errors vs object distance, at small distances.}
     \label{tab:dist-error-near}
     \begin{tabular}{|c||c|c|}
         \hline
@@ -239,7 +242,7 @@ they were collected after the camera positioning had been changed to allow detec
 
 \begin{table}[H]
     \centering
-    \caption{Azimuth angle measurement errors vs object distance.}
+    \caption{Azimuth angle measurement errors vs object distance, at small distances.}
     \label{tab:azim-error-near}
     \begin{tabular}{|c||c|c|}
         \hline
@@ -254,7 +257,7 @@ they were collected after the camera positioning had been changed to allow detec
 
 \begin{table}[H]
     \centering
-    \caption{Elevation angle measurement errors vs object distance.}
+    \caption{Elevation angle measurement errors vs object distance, at small distances.}
     \label{tab:elev-error-near}
     \begin{tabular}{|c||c|c|}
         \hline
@@ -270,20 +273,23 @@ they were collected after the camera positioning had been changed to allow detec
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{sections/results/dist-error-near.png}
-    \caption{Distance measurement errors versus actual distance to object for all small distance tests.}
+    \caption{Distance measurement errors versus actual distance to object for all small distance tests.
+    The data shown here is the same data as table \ref{tab:dist-error-near}.}
     \label{fig:dist-error-near}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{sections/results/azimuth-error-near.png}
-    \caption{Azimuth angle measurement errors versus distance to object for all small distance tests.}
+    \caption{Azimuth angle measurement errors versus distance to object for all small distance tests.
+    The data shown here is the same data as table \ref{tab:azim-error-near}.}
     \label{fig:azim-error-near}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{sections/results/elevation-error-near.png}
-    \caption{Elevation angle measurement errors versus distance to object for all small distance tests.}
+    \caption{Elevation angle measurement errors versus distance to object for all small distance tests.
+    The data shown here is the same data as table \ref{tab:elev-error-near}.}
     \label{fig:elev-error-near}
 \end{figure}

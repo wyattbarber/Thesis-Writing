@@ -212,7 +212,8 @@ colors is to visually distinguish clusters of points that belong to different li
     \includegraphics[width=\textwidth]{sections/methods/sample-view-1.png}
     \caption{
         Example of a point cloud display. For each line, the points that belong to it are shown by highlighting
-        those points a different color. The lines are also drawn in the point cloud to precisely show their detected
+        those points a different color. The colors have no specific meaning, only to visually distinguish 
+        points belonging to different lined. The lines are also drawn in the point cloud to precisely show their detected
         size and orientation. Only one line is selected as the correct candidate object, and it is drawn in blue. The
         rejected candidate lines are drawn in red. In this example the selected candidate is near the center of the image,
         vertical, and the points belonging to it are shown in lime green. Since it was selected as the correct object,
@@ -227,8 +228,9 @@ colors is to visually distinguish clusters of points that belong to different li
     \includegraphics[width=\textwidth]{sections/methods/sample-view-2.png}
     \caption{
         Example of a point cloud overlaid on a grayscale image. Each detected line is shown by projecting the points 
-        belonging to it into the 2D image coordinates and highlighting those points a unique color. The line selected
-        as the correct object as a solid red line drawn through it showing its precise position and orientation. This
+        belonging to it into the 2D image coordinates and highlighting those points a unique color. 
+        The colors have no specific meaning, only to visually distinguish points belonging to different lined. The line selected
+        as the correct object has a solid red line drawn through it showing its precise position and orientation. This
         sample includes many lines that do not correspond to real objects, due to poorly generated disparity data over the 
         textureless background.
     }
