@@ -100,12 +100,10 @@
         \end{column}
     \end{columns}    
 
-    \note[item]{Drones in infrastructure, specifically power lines, can remove humans from situations where they are 
-    exposed to fall and electrocution hazards.}
-    \note[item]{Inspection often involves covering large distances in remote areas to check for encroaching vegitation,
-    and drones can cover the distance faster.}
-    \note[item]{When inspecting powerlines, perching drones have an opportunity to extend mission time by charging inductively 
-    from the powerline, which the device at right is designed to do.}
+    \note[item]{Drones in infrastructure, specifically power lines and checking for encroaching vegetation, 
+    can remove humans from situations where they are exposed to fall and electrocution hazards.}
+    \note[item]{Drones can also cover long distances faster.}
+    \note[item]{Perching in powerline inspection can allow drones to recharge.}
 \end{frame}
 
 \begin{frame}{Applications of Perching}{Environmental Monitoring}
@@ -116,8 +114,7 @@
                     replacing hazardous climbing or costly cranes
                     \cite{kirchgeorg_hedgehog_2022,parker_access_1992,nakamura_forests_2017}
                 \item Perching can mitigate disruptive noise \cite{jenni-eiermann_unmanned_2017,bennitt_terrestrial_2019}.
-                \item Practical use may be limited to very extreme scenarios, drones for depositing 
-                    and retrieving sensors may find wider use \cite{dohm_notitle_2024, ostaszewski_notitle_2024}.
+                \item Drones for depositing and retrieving sensors may find wider use \cite{dohm_notitle_2024, ostaszewski_notitle_2024}.
             \end{itemize}
         \end{column}        
         \begin{column}{0.49\textwidth}
@@ -127,14 +124,11 @@
         \end{column}
     \end{columns} 
 
-    \note[item]{Drones have been proposed for use in forest canopy research, where samples and data often must be collected by climbing,
-    which requires researchers to be skilled, or canopy cranes, which are costly and cannot be moved easily.}
-    \note[item]{Drones can access broad canopy regions, but the noise the produce can be disruptive to the very wildlife
-    may be trying to study.}
-    \note[item]{Perching may solve the noise problem while allowing for longer deployment times.}
-    \note[item]{Conversations with EGLE affiliated researchers revealed that such a drone may not have practical use in MI,
-    as forest canopy access is not generaly problematic, drones are more used for covering large areas in a short time, and the
-    price of a drone compared to a research budget means they aren't willing to leave one in a tree.}
+    \note[item]{Drones have been proposed for use in forest canopy research, where they can replace hazardous and tiring climbing, 
+    and canopy cranes that are expensive and inflexible.}
+    \note[item]{Drones produce noise and disrupt wildlife, but perching may remedy this.}
+    \note[item]{MI DNR researchers said that perching seems of little use to them; the use of drones is in covering 
+    large areas quickly, and leaving drones unattended is too risky.}
     \note[item]{A device that allows a drone to be used as a delivery and retrieval mechanism for a discrete sensor 
     payload may find more use. The device at right is an example of such a device.}
 \end{frame}
@@ -155,12 +149,11 @@
         \end{column}
     \end{columns} 
 
-    \note[item]{Sieber et al. proposed the system at right to use mini drones to track the borders of toxic plumes.}
-    \note[item]{Their method uses drones in constant flight, that reposition with the plume and provide a visual que 
-    as to the plumes location.}
-    \note[item]{Liu et al. propose using perching drones in a similar manner, to create emergency communication and sensor networks.}
-    \note[item]{Perching here would provide extended mission time, while preserving the ability to deploy quickly and reconfigure the 
-    system in response to changing conditions.}
+    \note[item]{Drone system shown, with GPS, wireless connectivity, and air quality sensors, proposed to 
+    track boundaries and movement of toxic plumes.}
+    \note[item]{Perching could be used in this case to preserve rapid deployment and dynamic reconfiguration
+    while extending mission time.}
+    \note[item]{Such drones could also be used for emergency communication networks.}
 \end{frame}
 
 \begin{frame}{Modes of Perching}
@@ -193,8 +186,7 @@
 
     \note[item]{In a review of published perching techniques and devices, Meng et al identified 3
     broad category of perching mechanisms:}
-    \note[item]{Grasping, often inspired by how birds perch, in which a drone mechanically grasps around an object.
-    Can double as a grasper to pick up a payload.}
+    \note[item]{Grasping, often inspired by how birds perch, in which a drone mechanically grasps around an object.}
     \note[item]{Embedding, where tiny spikes grip the small scale textural features of a surface. Often used
     on vertical surfaces, such as the photo at right.}
     \note[item]{Attaching, where other means are used to adhere to a surface such as electromagnetism, adhesive compounds,
@@ -230,9 +222,9 @@
         \end{column}
     \end{columns}   
 
-    \note[item]{Kominami et al designed a method that first uses a Hough transform to identify edges in an RGB image,
-    then draws a line perpendicular to two edges and computes a depth profile along the line. This profile use used to confirm
-    the location and type (bar, board, rod, etc) of an object.}
+    \note[item]{Method by Kominami et al. combines Hough transform edge detection in RGB image with 
+    a depth profile along a perpendicular scan line. Preliminary testing showed their method struggled with 
+    low quality depth data and organic edges.}
     \note[item]{von Frankenberg and Nokelby used a method based on RANSAC detection of cylindrical object in a point cloud, 
     then evaluating continuity of detected lines and clearance aroind them to validate "perchability". They noted that this method
     did result in the detection being lost in some samples, due to RANSAC not randomly choosing enough points from the target object.}
