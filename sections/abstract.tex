@@ -1,15 +1,21 @@
-Drones show great potential for expanding the reach of data collection into remote, 
-hazardous, or otherwise difficult to reach areas. However, their use is limited by their high power 
-consumption and resulting short mission time. One method of extending a drone's mission time is through
-perching behavior, in which a drone is capable of attaching to a stationary object or surface while cutting 
-off power to its motors. Various methods of implementing this behavior have been researched, though many 
-are mechanically complex, require complex controls, or are only suitable for very small drones. 
-Additionally, means to detect a perch are needed as assistance when an operators line-of-sight is limited,
-or to enable full autonomy. Few detection methods were found in the background literature, and those that were 
-often depended on expensive components. 
-This thesis designed a perch grasping and detection mechanism that can be implemented with low-cost components.
-The grasping device was verified to support a mass of at least 1.17kg, and function over at least 100 cycles.
+Perching mechanisms in drones can allow extended mission times, noise reduction during data collection,
+and aid in placing sensors in inaccessible locations. In addition to perching mechanisms, methods of detecting perches
+are needed to support autonomy or aid operators in limited line-of-sight.
+%
+%
+This thesis designed a perch grasping and detection mechanism for grasping overhead objects such as tree branches or
+powerlines. The grasping device was designed to be simple to fabricate on a laser cutter with wood or plastic, and 
+to remain passively attached after perching is complete. The detection mechanism was implemented with stereo vision, 
+to make use of low-cost camera sensors and open-sourced image processing tools. 
+%
+%
+The grasping device was verified under controlled, indoor conditions to support a drone with mass of at least 1.17kg, 
+and function over at least 100 cycles.
 The detection method was verified, under ideal conditions, to detect perch distance with less than 
-75mm and 25 degrees of error in distance and orientation, respectively. Though additional work is required to
-improve the reliability of perch detection against different background scenes, and improve the stability of 
-perch orientation estimation, the proposed detection method showed promise for use in autonomous drone perching.
+75mm and 25 degrees of error in distance and orientation, respectively. 
+%
+%
+The proposed detection method showed promise for use in autonomous drone perching, though further work is needed to 
+refine the concept. In particular the method used is very sensitive to patterns and colors of the background, which can 
+prevent detection of a perch. Additionally, the estimated orientation of a perch becomes more unreliable the closer a perch is,
+posing issues for integrating the detection mechanism into a flight controller.
