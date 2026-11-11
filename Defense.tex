@@ -296,15 +296,25 @@
             \end{tikzpicture}
         \end{column}
     \end{columns}
+    
+    \note{Quick note about coordinates and measures used:}
+    \note[item]{Coordinates reference camera coordinates, z is depth, y is up, and x is left.}
+    \note[item]{For measures, $d$ is the distance in z from camera to perch.}
+    \note[item]{Azimuth $\alpha$ is angle between perch and y axis.}
+    \note[item]{Elevation $\theta$ is angle between perch and x-y plane.}
 \end{frame}
 
 \begin{frame}{Grasper Design Goals}
     \begin{itemize}
         \item Can attach to an overhead cylindrical perch.
-        \item Able to support drone of 500g with up to $63.17\frac{mm}{s^2}$ acceleration
+        \item Able to support drone of 500g with up to $63.17\frac{m}{s^2}$ acceleration
             (based on assumed sinusoid motion at 2Hz with 0.4m displacement in a tree \cite{kamimura_energy_2024}).
         \item Mass under 47.5g, or 0.33\% of the estimated payload capacity for 500g drones.
     \end{itemize}
+
+    \note[item]{Design for overhead grasping, to tree branch or power line}
+    \note[item]{Target a drone mass of 0.5kg, and an estimated worst-case dynamic load based on about 63m/s2 acceleration.}
+    \note[item]{Target grasper mass of 47.5g based on 1/3 estimated payload capacity of a 500g drone.}
 \end{frame}
 
 \begin{frame}{Software Design Goals}
@@ -312,24 +322,32 @@
         \item Method that can work with low-cost cameras.
         \item Avoids the issues observed by von Frankenburg and Nokleby due to random sampling.
     \end{itemize}
+
+    \note[item]{Worked with low cost cameras and open sourced image processing libraries, at the expense of lower quality data.}
+    \note[item]{Chose deterministic detection methods, to avoid random sampling errors.}
 \end{frame}
 
 \begin{frame}{Grasper Design}
     \begin{columns}[T]        
         \begin{column}{0.49\textwidth}           
             \begin{itemize}
-                \item Laminated design supports fabrication with laser cutter.
-                \item Passively supports load once in closed position.
-                \item Design is parameterized, simple to change for different perch and drone sizes.
+                \item<1-> Laminated design supports fabrication with laser cutter.
+                \item<1-> Design is parameterized, simple to change for different perch and drone sizes.
+                \item<2-> Passively supports load once in closed position.
             \end{itemize}
         \end{column}
         
         \begin{column}{0.49\textwidth}
             \centering
-            \includegraphics[width=\textwidth]{sections/methods/grasper-render-open.png}
+            \includegraphics<1>[width=\textwidth]{sections/methods/grasper-render-open.png}
+            \includegraphics<2>[width=\textwidth]{sections/methods/grasper-render-closed.png}
             {\small The proposed grasper design.}           
         \end{column}
     \end{columns}   
+
+    \note[item]{Design is made in layers, shown here in different colors, which makes facbrication simple with a laser cutter.}
+    \note[item]{Parameterized}
+    \note[item]{Once closed, servo is not load bearing. Latch (green) supports weight without power applied}
 \end{frame}
 
 \begin{frame}{Grasper Verification}
@@ -361,6 +379,12 @@
         \item 3D Hough transform designed by Dalitz et al. \cite{dalitz_iterative_2017} to detect lines.
         \item Closest line to the camera is selected as the most likely perch.
     \end{itemize}
+
+    \note{High-level software architecture shown above. Key steps:}
+    \note[item]{Point clouds are generated from grayscale images with OpenCV library}
+    \note[item]{Otsu's thresholding is used to remove light colored background pixels}
+    \note[item]{3D Hough transform from Dalitz et al. used to identify lines}
+    \note[item]{Closest line to the camera is selected as the most likely perch}
 \end{frame}
 
 \begin{frame}{Software Verification}
@@ -387,6 +411,12 @@
             {\small Test setup for perch detection data collection.}     
         \end{center}      
     }
+
+    \note[item]{Detection was verified at 3 distances against 3 background patterns, to test for influence of shapes on results}
+    \note[item]{Total of 9 combinations, with 20 sample images collected in each}
+    \note[item]{Manual labeling of samples as valid or invalid detections used to determing detection success rate}
+    \note[item]{Errors in position and orientation determined for valid samples only, mean and deviation of errors calculated.}
+    
 \end{frame}
 
 \begin{frame}{End-to-End Demonstration}       
@@ -396,6 +426,12 @@
         \item Additional success rate and accuracy tests performed against plain wall with $d$ of 
             160mm, 80mm, and 40mm.
     \end{itemize}
+
+    \note[item]{Final integration test of the grasper and detection performed with 30 cycles}
+    \note[item]{Verified that grasper does close around perch after manually positioning it under a perch.}
+    \note[item]{The original camera baseline was too wide to detect objects close to the grasper, so cameras 
+    had to be moved closer}
+    \note[item]{Additional round of tests at small distances performed, only against white background.}
 \end{frame}
 
 \section{Results}
