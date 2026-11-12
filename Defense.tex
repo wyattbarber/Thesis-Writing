@@ -444,43 +444,88 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Perch Detection Results}{Success Rate with One Object}
-    \centering
-    \begin{table}[H]
-        \begin{tabular}{|c||c|}
-            \hline
-            Background & Success Rate [\%] \\
-            \hline
-            White & 100.0  \\
-            Zigzag & 83.3 \\
-            Checker & 31.7 \\
-            \hline
-        \end{tabular}
-    \end{table}
+\begin{frame}{Perch Detection Results}{Success Rate}
+    \begin{columns}[T]   
+        \begin{column}{0.49\textwidth}
+            \centering
+            \begin{table}[H]
+                \caption{With One Object}
+                \begin{tabular}{|c||c|}
+                    \hline
+                    Background & Success Rate [\%] \\
+                    \hline
+                    White & 100.0  \\
+                    Zigzag & 83.3 \\
+                    Checker & 31.7 \\
+                    \hline
+                \end{tabular}
+            \end{table}
+        \end{column}
+
+        \begin{column}{0.49\textwidth}
+            \begin{table}[H]
+                \caption{With Two Objects}
+                \begin{tabular}{|c||c|}
+                    \hline
+                    Background & Success Rate [\%] \\
+                    \hline
+                    White & 100.0  \\
+                    Zigzag & 90.0 \\
+                    Checker & 0.0 \\
+                    \hline
+                \end{tabular}
+            \end{table}
+        \end{column}
+    \end{columns}   
 \end{frame}
         
-\begin{frame}{Perch Detection Results}{Success Rate with One Object, by Distance}
-    \centering
-    \begin{table}[H]
-        \begin{tabular}{|c|c||c|}
-            \hline
-            Background & Distance to Object [mm] & Success Rate [\%] \\
-            \hline
-            White & 500 & 100.0 \\
-            White & 1000 & 100.0 \\
-            White & 2000 & 100.0 \\
-            Zigzag & 500 & 100.0 \\
-            Zigzag & 1000 & 100.0 \\
-            Zigzag & 2000 & 50.0 \\
-            Checker & 500 & 90.0 \\
-            Checker & 1000 & 5.0 \\
-            Checker & 2000 & 0.0 \\
-            \hline
-        \end{tabular}
-    \end{table}     
-\end{frame}
 
-\begin{frame}{Perch Detection Results}{Success Rate with One Object, at Small Distances}
+\begin{frame}{Perch Detection Results}{Success Rate, By Distance}
+    \begin{columns}[T]   
+        \begin{column}{0.49\textwidth}
+            \centering
+            \begin{table}[H]
+                \caption{With One Object}
+                \begin{tabular}{|c|c||c|}
+                    \hline
+                    Background & Distance to Object [mm] & Success Rate [\%] \\
+                    \hline
+                    White & 500 & 100.0 \\
+                    White & 1000 & 100.0 \\
+                    White & 2000 & 100.0 \\
+                    Zigzag & 500 & 100.0 \\
+                    Zigzag & 1000 & 100.0 \\
+                    Zigzag & 2000 & 50.0 \\
+                    Checker & 500 & 90.0 \\
+                    Checker & 1000 & 5.0 \\
+                    Checker & 2000 & 0.0 \\
+                    \hline
+                \end{tabular}
+            \end{table}
+        \end{column}
+
+        \begin{column}{0.49\textwidth}
+            \begin{table}[H]
+                \caption{With Two Objects}
+                \begin{tabular}{|c|c||c|}
+                    \hline
+                    Background & Distance to Object [mm] & Success Rate [\%] \\
+                    \hline
+                    White & 1000 & 100.0 \\
+                    White & 2000 & 100.0 \\
+                    Zigzag & 1000 & 100.0 \\
+                    Zigzag & 2000 & 80.0 \\
+                    Checker & 1000 & 0.0 \\
+                    Checker & 2000 & 0.0 \\
+                    \hline
+                \end{tabular}
+            \end{table}
+        \end{column}
+    \end{columns}   
+\end{frame}        
+
+
+\begin{frame}{Perch Detection Results}{Success Rate, at Small Distances}
     \centering    
     \begin{table}[H]
         \begin{tabular}{|c||c|}
@@ -495,38 +540,6 @@
     \end{table}
 \end{frame}
 
-\begin{frame}{Perch Detection Results}{Success Rate with Two Objects}   
-    \centering
-    \begin{table}[H]
-        \begin{tabular}{|c||c|}
-            \hline
-            Background & Success Rate [\%] \\
-            \hline
-            White & 100.0  \\
-            Zigzag & 90.0 \\
-            Checker & 0.0 \\
-            \hline
-        \end{tabular}
-    \end{table}
-\end{frame}
-
-\begin{frame}{Perch Detection Results}{Success Rate with Two Objects, by Distance}   
-    \centering
-    \begin{table}[H]
-        \begin{tabular}{|c|c||c|}
-            \hline
-            Background & Distance to Object [mm] & Success Rate [\%] \\
-            \hline
-            White & 1000 & 100.0 \\
-            White & 2000 & 100.0 \\
-            Zigzag & 1000 & 100.0 \\
-            Zigzag & 2000 & 80.0 \\
-            Checker & 1000 & 0.0 \\
-            Checker & 2000 & 0.0 \\
-            \hline
-        \end{tabular}
-    \end{table}        
-\end{frame}
 
 \begin{frame}{Perch Detection Accuracy}{Distance Estimation}   
     \only<1>{
