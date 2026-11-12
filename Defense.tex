@@ -393,18 +393,23 @@
             \item Images captured of vertical perch at distances $d$ of 2m, 1m, and 500mm.
             \item Repeated with 3 backgrounds: plain wall, zigzag pattern, and checkered pattern.
             \item Reliability measured by manually labelling each sample as a correct or incorrect detection.
+            \item Reliability test repeated with two object, one behind target at an angle.
             \item Accuracy and precision measured with errors in position and orientation of detected perch in each correct sample.
         \end{itemize}
     }
     \only<2>{
         \begin{columns}[T]   
-            \begin{column}{0.49\textwidth}
+            \begin{column}{0.33\textwidth}
                 \centering
                 \includegraphics[width=0.8\textwidth]{sections/methods/setup_wall_side.jpg}
             \end{column}  
-            \begin{column}{0.49\textwidth}
+            \begin{column}{0.33\textwidth}
                 \centering
                 \includegraphics[width=0.8\textwidth]{sections/methods/setup_blanket.jpg}
+            \end{column}
+            \begin{column}{0.33\textwidth}
+                \centering
+                \includegraphics[width=0.8\textwidth]{sections/methods/2-obj-side.jpg}
             \end{column}
         \end{columns}   
         \begin{center}
@@ -415,6 +420,7 @@
     \note[item]{Detection was verified at 3 distances against 3 background patterns, to test for influence of shapes on results}
     \note[item]{Total of 9 combinations, with 20 sample images collected in each}
     \note[item]{Manual labeling of samples as valid or invalid detections used to determing detection success rate}
+    \note[item]{Success rate was also identified when a second object was added behind the first at an angle}
     \note[item]{Errors in position and orientation determined for valid samples only, mean and deviation of errors calculated.}
     
 \end{frame}
