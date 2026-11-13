@@ -448,6 +448,9 @@
         \item Weight of one grasper 41.5g, total device as tested 236g.
         \item 100 test cycles completed without failure.
     \end{itemize}
+    
+    \note[item]{The grasper validation results overall show the device works as expected.}
+    \note[item]{The total grasper weight is well over the target, but a single clasp is under the target.}
 \end{frame}
 
 \begin{frame}{Perch Detection Results}{Success Rate}
@@ -484,6 +487,11 @@
             \end{table}
         \end{column}
     \end{columns}   
+
+    \note[item]{For brevity, the small distance tests are not shown here, the same trends are observed} 
+    \note[item]{SUccess rate data shows a significant impact by the background pattern}
+    \note[item]{Zigzag pattern has a minor negative impact, while checker seriously harms performance}
+    \note[item]{Rates when a second object is added are consistent with the single object results}
 \end{frame}
         
 
@@ -527,6 +535,11 @@
             \hline
         \end{tabular}
     \end{table}
+
+    \note[item]{This is the same data as the previous slide, broken down by distance}
+    \note[item]{Trend shows success rate decreasing at larger distances, where there is change}
+    \note[item]{The 500mm tests were excluded from the 2 object tests, because at that distance the second 
+    object couldn't be captured in the detection window with the first}
 \end{frame}        
 
 
@@ -562,6 +575,10 @@
             \hline
         \end{tabular}
     \end{table}
+
+    \note[item]{The distance measurement errors show that average error is decreasing at smaller distances, 
+    as is the variance in errors.}
+    \note[item]{Zero deviation at 2m is correct, it is a result of the quantization of depth measurements}
 \end{frame}
 
 % \begin{frame}{Perch Detection Accuracy}{Distance Estimation at Small Distances}  
@@ -599,6 +616,9 @@
             \hline
         \end{tabular}
     \end{table}
+
+    \note[item]{The most noteable feature of the azimuth angle errors is the tendency for error to grow and 
+    become less consistent at small distances.}
 \end{frame}
 
 % \begin{frame}{Perch Detection Accuracy}{Azimuth Estimation at Small Distances}   
@@ -637,6 +657,11 @@
             \hline
         \end{tabular}
     \end{table}
+
+    \note[item]{Elevation errors are within 4 degrees of correct value}
+    \note[item]{Obvious trend like was seen with d and a not seen here}
+    \note[item]{Like in distance errors, the 0 average and deviation at 2m 
+    is a result of depth quantization}
     
 \end{frame}
 
@@ -663,6 +688,10 @@
     \centering
     \includegraphics[width=0.5\textwidth]{sections/results/demo.png}\\
     \url{https://photos.app.goo.gl/Yh4eSpUUUpzznfjE9}
+    
+    \note[item]{All 30 cycles resulted in successful grasping}
+    \note[item]{Observed delay of 10-20 seconds is consistent with expected delay based on 
+    cycle time measurements in the software}
 \end{frame}
 
 
