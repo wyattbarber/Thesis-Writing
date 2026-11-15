@@ -550,25 +550,25 @@
 \end{frame}        
 
 
-% \begin{frame}{Perch Detection Results}{Success Rate, at Small Distances}
-%     \centering    
-%     \begin{table}[H]
-%         \begin{tabular}{|c||c|}
-%             \hline
-%             Distance to Object [mm] & Success Rate [\%] \\
-%             \hline
-%             40 & 100.0 \\
-%             80 & 100.0 \\
-%             160 & 95.0 \\
-%             \hline
-%         \end{tabular}
-%     \end{table}
-% \end{frame}
+\begin{frame}{Perch Detection Results}{Success Rate, at Small Distances}
+    \centering    
+    \begin{table}[H]
+        \begin{tabular}{|c||c|}
+            \hline
+            Distance to Object [mm] & Success Rate [\%] \\
+            \hline
+            40 & 100.0 \\
+            80 & 100.0 \\
+            160 & 95.0 \\
+            \hline
+        \end{tabular}
+    \end{table}
+\end{frame}
 
 
 \begin{frame}{Perch Detection Accuracy}{Distance Estimation} 
     \centering
-    \includegraphics[width=0.6\textwidth]{sections/results/dist-error.png}     
+    \includegraphics[width=0.6\textwidth]{sections/results/dist-error-combined.png}     
     \begin{table}[H]
         \tiny
         \centering
@@ -576,6 +576,9 @@
             \hline
             True Distance $d$ [mm] & Average Error $\mu_{\Delta d}$ [mm] & Error Standard Deviation $\sigma_{\Delta d}$ [mm]\\
             \hline
+            40 & 7.78 & 0.06 \\
+            80 & 4.48 & 0.50 \\
+            160 & 8.93 & 1.59 \\
             500 & -9.7 & 2.0 \\
             1000 & -32.9 & 4.9 \\
             2000 & -73.4 & 0.0 \\
@@ -588,27 +591,10 @@
     \note[item]{Zero deviation at 2m is correct, it is a result of the quantization of depth measurements}
 \end{frame}
 
-% \begin{frame}{Perch Detection Accuracy}{Distance Estimation at Small Distances}  
-%     \centering
-%     \includegraphics[width=0.6\textwidth]{sections/results/dist-error-near.png}
-%     \begin{table}[H]
-%         \tiny
-%         \centering
-%         \begin{tabular}{|c||>{\centering\arraybackslash}m{0.25\textwidth}|>{\centering\arraybackslash}m{0.25\textwidth}|}
-%             \hline
-%             True Distance $d$ [mm] & Average Error $\mu_{\Delta d}$ [mm] & Error Standard Deviation $\sigma_{\Delta d}$ [mm]\\
-%             \hline
-%             40 & 7.8 & 0.06 \\
-%             80 & 4.5 & 0.5 \\
-%             160 & 8.9 & 1.6 \\
-%             \hline
-%         \end{tabular}
-%     \end{table}
-% \end{frame}
 
 \begin{frame}{Perch Detection Accuracy}{Azimuth Estimation}   
     \centering
-    \includegraphics[width=0.6\textwidth]{sections/results/azimuth-error.png}
+    \includegraphics[width=0.6\textwidth]{sections/results/azimuth-error-combined.png}
 
     \begin{table}[H]
         \tiny
@@ -617,6 +603,9 @@
             \hline
             Distance $d$ [mm] & Average Error $\mu_{\Delta \alpha}$ [deg] & Error Standard Deviation $\sigma_{\Delta \alpha}$ [deg]\\
             \hline
+            40 & 6.8 & 2.3 \\
+            80 & 13.2 & 10.0 \\
+            160 & 5.6 & 5.2 \\
             500 & 3.9 & 2.7 \\
             1000 & 2.1 & 0.2 \\
             2000 & 0.9 & 0.5 \\
@@ -628,28 +617,10 @@
     become less consistent at small distances.}
 \end{frame}
 
-% \begin{frame}{Perch Detection Accuracy}{Azimuth Estimation at Small Distances}   
-%     \centering
-%     \includegraphics[width=0.6\textwidth]{sections/results/azimuth-error-near.png}
-
-%     \begin{table}[H]
-%         \tiny
-%         \centering
-%         \begin{tabular}{|c||>{\centering\arraybackslash}m{0.25\textwidth}|>{\centering\arraybackslash}m{0.25\textwidth}|}
-%             \hline
-%             Distance $d$ [mm] & Average Error $\mu_{\Delta \alpha}$ [deg] & Error Standard Deviation $\sigma_{\Delta \alpha}$ [deg]\\
-%             \hline
-%             40 & 6.8 & 2.3 \\
-%             80 & 13.2 & 10.1 \\
-%             160 & 5.6 & 5.2 \\
-%             \hline
-%         \end{tabular}
-%     \end{table}        
-% \end{frame}
 
 \begin{frame}{Perch Detection Accuracy}{Elevation Estimation}   
     \centering
-    \includegraphics[width=0.6\textwidth]{sections/results/elevation-error.png}
+    \includegraphics[width=0.6\textwidth]{sections/results/elevation-error-combined.png}
 
     \begin{table}[H]
         \tiny
@@ -658,6 +629,9 @@
             \hline
             Distance $d$ [mm] & Average Error $\mu_{\Delta \theta}$ [deg] & Error Standard Deviation $\sigma_{\Delta \theta}$ [deg]\\
             \hline
+            40 & 2.6 & 4.7 \\
+            80 & 1.2 & 4.4 \\
+            160 & 2.0 & 6.0 \\
             500 & 3.5 & 1.1 \\
             1000 & 3.7 & 0.5 \\
             2000 & 0.0 & 0.0 \\
@@ -672,24 +646,6 @@
     
 \end{frame}
 
-% \begin{frame}{Perch Detection Accuracy}{Elevation Estimation at Small Distances}   
-%     \centering
-%     \includegraphics[width=0.6\textwidth]{sections/results/elevation-error-near.png}
-
-%     \begin{table}[H]
-%         \tiny
-%         \centering
-%         \begin{tabular}{|c||>{\centering\arraybackslash}m{0.25\textwidth}|>{\centering\arraybackslash}m{0.25\textwidth}|}
-%             \hline
-%             Distance $d$ [mm] & Average Error $\mu_{\Delta \theta}$ [deg] & Error Standard Deviation $\sigma_{\Delta \theta}$ [deg]\\
-%             \hline
-%             40 & 2.6 & 4.7 \\
-%             80 & 1.2 & 4.4 \\
-%             160 & 2.0 & 6.0 \\
-%             \hline
-%         \end{tabular}
-%     \end{table}
-% \end{frame}
 
 \begin{frame}{Demonstration}
     \centering
