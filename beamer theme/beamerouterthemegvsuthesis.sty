@@ -7,10 +7,13 @@
         \begin{beamercolorbox}[wd=\the\paperwidth,ht=\the\paperheight]{background canvas}
         \end{beamercolorbox}
     \else     
-        \hbox to \paperwidth{
-        \hfil 
-        \includegraphics[height=0.25\paperheight]{beamer theme/gvsu.png}
-        \hfil
+        \vbox to \paperheight{%
+            \vfill%
+            \hbox to \paperwidth{%
+                \hfil %
+                \includegraphics[width=0.25\paperwidth]{beamer theme/gvsu.png}%
+            }%
+            \vspace{1em}%
         }
     \fi
 }
@@ -34,13 +37,11 @@
 \setbeamertemplate{title page}{    
 \vfill
 \vspace{1em}
-\begin{beamercolorbox}[wd=\the\paperwidth]{title page header}
+\begin{beamercolorbox}[wd=\the\paperwidth, sep=1em]{title page header}
+    % \vspace{0.5em}
     \centering
-    \vbox{
-        \vfil
-        \usebeamerfont{title}\inserttitle
-        \vfil
-    }
+    \usebeamerfont{title}\inserttitle
+    % \vspace{0.25em}
 \end{beamercolorbox}
 \begin{center}
     \vspace{1em}
@@ -59,17 +60,18 @@
                 \raggedright
                 \vbox { %
                     \hbox {
-                    \begin{beamercolorbox}[wd=0.85\paperwidth,ht=0.15\paperwidth]{title page header}%
+                    \begin{beamercolorbox}[wd=\paperwidth,ht=0.15\paperwidth]{title page header}%
                         \vbox to 0.15\paperwidth{
                             \vfil
+                            \centering
                             \usebeamerfont{title}\space\insertsectionhead%
                             \vfil
                         }
                     \end{beamercolorbox}%
-                    \includegraphics[width=0.15\paperwidth,height=0.15\paperwidth]{beamer theme/logo.jpg}%
+                    % \includegraphics[width=0.15\paperwidth,height=0.15\paperwidth]{beamer theme/logo.jpg}%
                     }\nointerlineskip%
-                    \begin{beamercolorbox}[wd=\the\paperwidth,ht=0.5ex]{subtitle} %
-                    \end{beamercolorbox} %
+                    % \begin{beamercolorbox}[wd=\the\paperwidth,ht=0.5ex]{subtitle} %
+                    % \end{beamercolorbox} %
                 } %
             \end{minipage}%
         }%
