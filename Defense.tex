@@ -84,6 +84,7 @@
 
 \section{Review of Literature}
 
+% TODO: Remove duplicated sources to shrink references slides?
 \begin{frame}{Applications of Perching}{Infrastructure Inspection}
     \begin{columns}[T]        
         \begin{column}{0.49\textwidth}
@@ -106,6 +107,7 @@
     \note[item]{Perching in powerline inspection can allow drones to recharge.}
 \end{frame}
 
+% TODO: Remove / merge details about canopy access and noise?
 \begin{frame}{Applications of Perching}{Environmental Monitoring}
     \begin{columns}[T]        
         \begin{column}{0.49\textwidth}
@@ -231,7 +233,7 @@
     \note[item]{Hoang et al. also developed a detection method specifically for power lines. They used a single camera to detect orentation of 
     lines, and a radar to detect distance.}
 
-    \note[item]{Sensor and CPU costs: 
+    \note[item]{\textbf{Sensor and CPU costs}: 
         Kominami: RealSense D405 350-400 USD (various sources), Intel NUC (Next Unit of Computing) 200+ USD depending on configuration
         Frankenburg: Microsoft Kinect 360 ~30 USD used (discontinued 2017), Intel i7-4770 3.40 GHz 4 core CPU
         Hoang: TI IWR6843AOPEVM mmWave radar 172.10 USD, RPi 4B 50-100 USD based on configuration
@@ -660,38 +662,74 @@
 
 \section{Discussion}
 
-\begin{frame}{Grasper}{Strength and Repeatability}
+\begin{frame}{Grasper}
     \begin{itemize}
-        \item Verified holding capacity is over the target, could support 
-            at least 1.17kg with dynamic load. 
-        \item Controller demonstrates sufficient reliability for perching and releasing. 
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Grasper}{Weight}
-    \begin{itemize}
+        \item Verified holding capacity is over the target, could support at least 1.17kg drone. 
         \item Weight of a single grasper is under the target, but whole device is well over.
-        \item Strength is also over the target.
         \item Could be used for larger drone with more payload, or size and weight could be reduced sacrificing strength.
     \end{itemize}
+
+    \note[item]{Grasper results are positive, with reliability tests all passing and the maximum test load reached without failure.}
+    \note[item]{Though the total device is over the target weight, a single grasper is within it.}
+    \note[item]{There are opportunities for weight reduction, as the holding capacity is over the target as well.}
+\end{frame}
+   
+\begin{frame}{Perch Detection}{Impact of Distance}
+    \begin{columns}[T]        
+        \begin{column}{0.49\textwidth}
+            \begin{itemize}
+                \item Distance errors grow smaller at small distances.
+                \item Azimuth errors show increasing variance at smaller distances.
+                \item Increasing variance could pose problems for feedback controls as drone approaches a perch. 
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.49\textwidth}
+            \centering
+            \includegraphics[width=0.7\textwidth]{sections/results/dist-error-combined.png}  
+            \includegraphics[width=0.7\textwidth]{sections/results/azimuth-error-combined.png}     
+        \end{column}
+    \end{columns}
+
+    \note[item]{The two main trends in the errors are that distance errors decrease in average magnitude and variance over smaller distance,
+    but increase for azimuth.}
+    \note[item]{Increasing variance in azimuth errors may be a problem when integrating with a controller, as yaw controls would become more unstable 
+    as the drone gets closer to the perch.}
 \end{frame}
 
-\begin{frame}{Perch Detection}{Impact of Distance}
-    \begin{itemize}
-        \item For distance and elevation measurements, mean and variance of errors decrease as distance decreases.
-        \item 0 standard deviation at 2m is a result of stereo matching quantization.
-        \item Azimuth errors show increasing variance at smaller distances.
-        \item Increasing variance could pose problems for feedback controls as drone approaches a perch. 
-    \end{itemize}
+\begin{frame}{Perch Detection}{Azimuth Measurement Errors}
+    \begin{columns}[T]        
+        \begin{column}{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/methods/label_good_1.png}
+            Detection at large distance.
+        \end{column}
+        \begin{column}{0.49\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{sections/results/demo-perched-detect.png}  
+            Detection at small distance, showing exaggerated azimuth error.
+        \end{column}
+    \end{columns}
+
+    \note[item]{These images illustrate the source of the azimuth angle errors}
+    \note[item]{The Hough transform uses PCA to determine orientation}
+    \note[item]{The left shows a detection at a larger distance, where the perch appears long and thin. Variation in the detected width 
+    is low compared to the length.}
+    \note[item]{At the right is a small distance detection. Here the perch appears wider (though is the same object as at left), 
+    and there is much more variability in the axis that may be drawn through it}
 \end{frame}
 
 \begin{frame}{Perch Detection}{Impact of Background}
     \begin{itemize}
-        \item Background influences stereo matching quality and background filtering success, 
-            with more complicated backgrounds producing lower detection success rates.
-        \item Fine and repeating patterns seem to produce low-quality stereo disparity.
+        \item Background influences stereo matching quality and background filtering success in different ways.
+        \item Fine and repeating patterns seem to produce low-quality stereo disparity,
+            as do smooth featureless backgrounds.
         \item Dark backgrounds prevent background removal from eliminating low-quality pixels. 
     \end{itemize}
+
+    \note[item]{Success rate shows heavy influence from background, with different backgrounds interfering with different steps}
+    \note[item]{Stereo matching fails with featureless backgrounds (which is what the background filtering mitigates),
+    as well as with the fine-textured checkered background}
+    \note[item]{The background removal step fails on backgrounds with dark colors}
 \end{frame}
 
 \begin{frame}{Perch Detection}{Impact of Background}
@@ -715,6 +753,12 @@
             \includegraphics[width=\textwidth]{sections/discussion/check-ptcld-failure.png}
         } \end{column}
     \end{columns}
+
+    \note[item]{Top row shows image, disparity, and point cloud for a sample with the zigzag background}
+    \note[item]{Bottom shows the same for a sample with the checkered background}
+    \note[item]{Disparity photos show where the checkered pattern introduces issues; in the stereo matching (top right corner)}
+    \note[item]{The point clouds highlight where the background removal fails; in the dark segments of the patterns}
+
 \end{frame}
 
 \begin{frame}{Perch Detection}{Line Identification}
@@ -723,7 +767,7 @@
             \begin{itemize}
                 \item 3D Hough transform \cite{dalitz_iterative_2017} struggles to separate lines from non-lines.
                 \item Fixing this would reduce sensitivity to low-quality background points.
-                \item Adjusting the Hough transform to consider uniqueness of a fit may help.
+                \item Considering uniqueness of fit in addition to number of votes may help.
             \end{itemize}           
         \end{column}
         \begin{column}{0.49\textwidth}
@@ -732,6 +776,11 @@
             {Point cloud showing false line detections.}
         \end{column}
     \end{columns}
+
+    \note[item]{The hough transform does not distinguish true lines from planes, boxes, or other shapes}
+    \note[item]{This contributes to the sensitivity to low quality background, as shown in image}
+    \note[item]{Considering the uniqueness of a line fit, ex how many votes are lost if it is shifted or
+    rotated slightly, may help reject bad fits}
 \end{frame}
 
 \begin{frame}{Perch Detection}{Perch Shapes}
@@ -742,6 +791,10 @@
         \item To grasp, the drone would need to approach close enough to only see an unbranched 
             segment of the perch.
     \end{itemize}
+
+    \note[item]{Testing was limited to detection of straight perches}
+    \note[item]{Hough transform may behave unexpectedly with branched or curved objects}
+    \note[item]{Once close enough to perch, object would appear straight, so detection process may still work}
 \end{frame}
 
 \begin{frame}{Perch Detection}{Field of View}
@@ -750,10 +803,16 @@
         \item Custom carrier PCB could help place cameras closer, and may reduce weight.
         \item Multiple stereo matching passes with different parameters could also improve field of view.
     \end{itemize}
+
+    \note[item]{Even with smaller baseline the field of view is limited}
+    \note[item]{Detecting smaller distances requires scanning larger disparity ranges, which increases the blind spot in the left margin}
+    \note[item]{Performing multiple passes of block matching and merging disparities, or dynamically changing disparity ranges as target is tracked 
+    closer to drone could mitigate this without customizing camera carrier PCB.}
 \end{frame}
 
 \section{Conclusion}
 
+% TODO: Restate quantitative results here, similar to Dr. Lees manuscript feedback
 \begin{frame}{Conclusion}
     \begin{itemize}
         \item The grasper design is successful in function, and is simple to adapt to different drone designs.
