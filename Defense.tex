@@ -13,6 +13,8 @@
 %\setbeameroption{show only notes} % Only notes
 %\setbeameroption{show notes on second screen=right} % Both
 
+\setbeamerfont{normal text}{size=\footnotesize}
+\AtBeginDocument{\usebeamerfont{normal text}}
 
 \title{Design of a UAV Perching Device for Detection and Grasping}
 \author{Wyatt Barber}
@@ -44,7 +46,7 @@
         \note[item]{What is drone perching: a form of multi-modal movement in which a drone can switch between two modes:
             powered flight (the conventional drone motion), and an unpowered, stationary rest mode.}
         \note[item]{The rest mode is achieved by supporting the drones weight from a fixed object.}
-        \note[item]{Example at right shows one form of perching mechanism, with a drone approching an object, perching on top and grasping,
+        \note[item]{Example at right shows one form of perching mechanism, with a drone approaching an object, perching on top and grasping,
             and later releasing and flying away.}
         
         \begin{column}{0.49\textwidth}
@@ -55,112 +57,63 @@
     \end{columns}    
 \end{frame}
 
-\begin{frame}{Significance}
-    \begin{itemize}
-        \item Hypothetical applications in infrastructure inspection, environmental monitoring, and disaster response
-        \cite{liu_perching_2022,kirchgeorg_hedgehog_2022,hoang_autonomous_2024,kitchen_design_2020,liu_mini-drone_2023,seiber_tracking_2018}.
-        \item New methods of perching may expand use of perching behaviors in real world.
-    \end{itemize}
+% \begin{frame}{Significance}
+%     \begin{itemize}
+%         \item Hypothetical applications in infrastructure inspection, environmental monitoring, and disaster response
+%         \cite{liu_perching_2022,kirchgeorg_hedgehog_2022,hoang_autonomous_2024,kitchen_design_2020,liu_mini-drone_2023,seiber_tracking_2018}.
+%         \item New methods of perching may expand use of perching behaviors in real world.
+%     \end{itemize}
 
-    \note[item]{Drone perching has possible use for data collection in infrastructure inspection, environmental monitoring, and 
-    disaster response.}
-    \note[item]{Most of the work on drone perching is in labs developing new methods, not in studies putting perching to work.}
-    \note[item]{New methods of perch detection and perching that focus on cost-effectiveness and simplicity of fabrication may help 
-    expand use of drone perching in real world. }
-\end{frame}
-
-\begin{frame}{Objectives}
-    \begin{itemize}
-        \item Design a perch detection method using low-cost and open-source components.
-        \item Design a low-cost, simple to fabricate grasping device.
-        \item Verify the reliability and accuracy of the design.
-    \end{itemize}
-
-    \note[item]{Design detection method, low cost and open source.}
-    \note[item]{Design grasper, low cost and simple to fabricate.}
-    \note[item]{Verify reliability and accuracy of both.}
-\end{frame}
+%     \note[item]{Drone perching has possible use for data collection in infrastructure inspection, environmental monitoring, and 
+%     disaster response.}
+%     \note[item]{Most of the work on drone perching is in labs developing new methods, not in studies putting perching to work.}
+%     \note[item]{New methods of perch detection and perching that focus on cost-effectiveness and simplicity of fabrication may help 
+%     expand use of drone perching in real world. }
+% \end{frame}
 
 
-\section{Review of Literature}
-
-% TODO: Remove duplicated sources to shrink references slides?
-\begin{frame}{Applications of Perching}{Infrastructure Inspection}
+\begin{frame}{Applications of Perching}
     \begin{columns}[T]        
-        \begin{column}{0.49\textwidth}
+        \begin{column}{0.4\textwidth}
+            Perching drones may find use in:
             \begin{itemize}
-                \item Drones may make inspecting power lines safer and faster \cite{chen_automatic_2018}.
-                \item Perching drones could extend their mission time 
-                    by perching and charging from power lines \cite{hoang_autonomous_2024,kitchen_design_2020}.
+                \item<1-> Infrastructure inspection \cite{chen_automatic_2018}.
+                \item<2-> Environmental monitoring \cite{kirchgeorg_hedgehog_2022}.
+                \item<3-> Disaster response \cite{seiber_tracking_2018}.
             \end{itemize}
         \end{column}        
-        \begin{column}{0.49\textwidth}
+        \begin{column}{0.6\textwidth}
             \centering
+            \only<1> {
                 \includegraphics[width=\textwidth]{screenshots/clasp-2.png}
                 {\small Adapted from \cite{hoang_autonomous_2024}.}
+            }
+            \only<2> {
+                \includegraphics[width=\textwidth]{screenshots/bistable_coil.png}
+                {\small Adapted from \cite{geckeler_bistable_2022}.}
+            }
+            \only<3> {
+                \includegraphics[width=\textwidth]{screenshots/plume-monitor.png}
+                {\small Adapted from \cite{seiber_tracking_2018}.}
+            }
         \end{column}
     \end{columns}    
 
     \note[item]{Drones in infrastructure, specifically power lines and checking for encroaching vegetation, 
-    can remove humans from situations where they are exposed to fall and electrocution hazards.}
-    \note[item]{Drones can also cover long distances faster.}
-    \note[item]{Perching in powerline inspection can allow drones to recharge.}
-\end{frame}
-
-% TODO: Remove / merge details about canopy access and noise?
-\begin{frame}{Applications of Perching}{Environmental Monitoring}
-    \begin{columns}[T]        
-        \begin{column}{0.49\textwidth}
-            \begin{itemize}
-                \item Drones may access forest canopies,
-                    replacing hazardous climbing or costly cranes
-                    \cite{kirchgeorg_hedgehog_2022,parker_access_1992,nakamura_forests_2017}
-                \item Perching can mitigate disruptive noise \cite{jenni-eiermann_unmanned_2017,bennitt_terrestrial_2019}.
-                \item Drones for depositing and retrieving sensors may find wider use \cite{dohm_notitle_2024, ostaszewski_notitle_2024}.
-            \end{itemize}
-        \end{column}        
-        \begin{column}{0.49\textwidth}
-            \centering
-                \includegraphics[width=\textwidth]{screenshots/bistable_coil.png}
-                {\small Adapted from \cite{geckeler_bistable_2022}.}
-        \end{column}
-    \end{columns} 
-
-    \note[item]{Drones have been proposed for use in forest canopy research, where they can replace hazardous and tiring climbing, 
-    and canopy cranes that are expensive and inflexible.}
-    \note[item]{Drones produce noise and disrupt wildlife, but perching may remedy this.}
-    \note[item]{MI DNR researchers said that perching seems of little use to them; the use of drones is in covering 
-    large areas quickly, and leaving drones unattended is too risky.}
-    \note[item]{A device that allows a drone to be used as a delivery and retrieval mechanism for a discrete sensor 
-    payload may find more use. The device at right is an example of such a device.}
-\end{frame}
-
-\begin{frame}{Applications of Perching}{Disaster Response}
-    \begin{columns}[T]        
-        \begin{column}{0.49\textwidth}
-            \begin{itemize}
-                \item Drones could rapidly deploy sensors to track boundaries of toxic plumes \cite{seiber_tracking_2018}.
-                \item Perching behavior could extend the mission time of this sensor fence, while keeping rapid 
-                    deployment and reconfigurability \cite{liu_perching_2022}.
-            \end{itemize}
-        \end{column}        
-        \begin{column}{0.49\textwidth}
-            \centering
-                \includegraphics[width=\textwidth]{screenshots/plume-monitor.png}
-                {\small Adapted from \cite{seiber_tracking_2018}.}
-        \end{column}
-    \end{columns} 
-
+    can remove humans from situations where they are exposed to fall and electrocution hazards. 
+    Perching drones could extend mission time by inductive charging.}
+    
+    \note[item]{Drones have been proposed for use in forest canopy research, where perching can reduce noise disruption.
+    Using drones to deposit perched sensor payloads, as shown, may find more use here.}
+    
     \note[item]{Drone system shown, with GPS, wireless connectivity, and air quality sensors, proposed to 
-    track boundaries and movement of toxic plumes.}
-    \note[item]{Perching could be used in this case to preserve rapid deployment and dynamic reconfiguration
-    while extending mission time.}
-    \note[item]{Such drones could also be used for emergency communication networks.}
+    track boundaries and movement of toxic plumes. Perching can extend mission time while keeping rapid deployment and reconfiguration.}
 \end{frame}
+
 
 \begin{frame}{Modes of Perching}
     \begin{columns}[T]        
-        \begin{column}{0.49\textwidth}
+        \begin{column}{0.4\textwidth}
             Meng et al. identified 3 primary modes of drone perching \cite{meng_aerial_2022}:
             \begin{itemize}
                 \item<1-> Grasping 
@@ -169,7 +122,7 @@
             \end{itemize}
         \end{column}
         
-        \begin{column}{0.49\textwidth}
+        \begin{column}{0.6\textwidth}
             \centering
             \only<1> {
                 \includegraphics[width=\textwidth]{screenshots/birdclaw-enhanced.png}
@@ -197,17 +150,16 @@
 
 \begin{frame}{Methods of Perch Detection}
     \begin{columns}[T]        
-        \begin{column}{0.49\textwidth}           
+        \begin{column}{0.4\textwidth}           
+            3 approaches identified in literature:
             \begin{itemize}
-                \item<1-> Kominami et al. designed a method based on depth profiles between 
-                    edges in the RGB image \cite{kominami_detection_2023}.
-                \item<2-> von Frankenberg and Nokleby's method detects cylindrical shapes directly 
-                    in point clouds with a RANSAC method \cite{von_frankenberg_detection_2020}.
-                \item<3-> Hoang et al used a radar module paired with a camera to detect power lines \cite{hoang_autonomous_2024}.
+                \item<1-> Depth profiles between parallel edges \cite{kominami_detection_2023}.
+                \item<2-> RANSAC detection of cylinders in point clouds \cite{von_frankenberg_detection_2020}.
+                \item<3-> Camera for orientation detection and radar for distance measurement \cite{hoang_autonomous_2024}.
             \end{itemize}
         \end{column}
         
-        \begin{column}{0.49\textwidth}
+        \begin{column}{0.6\textwidth}
             \centering
             \only<1> {
                 \includegraphics[width=\textwidth]{screenshots/kominami-detect.png}
@@ -241,6 +193,17 @@
     }
 \end{frame}
 
+\begin{frame}{Objectives}
+    \begin{itemize}
+        \item Design a perch detection method using low-cost and open-source components.
+        \item Design a low-cost, simple to fabricate grasping device.
+        \item Verify the reliability and accuracy of the design.
+    \end{itemize}
+
+    \note[item]{Design detection method, low cost and open source.}
+    \note[item]{Design grasper, low cost and simple to fabricate.}
+    \note[item]{Verify reliability and accuracy of both.}
+\end{frame}
 
 \section{Methods}
 
@@ -379,8 +342,8 @@
 
 \begin{frame}{Software Design} 
     \begin{center}
-        \includegraphics[width=0.8\textwidth]{sections/methods/sw-flow.png}\\
-        {\small The proposed image processing signal flow.}  
+        \includegraphics[width=\textwidth]{sections/methods/sw-flow.png}\\
+        % {\small The proposed image processing signal flow.}  
     \end{center}
     \begin{itemize}
         \item OpenCV \cite{bradski_opencv_2000} for stereo vision.
