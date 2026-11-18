@@ -9,9 +9,9 @@
 \usetikzlibrary{arrows.meta,angles,quotes}
 
 
-\setbeameroption{hide notes} % Only slides
+% \setbeameroption{hide notes} % Only slides
 %\setbeameroption{show only notes} % Only notes
-%\setbeameroption{show notes on second screen=right} % Both
+\setbeameroption{show notes on second screen=right} % Both
 
 \setbeamerfont{normal text}{size=\footnotesize}
 \AtBeginDocument{\usebeamerfont{normal text}}
@@ -56,20 +56,6 @@
         \end{column}
     \end{columns}    
 \end{frame}
-
-% \begin{frame}{Significance}
-%     \begin{itemize}
-%         \item Hypothetical applications in infrastructure inspection, environmental monitoring, and disaster response
-%         \cite{liu_perching_2022,kirchgeorg_hedgehog_2022,hoang_autonomous_2024,kitchen_design_2020,liu_mini-drone_2023,seiber_tracking_2018}.
-%         \item New methods of perching may expand use of perching behaviors in real world.
-%     \end{itemize}
-
-%     \note[item]{Drone perching has possible use for data collection in infrastructure inspection, environmental monitoring, and 
-%     disaster response.}
-%     \note[item]{Most of the work on drone perching is in labs developing new methods, not in studies putting perching to work.}
-%     \note[item]{New methods of perch detection and perching that focus on cost-effectiveness and simplicity of fabrication may help 
-%     expand use of drone perching in real world. }
-% \end{frame}
 
 
 \begin{frame}{Applications of Perching}
@@ -205,6 +191,17 @@
     \note[item]{Verify reliability and accuracy of both.}
 \end{frame}
 
+\begin{frame}{Significance}
+    \begin{itemize}
+        \item Few instances of perching behaviors being applied in real use cases.
+        \item New methods of perching may expand use of perching behaviors in real world.
+    \end{itemize}
+
+    \note[item]{Most of the work on drone perching is in labs developing new methods, not in studies putting perching to work.}
+    \note[item]{New methods of perch detection and perching that focus on cost-effectiveness and simplicity of fabrication may help 
+    expand use of drone perching in real world. }
+\end{frame}
+
 \section{Methods}
 
 \begin{frame}{Coordinates and Measurements}
@@ -276,28 +273,22 @@
     \note[item]{Elevation $\theta$ is angle between perch and x-y plane.}
 \end{frame}
 
-\begin{frame}{Grasper Design Goals}
+\begin{frame}{Design Goals}
     \begin{itemize}
-        \item Can attach to an overhead cylindrical perch.
-        \item Able to support drone of 500g with up to $63.17\frac{m}{s^2}$ acceleration
-            (based on assumed sinusoid motion at 2Hz with 0.4m displacement in a tree \cite{kamimura_energy_2024}).
+        \item Grasper can attach 500g drone to overhead perch.
         \item Mass under 47.5g, or 0.33\% of the estimated payload capacity for 500g drones.
+        \item Perch detection method that can work with low-cost cameras.
+        \item Avoid the issues observed by von Frankenburg and Nokleby \cite{von_frankenberg_detection_2020} due to random sampling.
     \end{itemize}
 
     \note[item]{Design for overhead grasping, to tree branch or power line}
     \note[item]{Target a drone mass of 0.5kg, and an estimated worst-case dynamic load based on about 63m/s2 acceleration.}
     \note[item]{Target grasper mass of 47.5g based on 1/3 estimated payload capacity of a 500g drone.}
-\end{frame}
-
-\begin{frame}{Software Design Goals}
-    \begin{itemize}
-        \item Method that can work with low-cost cameras.
-        \item Avoids the issues observed by von Frankenburg and Nokleby due to random sampling.
-    \end{itemize}
 
     \note[item]{Worked with low cost cameras and open sourced image processing libraries, at the expense of lower quality data.}
     \note[item]{Chose deterministic detection methods, to avoid random sampling errors.}
 \end{frame}
+
 
 \begin{frame}{Grasper Design}
     \begin{columns}[T]        
