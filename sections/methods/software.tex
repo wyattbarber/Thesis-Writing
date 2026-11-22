@@ -1,23 +1,11 @@
 \subsection{Perch Detection Software Design}
 
-To perform perch detection, an approach similar to that used by Kominami et al., which uses a Hough transform to detect lines in an 
-image corresponding to the edges of a perch, then calculates a depth profile perpendicular to those two edges to identify 
-the shape and position of the object \cite{kominami_detection_2023}, was tested. However this approach presented two primary challenges
-for this thesis:
-\begin{itemize}
-    \item When detecting less straight and smooth shapes, such as branches, the Hough transform struggled to detect 
-        two opposite edges of the perch due to the uneven edges that such a perch has. 
-    \item The method of computing a depth profile between the two edges struggled with the relatively low-quality 
-        depth data produced by Raspberry Pi cameras and \texttt{OpenCV}'s stereo block matcher; the clean and sharp
-        edges that Kominami et al. used to detect object boundaries and shape are not present, instead this depth data
-        contains many artifacts and inaccuracies near object boundaries.
-\end{itemize}
-
-For these reasons, the method of Kominami et al. was not pursued further. Instead, a method inspired by von Frankenberg and Nokleby,
-in which perches are detected directly in the point cloud, was pursued.
-In order to avoid the issue observed by von Frankenberg and Nokleby in which the perch is sometimes not detected simply
-because the RANSAC method did not happen to randomly sample enough points from the perch \cite{von_frankenberg_detection_2020},
-the 3D Hough transform algorithm proposed by Dalitz et al. \cite{dalitz_iterative_2017} was used for detecting candidate lines.
+The perch detection method implemented is similar to that designed by von Frankenburg and Nokleby \cite{von_frankenberg_detection_2020},
+where cylindrical shapes are detected in a point cloud. This was selected over the method of Kominami et al. \cite{kominami_detection_2023}
+due to issues with noisy depth data, described further in appendix \ref{app:detect-proto}.
+To meet goal 4 in Table \ref{tab:design-goals},
+the 3D Hough transform algorithm proposed by Dalitz et al. \cite{dalitz_iterative_2017} 
+was used for detecting candidate lines.
 
 The final perch detection concept was implemented in C++, compiled with GCC 14.2.0 for Debian 13.2,
 and executed on a Raspberry Pi Compute Module 4. The diagram in figure \ref{fig:sw-flow} provides a high-level illustration of the steps in the 
