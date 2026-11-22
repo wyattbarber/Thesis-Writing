@@ -7,10 +7,12 @@ The broad goals that this design attempted to address are listed in Table \ref{t
         \hline
         Goal Number & Description \\
         \hline
-        1 & {The device shall support a drone of at least 500g from an overhead perch.}\\
-        2 & {The mass of the device shall be under 47.5g.}\\
-        3 & {The method of perch detection shall be compatible with low-cost cameras and open-source software.}\\
-        4 & {The detection method shall behave deterministically, avoiding the issues noted by
+        1 & {The device shall detect and attach to overhead, roughly cylindrical perches.}\\
+        2 & {The device shall be capable of repeatedly attaching and detaching from a perch.}\\
+        3 & {The device shall support a drone of at least 500g.}\\
+        4 & {The mass of the device shall be under 47.5g.}\\
+        5 & {The method of perch detection shall be compatible with low-cost cameras and open-source software.}\\
+        6 & {The detection method shall behave deterministically, avoiding the issues noted by
         von Frankenberg and Nokleby \cite{von_frankenberg_detection_2020}.}\\
         \hline
     \end{tabular}
@@ -18,7 +20,7 @@ The broad goals that this design attempted to address are listed in Table \ref{t
 \end{table}
 
 
-Goals 1 and 2 were derived from surveying specifications of common commercial drones.
+Goals 3 and 4 were derived from surveying specifications of common commercial drones.
 Table \ref{tab:drone-weights} shows the assessed models and their weights.
 
 \begin{table}[H]
@@ -78,7 +80,7 @@ to match the mass of a drone and its maximum dynamic load.
 \vspace{\baselineskip}
 
 This device targets the lowest weight group of drones, with mass up to 500g. Using equation \ref{eqn:load-lim},
-the device must support a test load of at least 3.72 kg in order to meet goal 1.
+the device must support a test load of at least 3.72 kg in order to meet goal 3.
 
 The first reason for targeting the lowest weight group is that the low weight is far more
 manageable for the device to hold. The other reasons are cost and risk. The medium and heavy drones are typically used to carry
@@ -91,7 +93,7 @@ individual researcher's risk tolerance, using a larger drone for extended perchi
 particularly unappealing to the drone's owner.
 
 Table \ref{tab:payload} shows rated payload for the models listed in Table \ref{tab:drone-weights}, which 
-were used to derive goal 2.
+were used to derive goal 4.
 The rated payload was calculated as the rated maximum total takeoff weight minus the drones specified weight. 
 The DJI Mavic products as well as the FLIR SIRAS had no maximum takeoff weight aside from the products weight, 
 so no maximum payload is listed for them. Most without a rated payload are assumed to still have some
@@ -123,9 +125,9 @@ payload capacity of similarly sized drones. In order to leave some margin for sa
 modifications, a target of no more than 33\% of that capacity, or 47.5g, was used. This target weight would also 
 provide improvements over similar existing designs \cite{chi_optimized_2014,nguyen_passively_2019}.
 
-Goal 3 is intended to keep the design accessible to a wide audience of researchers. The image processing methods 
+Goal 5 is intended to keep the design accessible to a wide audience of researchers. The image processing methods 
 must be selected to accommodate lower quality point cloud data, which appears to interfere with the method 
 proposed by Kominami et al. \cite{kominami_detection_2023} (preliminary testing of this approach is described in 
-appendix \ref{app:detect-proto}). Goal 4 aims to improve reliability compared to the method used by von Frankenberg and 
+appendix \ref{app:detect-proto}). Goal 6 aims to improve reliability compared to the method used by von Frankenberg and 
 Nokleby, where the perch is sometimes not detected simply because the RANSAC method 
 did not happen to randomly sample enough points from the perch \cite{von_frankenberg_detection_2020}, \cite{von_frankenberg_detection_2020}
