@@ -4,7 +4,12 @@
 
 The testing in this thesis only focused on detecting long, cylindrical perches without bends or branches.
 Since the Hough transform used to detect possible perches is made to detect such shapes, it is likely to
-perform poorly if a different shape of perch is introduced, for example a crooked or Y-shaped branch.   
+perform poorly if a different shape of perch is introduced, for example a crooked or Y-shaped branch. Similarly,
+the case of multiple objects that overlap or cross each other in the camera frame was not tested. In such a scenario,
+if the two objects are correctly detected by the stereo matching, the Hough transform will identify them as separate objects
+at their respective positions. However, the stereo matching algorithm may blur the two objects together near the point they 
+appear to overlap, which may then prevent the Hough transform from correctly identifying them. Further testing would be 
+needed to determine how susceptible the detection process is to such issues. 
 
 The testing performed on straight perches only is still believed to be a valid proof of concept. For the 
 perching mechanism to attach to a perch the drone has to approach a straight segment of the perch, at which
@@ -75,3 +80,20 @@ lost if its anchor point or direction were shifted by a small step, and rejectin
 that does not lose a minimum number of votes. This would work to pass shapes that are truly 
 long thin lines, and reject other shapes like planes, boxes, or spheres that would still 
 have a high number of votes if the line drawn through them were shifted or turned slightly.
+
+\subsubsection{Dynamic Behavior}
+
+The testing in this thesis was limited to static conditions, that is both the camera and the perch 
+were unmoving in all the tests represented in Sections \ref{sec:results:perch-rate} and \ref{sec:results:perch-accuracy}.
+Motion, assuming the stereo cameras are correctly synced to avoid motion blur, 
+should not interfere with the detection of perches since time series data acts as a sequence of still images. However,
+motion of a perch combined with a slow update rate of the detection method may cause a drone to fail to correctly align 
+with an identified perch.
+
+The delay in detection of a perch in Section \ref{sec:results:e2e} was approximately 10 seconds, though 
+this time varies in different scenes based on how many points are removed as background (the slowest computation 
+step is the Hough transform, which takes longer with more points kept in the point cloud). Improving the rejection 
+of low-quality background pixels, previously discussed with regard to improving the success rate and accuracy of perch 
+detection, could also improve the processing time and thus the dynamic responsiveness of perch detection. Removing more 
+points that have low quality data or are less likely to be perches reduces the size of the point cloud that the Hough 
+transform must process, which reduces the computation time it requires.
