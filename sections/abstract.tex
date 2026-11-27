@@ -9,14 +9,17 @@ to remain passively attached after perching is complete. The detection mechanism
 to make use of low-cost camera sensors and open-sourced image processing tools. 
 %
 %
-The grasping device was verified under controlled, indoor conditions to support a minimum static load of 8.76 kg, 
-and function over at least 100 cycles.
-The detection method was verified, under ideal conditions, to detect perch distance with less than 
-75mm and 25 degrees of error in distance and orientation, respectively. Both grasper and detector were verified 
-together in an integrated test, under manually simulated conditions, for 30 perching cycles.
+The grasping device was verified under controlled, indoor conditions to support drone of at least 500g, accounting for 
+dynamic load based on 63.17 $m/s^2$ estimated worst case acceleration. The device was verified to allow repeated
+grasping and releasing over at least 100 cycles.
 %
 %
-The proposed detection method showed promise for use in autonomous drone perching, though further work is needed to 
-refine the concept. In particular the method used is very sensitive to patterns and colors of the background, which can 
+The proposed detection method showed promise for use in autonomous drone perching, with a sucess rate exceeding 
+80\% under optimal conditions and a detection error under 75mm for distances within 2m, and under $8^\circ$
+error in orientation measurement. However further work is needed to refine the concept. 
+In particular the method used is very sensitive to patterns and colors of the background, which can 
 prevent detection of a perch. Additionally, the estimated orientation of a perch becomes more unreliable the closer a perch is,
-posing issues for integrating the detection mechanism into a flight controller.
+posing issues for integrating the detection mechanism into a flight controller. Improving the filtering of background 
+points which are unlikely to be perches, or are likely to have incorrect depth data, is likely to be the 
+most impactful improvement to be made in future work. 
+
